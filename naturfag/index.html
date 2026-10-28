@@ -1,9 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="nb"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>Nervesystemet og hormonsystemet</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap">
+</head><body>
 <style>
 /* Layout: én kolonne med fanenavigasjon som følger med. Golgi-farging: sort på gyllent preparat. Blått = nervesignal, rustrødt = hormon. */
 :root{
@@ -104,7 +104,7 @@ section{display:grid;gap:20px}
 .glands{display:grid;grid-template-columns:minmax(150px,200px) 1fr;gap:20px;align-items:start}
 @media (max-width:560px){.glands{grid-template-columns:1fr}.glands .fig{max-width:200px;margin:0 auto}}
 
-table{border-collapse:collapse;width:100%;min-width:440px}
+table{border-collapse:collapse;width:100%}
 th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .tablewrap{overflow-x:auto}
@@ -485,7 +485,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
 
     <div class="card">
       <h3>B · Styr blodsukkeret</h3>
-      <p>Velg hva personen gjør, og se hvordan bukspyttkjertelen svarer med insulin og glukagon. Normalt blodsukker ligger på omtrent 4–7 mmol/L. Modellen er forenklet.</p>
+      <p>Velg hva personen gjør, og se hvordan bukspyttkjertelen svarer med insulin og glukagon. Normalt blodsukker ligger på omtrent 4–8 mmol/L (det grønne feltet). Det er lavest når du ikke har spist, og litt høyere rett etter et måltid. Modellen er forenklet.</p>
       <div class="bs-top">
         <div>
           <p class="eyebrow" id="bsTime">Klokka 07:00</p>
@@ -579,9 +579,10 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     id = alias[id] || id;
     if(!names[id]) id='nerve';
     tabs.forEach(b => b.dataset.tab===id ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current'));
+    const cur=tabs.find(b=>b.dataset.tab===id), bar=$('#tabs'); if(cur){ const l=cur.parentElement.offsetLeft, r=l+cur.parentElement.offsetWidth; if(l<bar.scrollLeft) bar.scrollLeft=l; else if(r>bar.scrollLeft+bar.clientWidth) bar.scrollLeft=r-bar.clientWidth; }
     $$('main section').forEach(s => s.hidden = s.id!==id);
     if(focus){ $('#innhold').focus({preventScroll:true}); window.scrollTo({top:0}); say(names[id]+' åpnet'); }
-    try{ history.replaceState(null,'','#'+id); }catch(e){}
+    if(focus){ try{ history.replaceState(null,'','#'+id); }catch(e){} }
   }
   tabs.forEach(b => b.addEventListener('click', ()=>show(b.dataset.tab,true)));
   $$('[data-goto]').forEach(b => b.addEventListener('click', ()=>show(b.dataset.goto,true)));
@@ -708,7 +709,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     ]);
 
   makeSorter($('#sortB'),
-    [{id:'cns',name:'Sentralnervesystemet'},{id:'pns',name:'Perifert, viljestyrt'},{id:'aut',name:'Autonomt, styrer seg selv'}],
+    [{id:'cns',name:'Sentralnervesystemet'},{id:'pns',name:'Perifert: sanser og viljestyrte muskler'},{id:'aut',name:'Autonomt, styrer seg selv'}],
     [
       ['Storhjernen','cns'],['Lillehjernen','cns'],['Hjernestammen','cns'],['Ryggmargen','cns'],
       ['Sansenerve fra huden på fingeren','pns'],['Motorisk nerve til armmuskelen','pns'],['Nerve som får deg til å sparke ballen','pns'],
@@ -755,7 +756,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     const X0=40,X1=330,Y0=140,Y1=12, vmin=2, vmax=16;
     const y=v=>Y0-(Math.min(vmax,Math.max(vmin,v))-vmin)/(vmax-vmin)*(Y0-Y1);
     const x=i=>X0+i*(X1-X0)/16;
-    let s=`<rect class="band" x="${X0}" y="${y(7)}" width="${X1-X0}" height="${y(4)-y(7)}"></rect>`;
+    let s=`<rect class="band" x="${X0}" y="${y(7.8)}" width="${X1-X0}" height="${y(4)-y(7.8)}"></rect>`;
     [4,7,10,13,16].forEach(v=>{ s+=`<line class="grid" x1="${X0}" x2="${X1}" y1="${y(v)}" y2="${y(v)}"></line><text class="axis" x="${X0-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`; });
     s+=`<text class="axis" x="${X0}" y="156">Siste 8 timer, ett punkt per halvtime</text>`;
     const off=17-bs.hist.length;

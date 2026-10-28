@@ -104,6 +104,7 @@ tbody th{font-family:var(--f-body);font-size:1rem;letter-spacing:0;text-transfor
 td.m{font-family:var(--f-mono);font-size:.95rem}
 .tablewrap{overflow-x:auto}
 .mistakes li{margin-bottom:6px}
+.why-steps{margin:0;padding-left:1.3em;display:grid;gap:4px}
 
 /* Figurer */
 .fig svg{display:block;width:100%;height:auto}
@@ -115,6 +116,10 @@ td.m{font-family:var(--f-mono);font-size:.95rem}
 .lab{fill:var(--ink);font:700 16px var(--f-body)}
 .lab.unk{fill:var(--accent);font-size:18px}
 .corner{fill:none;stroke:var(--ink);stroke-width:1.5}
+.cut{fill:var(--accent);fill-opacity:.28;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.ghost{fill:var(--accent);fill-opacity:.12;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:5 4}
+.tri{fill:var(--surface);stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.ang{fill:var(--ink);font:700 13px var(--f-mono)}
 
 /* Pytagoras-utforsker */
 .slider{display:grid;gap:4px}
@@ -137,6 +142,8 @@ td.m{font-family:var(--f-mono);font-size:.95rem}
 .answer .unit{font-family:var(--f-mono);color:var(--muted)}
 .choices{display:flex;flex-wrap:wrap;gap:8px}
 .choice{min-height:48px;min-width:96px;padding:0 18px;border-radius:var(--r);border:2px solid var(--ctl);background:var(--surface);color:var(--ink);font:700 1rem var(--f-body);cursor:pointer}
+.choices.long{flex-direction:column;align-items:stretch}
+.choices.long .choice{text-align:left;padding:10px 14px}
 .choice[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
 .fb{padding:12px 14px;border-radius:var(--r);display:grid;gap:8px}
 .fb:empty{display:none}
@@ -165,7 +172,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   <div class="wrap">
     <p class="eyebrow">Matematikk · 9. trinn · Geometri</p>
     <h1>Omkrets, areal og Pytagoras</h1>
-    <p class="lede">Øv til prøven: rektangel, trekant, rombe, trapes og sirkel, og Pytagoras’ setning. Les formlene, øv på oppgaver med nye tall hver gang, og ta en prøve til slutt.</p>
+    <p class="lede">Øv til prøven: rektangel, trekant, rombe, trapes og sirkel, og Pytagoras’ setning. Les formlene, se hvorfor de stemmer, øv på oppgaver med nye tall hver gang, og ta en prøve til slutt.</p>
   </div>
 </header>
 
@@ -174,8 +181,9 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     <ul id="tabs">
       <li><button data-tab="formler" aria-current="page"><span class="num">1</span>Formler</button></li>
       <li><button data-tab="pytagoras"><span class="num">2</span>Pytagoras</button></li>
-      <li><button data-tab="ov"><span class="num">3</span>Øv</button></li>
-      <li><button data-tab="prove"><span class="num">4</span>Prøve</button></li>
+      <li><button data-tab="hvorfor"><span class="num">3</span>Hvorfor?</button></li>
+      <li><button data-tab="ov"><span class="num">4</span>Øv</button></li>
+      <li><button data-tab="prove"><span class="num">5</span>Prøve</button></li>
     </ul>
   </div>
 </nav>
@@ -188,7 +196,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   <section id="formler" aria-labelledby="h-formler">
     <div class="card aim">
       <p class="eyebrow">Dette skal du kunne</p>
-      <p>Regne ut omkrets og areal av rektangel, trekant, parallellogram, rombe, trapes og sirkel. Bruke Pytagoras’ setning til å finne ukjente sider, også i rombe og trapes.</p>
+      <p>Regne ut omkrets og areal av rektangel, trekant, parallellogram, rombe, trapes og sirkel. Bruke Pytagoras’ setning til å finne ukjente sider, også i rombe, trapes og spesielle trekanter. Forklare og argumentere for hvorfor formlene stemmer.</p>
     </div>
 
     <div class="intro">
@@ -318,10 +326,66 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
       </div>
     </div>
 
+    <div class="intro">
+      <h3>Spesielle trekanter</h3>
+      <p>To rettvinklede trekanter dukker opp hele tiden. Du kan alltid regne dem ut med Pytagoras, men det er lurt å kjenne dem igjen.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Halvt kvadrat: 45°, 45°, 90°</h3>
+        <div class="fig" id="spes45"></div>
+        <p>Diagonalen deler kvadratet i to like trekanter. Katetene er like lange (sidene <var>s</var>), og diagonalen er hypotenusen.</p>
+        <p class="formula"><var>d</var> = √(<var>s</var>² + <var>s</var>²) = <var>s</var> · √2 ≈ 1,41 · <var>s</var></p>
+        <p class="ex">Kvadrat med side 5 cm: d = √(25 + 25) = √50 ≈ 7,1 cm.</p>
+      </div>
+      <div class="card">
+        <h3>Halv likesidet trekant: 30°, 60°, 90°</h3>
+        <div class="fig" id="spes30"></div>
+        <p>Høyden deler en likesidet trekant i to. Hypotenusen er hele siden <var>s</var>, og den korteste kateten er halve siden. Den ligger rett overfor vinkelen på 30°.</p>
+        <p class="formula">kort katet = <var>s</var> / 2<br><var>h</var> = √(<var>s</var>² − (<var>s</var>/2)²) ≈ 0,87 · <var>s</var></p>
+        <p class="ex">Likesidet trekant med side 6 cm: kort katet 3 cm, h = √(36 − 9) = √27 ≈ 5,2 cm.</p>
+      </div>
+    </div>
+
+    <div class="row"><button class="btn" data-goto="hvorfor">Videre til «Hvorfor?» →</button></div>
+  </section>
+
+  <!-- 3 HVORFOR -->
+  <section id="hvorfor" aria-labelledby="h-hvorfor" hidden>
+    <div class="intro">
+      <h2 id="h-hvorfor">Hvorfor stemmer formlene?</h2>
+      <p>På prøven kan du få spørsmål om å <strong>forklare</strong> eller <strong>argumentere</strong>. Da holder det ikke å sette inn i formelen. Du må vise hvorfor den stemmer. Nesten alle arealformlene bygger på rektangelet.</p>
+    </div>
+
+    <div class="card aim">
+      <p class="eyebrow">Slik argumenterer du</p>
+      <ol class="why-steps">
+        <li>Tegn en figur.</li>
+        <li>Vis hvordan figuren kan klippes, flyttes eller dobles til en figur du kjenner arealet av, som regel et rektangel.</li>
+        <li>Skriv hva som er likt, og trekk en konklusjon: «Derfor er arealet …».</li>
+      </ol>
+    </div>
+
+    <div class="grid2" id="whyCards"></div>
+
+    <div class="card">
+      <h3>Hvorfor stemmer Pytagoras?</h3>
+      <div class="fig" id="whyPyt" style="max-width:520px"></div>
+      <p>De to store kvadratene er like store. Sidene er <var>a</var> + <var>b</var> i begge. I begge ligger det fire like rettvinklede trekanter (de som ikke er farget).</p>
+      <p>Til venstre er resten av kvadratet ett skrått kvadrat med side <var>c</var>, altså <var>c</var>². Til høyre er resten to kvadrater, <var>a</var>² og <var>b</var>².</p>
+      <p>Når vi tar bort de samme fire trekantene fra to like store kvadrater, må det som er igjen være like stort. <strong>Derfor er <var>a</var>² + <var>b</var>² = <var>c</var>².</strong></p>
+    </div>
+
+    <div class="card">
+      <h3>Hva skjer når du dobler?</h3>
+      <p>Dobler du alle lengdene i en figur, blir <strong>omkretsen 2 ganger</strong> så stor, men <strong>arealet 4 ganger</strong> så stort. Arealet er lengde ganger lengde, og da blir det 2 · 2 = 4.</p>
+      <p class="ex">Kvadrat med side 3 cm: A = 9 cm². Side 6 cm: A = 36 cm², som er 4 · 9. Det samme gjelder sirkelen: dobbel radius gir 4 ganger så stort areal.</p>
+    </div>
+
     <div class="row"><button class="btn" data-goto="ov">Videre til øving →</button></div>
   </section>
 
-  <!-- 3 ØV -->
+  <!-- 4 ØV -->
   <section id="ov" aria-labelledby="h-ov" hidden>
     <div class="intro">
       <h2 id="h-ov">Øv</h2>
@@ -332,11 +396,11 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     <div class="card" id="taskCard"></div>
   </section>
 
-  <!-- 4 PRØVE -->
+  <!-- 5 PRØVE -->
   <section id="prove" aria-labelledby="h-prove" hidden>
     <div class="intro">
       <h2 id="h-prove">Prøve</h2>
-      <p>Ti blandede oppgaver fra alle temaene. Du får vite hva som er riktig først når du leverer. Bruk kalkulator, og husk enhetene.</p>
+      <p>Ti blandede oppgaver fra alle temaene, også én der du skal forklare. Du får vite hva som er riktig først når du leverer. Bruk kalkulator, og husk enhetene.</p>
     </div>
     <div class="row"><button class="btn accent" id="newTest">Start en ny prøve</button></div>
     <div id="testList" style="display:grid;gap:16px"></div>
@@ -369,7 +433,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
 
   /* ---------- Faner ---------- */
   const tabs = $$('#tabs button');
-  const names = {formler:'Formler',pytagoras:'Pytagoras',ov:'Øv',prove:'Prøve'};
+  const names = {formler:'Formler',pytagoras:'Pytagoras',hvorfor:'Hvorfor?',ov:'Øv',prove:'Prøve'};
   function navHint(){ const u=$('#tabs'); u.classList.toggle('more-l',u.scrollLeft>2); u.classList.toggle('more-r',u.scrollLeft+u.clientWidth<u.scrollWidth-2); }
   function show(id, focus){
     if(!names[id]) id='formler';
@@ -437,10 +501,60 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
       const s=Math.min(170/l,140/(b+l/2)), w=l*s, h=b*s, r=w/2, x=150-w/2, yb=92+(h+r)/2, yt=yb-h;
       return F.wrap(`<path class="sh" d="M${x} ${yb} H${x+w} V${yt} A${r} ${r} 0 0 0 ${x} ${yt} Z"></path>`+F.line(x,yt,x+w,yt)+F.t(150,yb+18,ll)+F.t(x+w+8,yb-h/2,lb,'start'),label);
     },
-    right(A,B,la,lb,lc,label){
+    right(A,B,la,lb,lc,label,ang){
       const s=Math.min(170/B,120/A), w=B*s, h=A*s, x=150-w/2, y=95+h/2;
       const n=Math.hypot(h,w), nx=h/n, ny=-w/n;
-      return F.wrap(F.poly([[x,y],[x+w,y],[x,y-h]])+F.corner(x,y,1,-1)+F.t(x-8,y-h/2,la,'end')+F.t(x+w/2,y+18,lb)+F.t(x+w/2+nx*14,y-h/2+ny*14,lc,'start'),label);
+      let g=F.poly([[x,y],[x+w,y],[x,y-h]])+F.corner(x,y,1,-1)+F.t(x-8,y-h/2,la,'end')+F.t(x+w/2,y+18,lb)+F.t(x+w/2+nx*14,y-h/2+ny*14,lc,'start');
+      if(ang) g+=`<text class="ang" x="${(x+w-30).toFixed(1)}" y="${(y-8).toFixed(1)}" text-anchor="end">${ang[0]}</text><text class="ang" x="${(x+6).toFixed(1)}" y="${(y-h+34).toFixed(1)}">${ang[1]}</text>`;
+      return F.wrap(g,label);
+    },
+    equi(ls,lh,label){
+      const w=150, h=w*Math.sqrt(3)/2, x=75, yb=160, yt=yb-h;
+      return F.wrap(F.poly([[x,yb],[x+w,yb],[x+w/2,yt]])+F.line(x+w/2,yt,x+w/2,yb)+F.corner(x+w/2,yb,1,-1)+F.t(x+w/4-10,(yb+yt)/2,ls,'end')+F.t(x+w*3/4+10,(yb+yt)/2,ls,'start')+F.t(x+w/2+8,yb-h/3,lh,'start')+F.t(x+w/2,yb+18,ls),label);
+    },
+    sqd(ls,ld,label){
+      const S=120, x=90, y=30;
+      return F.wrap(F.poly([[x,y],[x+S,y],[x+S,y+S],[x,y+S]])+F.line(x,y+S,x+S,y,'hl')+F.corner(x,y+S,1,-1)+F.t(x+S/2,y+S+18,ls)+F.t(x-8,y+S/2,ls,'end')+F.t(x+S/2-6,y+S/2-14,ld,'end'),label);
+    },
+    whyTri(){
+      const x=60,y=35,w=180,h=110,ax=x+0.35*w;
+      return F.wrap(`<rect class="ghost" x="${x}" y="${y}" width="${w}" height="${h}"></rect>`+F.poly([[x,y+h],[x+w,y+h],[ax,y]])+F.line(ax,y,ax,y+h)+F.t(150,y+h+18,'g')+F.t(x+w+8,y+h/2,'h','start'),'Trekant inne i et rektangel med samme grunnlinje og høyde. Trekanten fyller halve rektangelet.');
+    },
+    whyPara(){
+      const x=50,yb=145,yt=45,g=150,k=45;
+      return F.wrap(F.poly([[x+k,yb],[x+g,yb],[x+g+k,yt],[x+k,yt]])+F.poly([[x,yb],[x+k,yb],[x+k,yt]],'cut')+F.poly([[x+g,yb],[x+g+k,yb],[x+g+k,yt]],'ghost')+F.corner(x+k,yb,1,-1)+F.t(x+k+g/2,yb+18,'g')+F.t(x+k+8,(yb+yt)/2,'h','start')+`<path class="edge" d="M${x+15} ${yt-4} C ${x+60} ${yt-42}, ${x+g+30} ${yt-42}, ${x+g+32} ${yt-8}" fill="none" marker-end="url(#arr)"></path><defs><marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor" class="dot"></path></marker></defs>`,'Parallellogram der trekanten til venstre klippes av og flyttes til høyre, slik at det blir et rektangel med sider g og h.');
+    },
+    whyTrap(){
+      const a=100,b=50,h=80,x=62,yb=135,yt=yb-h;
+      const o=[[x,yb],[x+a,yb],[x+(a+b)/2,yt],[x+(a-b)/2,yt]];
+      const c=[[x+a,yb],[x+a+b,yb],[x+(a+b)/2+a,yt],[x+(a+b)/2,yt]];
+      return F.wrap(F.poly(o)+F.poly(c,'cut')+F.t(x+a/2,yb+16,'a')+F.t(x+a+b/2,yb+16,'b')+F.t(x+a/2,yt-12,'b')+F.t(x+(a+b)/2+a/2,yt-12,'a')+F.line(x,yb+30,x+a+b,yb+30,'edge')+F.t(x+(a+b)/2,yb+44,'a + b'),'To like trapeser, den ene snudd opp ned, som til sammen blir et parallellogram med grunnlinje a pluss b.');
+    },
+    whyRombe(){
+      const x=60,y=30,w=180,h=120,cx=x+w/2,cy=y+h/2;
+      return F.wrap(F.poly([[x,y],[x+w,y],[x+w,y+h],[x,y+h]],'cut')+F.poly([[x,cy],[cx,y],[x+w,cy],[cx,y+h]])+F.line(x,cy,x+w,cy)+F.line(cx,y,cx,y+h)+F.t(cx,y+h+18,'d₁')+F.t(x+w+8,cy,'d₂','start'),'Rombe inne i et rektangel med sider lik diagonalene. Romben fyller halve rektangelet.');
+    },
+    whyCircle(){
+      const n=5, W=210, step=W/n, x=36, yb=140, yt=60; let g='';
+      for(let i=0;i<n;i++){
+        g+=F.poly([[x+i*step,yb],[x+(i+1)*step,yb],[x+(i+.5)*step,yt]]);
+        g+=F.poly([[x+(i+.5)*step,yt],[x+(i+1.5)*step,yt],[x+(i+1)*step,yb]],'cut');
+      }
+      return F.wrap(g+F.t(x+W/2,yb+18,'πr (halve omkretsen)')+F.t(x-8,(yb+yt)/2,'r','end'),'Sirkel delt i kakestykker og lagt omvendt annenhver gang. Det blir nesten et rektangel med sider pi r og r.');
+    },
+    whyPyt(){
+      const a=3,b=4,k=150/7,S=150,y=20; let g='';
+      const L=10, ak=a*k, bk=b*k;
+      g+=`<rect class="tri" x="${L}" y="${y}" width="${S}" height="${S}"></rect>`;
+      const P=[[L+ak,y],[L+S,y+ak],[L+S-ak,y+S],[L,y+S-ak]];
+      g+=F.poly(P)+F.t(L+S/2,y+S/2,'c²');
+      const R0=180;
+      g+=`<rect class="tri" x="${R0}" y="${y}" width="${S}" height="${S}"></rect>`;
+      g+=`<rect class="sh" x="${R0}" y="${y}" width="${ak}" height="${ak}"></rect>`+F.t(R0+ak/2,y+ak/2,'a²');
+      g+=`<rect class="sh" x="${R0+ak}" y="${y+ak}" width="${bk}" height="${bk}"></rect>`+F.t(R0+ak+bk/2,y+ak+bk/2,'b²');
+      g+=F.line(R0+ak,y+ak,R0+S,y,'edge')+F.line(R0,y+S,R0+ak,y+ak,'edge');
+      g+=F.t(L+bk/2,y+S+16,'b')+F.t(L+bk+ak/2,y+S+16,'a')+F.t(R0+ak/2,y+S+16,'a')+F.t(R0+ak+bk/2,y+S+16,'b');
+      return `<svg viewBox="0 0 340 200" role="img" aria-label="To like store kvadrater med side a pluss b. Til venstre fire trekanter rundt et skrått kvadrat c i andre. Til høyre de samme fire trekantene og kvadratene a i andre og b i andre.">${g}</svg>`;
     }
   };
 
@@ -456,6 +570,17 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   $('#shapes').innerHTML = SHAPES.map(s=>`<div class="card shape-card"><h3>${s.h}</h3><div class="fig">${s.fig}</div>${s.f.map(x=>`<p class="formula">${x}</p>`).join('')}<p class="ex">${s.ex}</p></div>`).join('');
   $('#pytRombe').innerHTML = F.rhombus(8,6,'4','3','5','Rombe med halve diagonaler 4 og 3 og side 5');
   $('#pytTrapes').innerHTML = F.trap(10,7,4,'10','7','4','5',false,'Trapes med grunnlinjer 10 og 7, høyde 4 og skrå side 5');
+  $('#spes45').innerHTML = F.sqd('s','s·√2','Kvadrat med side s og diagonal s ganger kvadratroten av 2');
+  $('#spes30').innerHTML = F.right(1,Math.sqrt(3),'s/2','h','s','Rettvinklet trekant med vinkler 30, 60 og 90 grader, hypotenus s og kort katet s delt på 2',['30°','60°']);
+  const WHY = [
+    {h:'Trekant: hvorfor deler vi på 2?', fig:F.whyTri(), p:'Tegn et rektangel rundt trekanten med samme grunnlinje <var>g</var> og høyde <var>h</var>. Høyden deler trekanten i to deler, og hver del er nøyaktig halvparten av sitt lille rektangel. Derfor er trekanten halvparten av hele rektangelet: <strong>A = g · h / 2</strong>.'},
+    {h:'Parallellogram: hvorfor høyden og ikke den skrå siden?', fig:F.whyPara(), p:'Klipp av trekanten på den ene siden og flytt den over til den andre. Da blir det et rektangel med sider <var>g</var> og <var>h</var>, og arealet er det samme som før. Derfor er <strong>A = g · h</strong>. Den skrå siden er lengre enn høyden og ville gitt for stort svar.'},
+    {h:'Trapes: hvorfor (a + b)?', fig:F.whyTrap(), p:'Legg to like trapeser inntil hverandre, den ene snudd opp ned. Da blir de et parallellogram med grunnlinje <var>a</var> + <var>b</var> og høyde <var>h</var>. Ett trapes er halvparten: <strong>A = (a + b) · h / 2</strong>.'},
+    {h:'Rombe: hvorfor d₁ · d₂ / 2?', fig:F.whyRombe(), p:'Tegn et rektangel rundt romben, med sider like lange som diagonalene. Diagonalene deler rektangelet i fire små rektangler, og romben fyller nøyaktig halvparten av hvert av dem. Derfor er <strong>A = d₁ · d₂ / 2</strong>.'},
+    {h:'Sirkel: hvorfor πr²?', fig:F.whyCircle(), p:'Del sirkelen i mange smale kakestykker og legg dem omvendt annenhver gang. Da blir det nesten et rektangel. Den lange siden er halve omkretsen, πr, og den korte siden er radien, r. Arealet blir πr · r = <strong>πr²</strong>.'}
+  ];
+  $('#whyCards').innerHTML = WHY.map(w=>`<div class="card"><h3>${w.h}</h3><div class="fig" style="max-width:320px">${w.fig}</div><p>${w.p}</p></div>`).join('');
+  $('#whyPyt').innerHTML = F.whyPyt();
 
   /* ---------- Pytagoras-utforsker ---------- */
   function pyt(){
@@ -470,7 +595,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   /* ---------- Oppgavegeneratorer ---------- */
   const TRIPLES=[[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[7,24,25],[15,20,25]];
   const triple = () => { const t=pick(TRIPLES); return Math.random()<.5?t:[t[1],t[0],t[2]]; };
-  const TOPICS = {omkrets:'Omkrets', areal:'Areal', pytagoras:'Pytagoras', rombe:'Rombe', sirkel:'Sirkel', trapes:'Trapes'};
+  const TOPICS = {omkrets:'Omkrets', areal:'Areal', pytagoras:'Pytagoras', rombe:'Rombe', sirkel:'Sirkel', trapes:'Trapes', spesielle:'Spesielle trekanter', forklar:'Forklar'};
   const G = [
     {id:'rektO', topics:['omkrets'], make(){ const l=ri(5,15), b=ri(2,l-1);
       return {text:`Et rektangel er ${l} cm langt og ${b} cm bredt. Hva er <strong>omkretsen</strong>?`, fig:F.rect(l,b,`${l} cm`,`${b} cm`,`Rektangel ${l} ganger ${b} cm`), ans:2*l+2*b, unit:'cm', dec:0,
@@ -557,21 +682,51 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     {id:'pytRett', topics:['pytagoras'], make(){ const t=pick(TRIPLES), yes=Math.random()<.5, c=yes?t[2]:t[2]+pick([-1,1]);
       const s=[t[0],t[1],c].sort((x,y)=>x-y), lhs=s[0]**2+s[1]**2;
       return {text:`En trekant har sidene ${s[0]} cm, ${s[1]} cm og ${s[2]} cm. Er trekanten rettvinklet?`, fig:'', choices:['Ja','Nei'], correct:yes?0:1,
-        hint:'Sjekk om den lengste siden i andre er lik summen av de to andre i andre.', steps:[`${s[0]}² + ${s[1]}² = ${s[0]**2} + ${s[1]**2} = ${lhs}`,`${s[2]}² = ${s[2]**2}`, lhs===s[2]**2?'Likt, så trekanten er rettvinklet.':'Ikke likt, så trekanten er ikke rettvinklet.']}; }}
+        hint:'Sjekk om den lengste siden i andre er lik summen av de to andre i andre.', steps:[`${s[0]}² + ${s[1]}² = ${s[0]**2} + ${s[1]**2} = ${lhs}`,`${s[2]}² = ${s[2]**2}`, lhs===s[2]**2?'Likt, så trekanten er rettvinklet.':'Ikke likt, så trekanten er ikke rettvinklet.']}; }},
+    {id:'kvadratDiag', topics:['spesielle','pytagoras'], make(){ const s=ri(3,15), d=s*Math.SQRT2;
+      return {text:`Et kvadrat har sider på ${s} cm. Hvor lang er diagonalen? Rund av til én desimal.`, fig:F.sqd(`${s} cm`,'?',`Kvadrat med side ${s} cm og ukjent diagonal`), ans:d, unit:'cm', dec:1,
+        hint:'Diagonalen deler kvadratet i to rettvinklede trekanter med like lange kateter.', steps:[`d² = ${s}² + ${s}² = ${s*s} + ${s*s} = ${2*s*s}`,`d = √${2*s*s} ≈ ${nf(d,1)} cm`]}; }},
+    {id:'likesidetHoyde', topics:['spesielle','pytagoras'], make(){ const s=2*ri(2,8), h=Math.sqrt(s*s-(s/2)**2);
+      return {text:`En likesidet trekant har sider på ${s} cm. Hvor stor er høyden? Rund av til én desimal.`, fig:F.equi(`${s} cm`,'h = ?',`Likesidet trekant med side ${s} cm og ukjent høyde`), ans:h, unit:'cm', dec:1,
+        hint:'Høyden deler trekanten i to rettvinklede trekanter. Hypotenusen er hele siden, og den ene kateten er halve siden.', steps:[`Halve siden: ${s} / 2 = ${s/2} cm`,`h² = ${s}² − ${s/2}² = ${s*s} − ${(s/2)**2} = ${s*s-(s/2)**2}`,`h = √${s*s-(s/2)**2} ≈ ${nf(h,1)} cm`]}; }},
+    {id:'likesidetAreal', topics:['spesielle','pytagoras','areal'], make(){ const s=2*ri(2,7), h=Math.sqrt(s*s-(s/2)**2), A=s*h/2;
+      return {text:`En likesidet trekant har sider på ${s} cm. Hva er arealet? Rund av til én desimal.`, fig:F.equi(`${s} cm`,'h',`Likesidet trekant med side ${s} cm`), ans:A, unit:'cm²', dec:1, tol:0.15,
+        hint:'Finn høyden med Pytagoras først. Så A = g · h / 2.', steps:[`h² = ${s}² − ${s/2}² = ${s*s-(s/2)**2}`,`h = √${s*s-(s/2)**2} ≈ ${nf(h,2)} cm`,`A = ${s} · ${nf(h,2)} / 2 ≈ ${nf(A,1)} cm²`]}; }},
+    {id:'tretti', topics:['spesielle','pytagoras'], make(){ const c=2*ri(2,9), k=c/2, L=Math.sqrt(c*c-k*k);
+      if(Math.random()<.5) return {text:`I en rettvinklet trekant er vinklene 30°, 60° og 90°. Hypotenusen er ${c} cm. Hvor lang er den <strong>korteste</strong> kateten?`, fig:F.right(1,Math.sqrt(3),'?','',`${c} cm`,`Trekant med vinkler 30, 60 og 90 grader og hypotenus ${c} cm`,['30°','60°']), ans:k, unit:'cm', dec:0,
+        hint:'Trekanten er en halv likesidet trekant. Den korteste kateten er halvparten av hypotenusen.', steps:['Kort katet = hypotenusen / 2',`${c} / 2 = ${k} cm`]};
+      return {text:`I en rettvinklet trekant er vinklene 30°, 60° og 90°. Hypotenusen er ${c} cm. Hvor lang er den <strong>lengste</strong> kateten? Rund av til én desimal.`, fig:F.right(1,Math.sqrt(3),`${k} cm`,'?',`${c} cm`,`Trekant med vinkler 30, 60 og 90 grader og hypotenus ${c} cm`,['30°','60°']), ans:L, unit:'cm', dec:1,
+        hint:'Den korteste kateten er halve hypotenusen. Bruk så Pytagoras for å finne den lengste.', steps:[`Kort katet = ${c} / 2 = ${k} cm`,`b² = ${c}² − ${k}² = ${c*c} − ${k*k} = ${c*c-k*k}`,`b = √${c*c-k*k} ≈ ${nf(L,1)} cm`]}; }},
+    {id:'forklar', topics:['forklar'], make(){
+      const Q=[
+        ['Hvorfor deler vi på 2 i formelen for arealet av en trekant?',['En trekant er halvparten av et rektangel med samme grunnlinje og høyde.','En trekant har tre sider i stedet for fire.','Høyden i en trekant er alltid halvparten av grunnlinjen.'],['Tegn et rektangel rundt trekanten med samme g og h.','Trekanten fyller halve rektangelet.','Derfor er A = g · h / 2.']],
+        ['Hvorfor bruker vi høyden og ikke den skrå siden når vi regner ut arealet av et parallellogram?',['Vi kan klippe av en trekant og flytte den, så blir det et rektangel med sidene g og h.','Den skrå siden er alltid kortere enn høyden.','Det er bare en regel man må huske.'],['Klipp av trekanten på den ene siden og flytt den til den andre.','Da blir det et rektangel med sider g og h.','Arealet er det samme, så A = g · h.']],
+        ['Hvorfor står det (a + b) i formelen for arealet av et trapes?',['To like trapeser satt sammen blir et parallellogram med grunnlinje a + b.','Fordi trapeset har to sider som heter a og b.','Fordi man alltid skal legge sammen alle sidene.'],['Snu et likt trapes opp ned og legg det inntil.','De blir et parallellogram med grunnlinje a + b og høyde h.','Ett trapes er halvparten: A = (a + b) · h / 2.']],
+        ['Hvorfor er arealet av en rombe d₁ · d₂ / 2?',['Romben fyller halvparten av rektangelet som har diagonalene som sider.','Fordi en rombe har to diagonaler.','Fordi diagonalene er like lange.'],['Tegn et rektangel rundt romben med sider d₁ og d₂.','Romben fyller nøyaktig halvparten.','Derfor er A = d₁ · d₂ / 2.']],
+        ['Hvorfor er arealet av en sirkel πr²?',['Delt i kakestykker blir sirkelen nesten et rektangel med sidene πr og r.','Fordi π er omtrent 3,14.','Fordi radien går fra sentrum og ut.'],['Del sirkelen i smale kakestykker og legg dem omvendt annenhver gang.','Det blir nesten et rektangel med sider πr (halve omkretsen) og r.','Arealet blir πr · r = πr².']],
+        ['Hvilke trekanter kan du bruke Pytagoras’ setning på?',['Bare trekanter med en rett vinkel (90°).','Alle trekanter.','Bare likesidede trekanter.'],['Pytagoras gjelder bare i rettvinklede trekanter.','Hypotenusen er siden overfor den rette vinkelen.']],
+        ['Hva skjer med arealet av et kvadrat hvis du dobler lengden på sidene?',['Det blir 4 ganger så stort.','Det blir 2 ganger så stort.','Det blir 8 ganger så stort.'],['Side 3 cm gir A = 9 cm². Side 6 cm gir A = 36 cm².','36 / 9 = 4.','Arealet er lengde ganger lengde, så det blir 2 · 2 = 4 ganger så stort.']],
+        ['Hva skjer med omkretsen av en sirkel hvis du dobler radien?',['Den blir 2 ganger så stor.','Den blir 4 ganger så stor.','Den blir π ganger så stor.'],['O = 2πr. Dobler du r, dobles hele produktet.','Omkretsen blir 2 ganger så stor. (Arealet ville blitt 4 ganger så stort.)']],
+        ['Sara sier: «Alle rektangler med omkrets 20 cm har samme areal.» Har hun rett?',['Nei. 9 cm × 1 cm og 5 cm × 5 cm har begge omkrets 20 cm, men arealene er 9 cm² og 25 cm².','Ja, samme omkrets gir alltid samme areal.','Ja, men bare hvis rektangelet er et kvadrat.'],['Prøv med eksempler: 9 × 1 gir O = 20 og A = 9.','5 × 5 gir O = 20 og A = 25.','Samme omkrets kan gi ulike arealer, så Sara tar feil.']],
+        ['Hvorfor er hypotenusen alltid den lengste siden i en rettvinklet trekant?',['Den ligger rett overfor den største vinkelen, som er 90°.','Fordi den alltid heter c.','Fordi den er skrå.'],['I en trekant ligger den lengste siden overfor den største vinkelen.','Den rette vinkelen er størst, så siden overfor den er lengst.','Derfor er c² større enn både a² og b².']]
+      ];
+      const [q,opts,steps]=pick(Q), order=shuffle([0,1,2]);
+      return {text:q, fig:'', choices:order.map(i=>opts[i]), correct:order.indexOf(0), hint:'Tenk på hvordan figuren kan klippes, flyttes eller dobles til et rektangel, eller prøv med et talleksempel.', steps};
+    }}
   ];
 
   function check(t, raw){
     if(t.choices) return {ok: raw===t.correct};
     const v=parseFloat(String(raw).replace(/\s/g,'').replace(',','.').replace(/[^0-9.\-]/g,''));
     if(!isFinite(v)) return {invalid:true};
-    let tol = t.dec===0 ? 0.01 : 0.5*10**(-t.dec)+1e-9;
+    let tol = t.tol || (t.dec===0 ? 0.01 : 0.5*10**(-t.dec)+1e-9);
     if(t.pi) tol += 0.004*Math.abs(t.ans);
     return {ok: Math.abs(v-t.ans)<=tol, v};
   }
   const ansText = t => t.choices ? t.choices[t.correct] : `${nf(t.ans, t.dec===0?2:t.dec)} ${t.unit}`;
   const pills = topics => topics.map(k=>`<span class="pill">${TOPICS[k]}</span>`).join('');
   function answerField(id, t){
-    if(t.choices) return `<div class="choices" role="group" aria-label="Svar">${t.choices.map((c,i)=>`<button type="button" class="choice" data-c="${i}" aria-pressed="false">${c}</button>`).join('')}</div>`;
+    if(t.choices) return `<div class="choices${t.choices.some(c=>c.length>14)?' long':''}" role="group" aria-label="Svar">${t.choices.map((c,i)=>`<button type="button" class="choice" data-c="${i}" aria-pressed="false">${c}</button>`).join('')}</div>`;
     return `<div class="field"><label for="${id}">Svar</label><span class="inp"><input id="${id}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"><span class="unit">${t.unit}</span></span></div>`;
   }
   function wireChoices(root, onPick){
@@ -630,7 +785,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     const res = cur.choices ? (chosen===null ? {invalid:true} : check(cur, chosen)) : check(cur, inp.value);
     if(res.invalid){
       if(inp){ inp.setAttribute('aria-invalid','true'); inp.setAttribute('aria-describedby','fb'); }
-      feedback('bad', cur.choices ? '<p>Velg Ja eller Nei først.</p>' : '<p>Skriv svaret som et tall, for eksempel 12 eller 31,4.</p>');
+      feedback('bad', cur.choices ? '<p>Velg et svar først.</p>' : '<p>Skriv svaret som et tall, for eksempel 12 eller 31,4.</p>');
       return;
     }
     if(inp) inp.removeAttribute('aria-invalid');
@@ -648,8 +803,8 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   /* ---------- Prøve ---------- */
   let test=[];
   function newTest(){
-    const order=['rektA','triA','rombeA','rombeSide','trapesA','trapesO','sirkelOr','sirkelAd','pytHyp','pytKatet','stige','pytRett','sammensatt','gjerde','trapesH','sirkelR','enhet'];
-    const must=['rombeSide','trapesA','sirkelAd','pytKatet','sirkelOr','rombeA','trapesO'];
+    const order=['rektA','triA','rombeA','rombeSide','trapesA','trapesO','sirkelOr','sirkelAd','pytHyp','pytKatet','stige','pytRett','sammensatt','gjerde','trapesH','sirkelR','enhet','kvadratDiag','likesidetHoyde','likesidetAreal','tretti','forklar'];
+    const must=['rombeSide','trapesA','sirkelAd','pytKatet','sirkelOr', pick(['likesidetHoyde','tretti','kvadratDiag']),'forklar'];
     const rest=shuffle(order.filter(x=>!must.includes(x))).slice(0,3);
     test=shuffle(must.concat(rest)).map(id=>{ const g=G.find(x=>x.id===id); return Object.assign({topics:g.topics,chosen:null}, g.make()); });
     $('#testResult').innerHTML='';

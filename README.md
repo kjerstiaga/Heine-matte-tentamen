@@ -24,7 +24,7 @@ Interaktiv læringsapp for 8. trinn mattetentamen — bygget for Heine, våren 2
 
 Øving til matteprøve: [kjerstiaga.github.io/Heine-matte-tentamen/geometri](https://kjerstiaga.github.io/Heine-matte-tentamen/geometri/)
 
-Formler med figurer · Pytagoras med utforsker · øving med nye tall hver gang (omkrets, areal, Pytagoras, rombe, sirkel, trapes) · prøve med 10 oppgaver
+Formler med figurer · Pytagoras med utforsker og spesielle trekanter · «Hvorfor?» med forklaringer av formlene · øving med nye tall hver gang · prøve med 10 oppgaver
 
 ### 🧠 Naturfag: Nervesystemet og hormonsystemet
 

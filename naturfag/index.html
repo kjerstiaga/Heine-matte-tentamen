@@ -1,9 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="nb"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>Nervesystemet og hormonsystemet</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap">
+</head><body>
 <style>
 /* Layout: én kolonne med fanenavigasjon som følger med. Golgi-farging: sort på gyllent preparat. Blått = nervesignal, rustrødt = hormon. */
 :root{
@@ -12,6 +12,7 @@
   --ink:#1E1A12;
   --muted:#574D38;
   --line:#D9C9A0;
+  --ctl:#857449;
   --signal:#1546C4;
   --signal-ink:#FFFFFF;
   --hormone:#9E3F0B;
@@ -28,14 +29,14 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#17130B; --surface:#221C11; --ink:#F3E6C2; --muted:#C9B88E; --line:#43391F;
+    --bg:#17130B; --surface:#221C11; --ink:#F3E6C2; --muted:#C9B88E; --line:#43391F; --ctl:#8A7A55;
     --signal:#8FAEFF; --signal-ink:#0D1530; --hormone:#FFB077; --hormone-ink:#2A1405;
     --good:#8BD69A; --bad:#FF9C8C; --good-bg:#1D3322; --bad-bg:#3D1E18; --band:#22301B;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#17130B; --surface:#221C11; --ink:#F3E6C2; --muted:#C9B88E; --line:#43391F;
+  --bg:#17130B; --surface:#221C11; --ink:#F3E6C2; --muted:#C9B88E; --line:#43391F; --ctl:#8A7A55;
   --signal:#8FAEFF; --signal-ink:#0D1530; --hormone:#FFB077; --hormone-ink:#2A1405;
   --good:#8BD69A; --bad:#FF9C8C; --good-bg:#1D3322; --bad-bg:#3D1E18; --band:#22301B;
   color-scheme:dark;
@@ -48,6 +49,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .skip{position:absolute;left:-999px;top:8px;background:var(--signal);color:var(--signal-ink);padding:12px 16px;border-radius:var(--r);z-index:20;font-weight:700}
 .skip:focus{left:max(16px,env(safe-area-inset-left,0px))}
 :focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:6px}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px);scroll-padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
+button,input,label{touch-action:manipulation}
+.mark{font-weight:700;white-space:nowrap}
 h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
 h1{font-size:clamp(2rem,1.4rem + 3vw,3.4rem);font-weight:800;letter-spacing:-0.02em}
 h2{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.1rem);font-weight:800}
@@ -60,7 +64,7 @@ header .lede{margin-top:10px;color:var(--muted)}
 .pulse{display:block;width:100%;height:56px;margin-top:16px}
 .pulse path{fill:none;stroke-width:2}
 .pulse .n{stroke:var(--ink)}
-.pulse .spark{stroke:var(--signal);stroke-width:3;stroke-dasharray:40 700;animation:fire 3.2s linear infinite}
+.pulse .spark{stroke:var(--signal);stroke-width:3;stroke-dasharray:40 700;animation:fire 3.2s linear 1 forwards}
 .pulse .h{stroke:var(--hormone);stroke-width:3;stroke-dasharray:6 6}
 .pulse-key{display:flex;flex-wrap:wrap;gap:16px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
 .pulse-key span::before{content:"";display:inline-block;width:18px;height:3px;margin-right:6px;vertical-align:middle;background:var(--signal)}
@@ -68,8 +72,11 @@ header .lede{margin-top:10px;color:var(--muted)}
 @keyframes fire{from{stroke-dashoffset:740}to{stroke-dashoffset:0}}
 
 nav[role=navigation]{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-nav ul{list-style:none;margin:0;padding:8px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
-nav button{min-height:44px;padding:0 14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:700 .95rem var(--f-body);cursor:pointer;white-space:nowrap}
+nav ul{list-style:none;margin:0;padding:8px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;scroll-padding-inline:24px}
+nav ul.more-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent)}
+nav ul.more-l{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 48px),transparent)}
+nav ul.more-l.more-r{-webkit-mask-image:linear-gradient(to right,transparent,#000 48px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to right,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
+nav button{min-height:44px;padding:0 14px;border:1px solid var(--ctl);background:var(--surface);color:var(--ink);border-radius:999px;font:700 .95rem var(--f-body);cursor:pointer;white-space:nowrap}
 nav button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 nav .num{font-family:var(--f-mono);font-weight:500;opacity:.7;margin-right:6px}
 
@@ -104,7 +111,7 @@ section{display:grid;gap:20px}
 .glands{display:grid;grid-template-columns:minmax(150px,200px) 1fr;gap:20px;align-items:start}
 @media (max-width:560px){.glands{grid-template-columns:1fr}.glands .fig{max-width:200px;margin:0 auto}}
 
-table{border-collapse:collapse;width:100%;min-width:440px}
+table{border-collapse:collapse;width:100%}
 th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .tablewrap{overflow-x:auto}
@@ -124,7 +131,7 @@ th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transfor
 .filter button{min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:700 .9rem var(--f-body);cursor:pointer}
 .filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.term{min-height:96px;text-align:left;padding:14px 16px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;display:grid;gap:6px;align-content:start}
+.term{min-height:96px;text-align:left;padding:14px 16px;border-radius:var(--r);border:1px solid var(--ctl);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;display:grid;gap:6px;align-content:start}
 .term strong{font-family:var(--f-display);font-size:1.15rem}
 .term .def{color:var(--muted);font-size:.95rem}
 .term[aria-expanded="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
@@ -134,6 +141,7 @@ th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transfor
 .pool{display:flex;flex-wrap:wrap;gap:8px;min-height:52px}
 .chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer;text-align:left}
 .chip[aria-pressed="true"]{background:var(--signal);color:var(--signal-ink);border-color:var(--signal)}
+.chip .mark{margin-left:6px}
 .chip.ok{background:var(--good-bg);border-color:var(--good);color:var(--ink)}
 .chip.no{background:var(--bad-bg);border-color:var(--bad);color:var(--ink)}
 .bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
@@ -150,7 +158,8 @@ th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transfor
 .steps li.ok{border-color:var(--good);background:var(--good-bg)}
 .steps li.no{border-color:var(--bad);background:var(--bad-bg)}
 .steps .mv{display:flex;gap:4px}
-.steps .mv button{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.1rem;cursor:pointer}
+@media (max-width:400px){.steps li{padding-left:10px;gap:8px}.steps .mv{flex-direction:column}}
+.steps .mv button{width:44px;height:44px;border-radius:8px;border:1px solid var(--ctl);background:var(--bg);color:var(--ink);font-size:1.1rem;cursor:pointer}
 
 /* Blodsukker */
 .bs-top{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between}
@@ -182,7 +191,7 @@ th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transfor
 .progress span{display:block;height:100%;background:var(--ink);transition:width .3s}
 fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 legend{font-family:var(--f-display);font-weight:600;font-size:clamp(1.15rem,1rem + .6vw,1.4rem);margin-bottom:8px;padding:0}
-.opt{min-height:52px;text-align:left;padding:10px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.opt{min-height:52px;text-align:left;padding:10px 14px;border-radius:var(--r);border:1px solid var(--ctl);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
 .opt.ok{border-color:var(--good);background:var(--good-bg);font-weight:700}
 .opt.no{border-color:var(--bad);background:var(--bad-bg)}
 .feedback{padding:12px 14px;border-radius:var(--r);background:var(--bg);border-left:4px solid var(--ink);display:grid;gap:10px}
@@ -305,7 +314,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
 
     <div class="card">
       <h3>Hjernens deler</h3>
-      <div class="tablewrap">
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Tabell: hjernens deler">
         <table>
           <thead><tr><th scope="col">Del</th><th scope="col">Styrer blant annet</th></tr></thead>
           <tbody>
@@ -329,7 +338,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
 
     <div class="card">
       <h3>Hvor raskt går et signal?</h3>
-      <div class="tablewrap">
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Tabell: fart i nervetråder">
         <table>
           <thead><tr><th scope="col">Type nervetråd</th><th scope="col">Fart</th><th scope="col">Sammenlignet med</th></tr></thead>
           <tbody>
@@ -394,9 +403,9 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
 
     <div class="card">
       <h3>Sammenligning av signalsystemene</h3>
-      <div class="tablewrap">
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Tabell: sammenligning av signalsystemene">
         <table>
-          <thead><tr><th scope="col"></th><th scope="col"><span class="pill n">Nervesystemet</span></th><th scope="col"><span class="pill h">Hormonsystemet</span></th></tr></thead>
+          <thead><tr><th scope="col"><span class="sr">Egenskap</span></th><th scope="col"><span class="pill n">Nervesystemet</span></th><th scope="col"><span class="pill h">Hormonsystemet</span></th></tr></thead>
           <tbody>
             <tr><th scope="row">Signal</th><td>Elektriske impulser, og kjemiske signalstoffer i synapsene</td><td>Kjemiske signalstoffer (hormoner)</td></tr>
             <tr><th scope="row">Vei</th><td>Langs nervetråder</td><td>Med blodet</td></tr>
@@ -485,7 +494,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
 
     <div class="card">
       <h3>B · Styr blodsukkeret</h3>
-      <p>Velg hva personen gjør, og se hvordan bukspyttkjertelen svarer med insulin og glukagon. Normalt blodsukker ligger på omtrent 4–7 mmol/L. Modellen er forenklet.</p>
+      <p>Velg hva personen gjør, og se hvordan bukspyttkjertelen svarer med insulin og glukagon. Normalt blodsukker ligger på omtrent 4–8 mmol/L (det grønne feltet). Det er lavest når du ikke har spist, og litt høyere rett etter et måltid. Modellen er forenklet.</p>
       <div class="bs-top">
         <div>
           <p class="eyebrow" id="bsTime">Klokka 07:00</p>
@@ -506,7 +515,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
       </div>
       <label class="check"><input type="checkbox" id="diab"> Bukspyttkjertelen lager ikke insulin (diabetes type 1)</label>
       <div class="row" id="injRow" hidden><button class="btn ghost" data-act="inject">Sett insulin</button></div>
-      <p id="bsMsg" role="status">Trykk på en handling for å se hva som skjer.</p>
+      <p id="bsMsg">Trykk på en handling for å se hva som skjer.</p>
       <div class="row"><button class="btn ghost" id="bsReset">Start dagen på nytt</button></div>
     </div>
 
@@ -531,7 +540,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
       <h3>E · Mål reaksjonstiden din</h3>
       <p>Trykk på feltet for å starte. Når det blir blått, trykker du så fort du kan. Du får fem forsøk.</p>
       <button class="react" id="react">Trykk for å starte</button>
-      <div class="stats" id="reactStats" aria-label="Dine resultater"></div>
+      <div class="stats" id="reactStats" role="group" aria-label="Dine resultater"></div>
       <p class="status" id="reactStatus" role="status"></p>
       <p id="reactExplain" hidden></p>
     </div>
@@ -579,10 +588,14 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     id = alias[id] || id;
     if(!names[id]) id='nerve';
     tabs.forEach(b => b.dataset.tab===id ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current'));
+    const cur=tabs.find(b=>b.dataset.tab===id), bar=$('#tabs'); if(cur){ const l=cur.parentElement.offsetLeft-24, r=l+cur.parentElement.offsetWidth+48; if(l<bar.scrollLeft) bar.scrollLeft=l; else if(r>bar.scrollLeft+bar.clientWidth) bar.scrollLeft=r-bar.clientWidth; }
+    navHint();
     $$('main section').forEach(s => s.hidden = s.id!==id);
     if(focus){ $('#innhold').focus({preventScroll:true}); window.scrollTo({top:0}); say(names[id]+' åpnet'); }
-    try{ history.replaceState(null,'','#'+id); }catch(e){}
+    if(focus){ try{ history.replaceState(null,'','#'+id); }catch(e){} }
   }
+  function navHint(){ const u=$('#tabs'); u.classList.toggle('more-l',u.scrollLeft>2); u.classList.toggle('more-r',u.scrollLeft+u.clientWidth<u.scrollWidth-2); }
+  $('#tabs').addEventListener('scroll',navHint,{passive:true}); window.addEventListener('resize',navHint);
   tabs.forEach(b => b.addEventListener('click', ()=>show(b.dataset.tab,true)));
   $$('[data-goto]').forEach(b => b.addEventListener('click', ()=>show(b.dataset.goto,true)));
   show((location.hash||'').slice(1), false);
@@ -683,9 +696,11 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
       const n=Object.keys(placed).length;
       if(n<CARDS.length){ st.className='status bad'; st.textContent=`Du har sortert ${n} av ${CARDS.length} kort. Sorter resten først.`; return; }
       let right=0;
-      $$('.bins .chip',root).forEach(c=>{ const ok=placed[c.dataset.i]===CARDS[c.dataset.i][1]; c.classList.add(ok?'ok':'no'); if(ok) right++; });
+      $$('.bins .chip',root).forEach(c=>{ const ok=placed[c.dataset.i]===CARDS[c.dataset.i][1]; c.classList.add(ok?'ok':'no'); if(ok) right++;
+        c.insertAdjacentHTML('beforeend',`<span class="mark" aria-hidden="true">${ok?'✓':'✗'}</span>`);
+        c.setAttribute('aria-label', CARDS[c.dataset.i][0]+(ok?', riktig':', feil. Trykk for å flytte tilbake')); });
       st.className='status '+(right===CARDS.length?'good':'bad');
-      st.textContent = right===CARDS.length ? `Alle ${right} riktige!` : `${right} av ${CARDS.length} riktige. De røde ligger feil. Trykk på dem for å flytte dem tilbake.`;
+      st.textContent = right===CARDS.length ? `Alle ${right} riktige!` : `${right} av ${CARDS.length} riktige. Kortene merket ✗ ligger feil. Trykk på dem for å flytte dem tilbake.`;
     });
     $('.rst',root).addEventListener('click',()=>{ placed={}; selected=null; order=shuffle(CARDS.map((_,i)=>i)); st.textContent=''; render(); });
     render();
@@ -708,7 +723,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     ]);
 
   makeSorter($('#sortB'),
-    [{id:'cns',name:'Sentralnervesystemet'},{id:'pns',name:'Perifert, viljestyrt'},{id:'aut',name:'Autonomt, styrer seg selv'}],
+    [{id:'cns',name:'Sentralnervesystemet'},{id:'pns',name:'Perifert: sanser og viljestyrte muskler'},{id:'aut',name:'Autonomt, styrer seg selv'}],
     [
       ['Storhjernen','cns'],['Lillehjernen','cns'],['Hjernestammen','cns'],['Ryggmargen','cns'],
       ['Sansenerve fra huden på fingeren','pns'],['Motorisk nerve til armmuskelen','pns'],['Nerve som får deg til å sparke ballen','pns'],
@@ -755,7 +770,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
     const X0=40,X1=330,Y0=140,Y1=12, vmin=2, vmax=16;
     const y=v=>Y0-(Math.min(vmax,Math.max(vmin,v))-vmin)/(vmax-vmin)*(Y0-Y1);
     const x=i=>X0+i*(X1-X0)/16;
-    let s=`<rect class="band" x="${X0}" y="${y(7)}" width="${X1-X0}" height="${y(4)-y(7)}"></rect>`;
+    let s=`<rect class="band" x="${X0}" y="${y(7.8)}" width="${X1-X0}" height="${y(4)-y(7.8)}"></rect>`;
     [4,7,10,13,16].forEach(v=>{ s+=`<line class="grid" x1="${X0}" x2="${X1}" y1="${y(v)}" y2="${y(v)}"></line><text class="axis" x="${X0-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`; });
     s+=`<text class="axis" x="${X0}" y="156">Siste 8 timer, ett punkt per halvtime</text>`;
     const off=17-bs.hist.length;
@@ -801,7 +816,9 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   }
   $('#checkSteps').addEventListener('click',()=>{
     let right=0;
-    $$('#steps li').forEach((li,pos)=>{ const ok=stepOrder[pos]===pos; li.classList.toggle('ok',ok); li.classList.toggle('no',!ok); if(ok) right++; });
+    $$('#steps li').forEach((li,pos)=>{ const ok=stepOrder[pos]===pos; li.classList.toggle('ok',ok); li.classList.toggle('no',!ok); if(ok) right++;
+      const m=li.querySelector('.mark'); if(m) m.remove();
+      li.firstChild.insertAdjacentHTML('beforeend',` <span class="mark">${ok?'✓<span class="sr"> står riktig</span>':'✗<span class="sr"> står feil</span>'}</span>`); });
     const st=$('#stepStatus');
     st.className='status '+(right===STEPS.length?'good':'bad');
     st.textContent = right===STEPS.length
@@ -815,7 +832,7 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   const rb=$('#react'); let rState='idle', rTimer=null, t0=0, results=[];
   function rSet(state,text){ rState=state; rb.className='react'+(state==='wait'?' wait':state==='go'?' go':''); rb.textContent=text; }
   function renderStats(){ $('#reactStats').innerHTML = results.map((r,i)=>`<span class="stat">Forsøk ${i+1}: ${r} ms</span>`).join(''); }
-  rb.addEventListener('click',()=>{
+  const react=()=>{
     if(rState==='idle' || rState==='done'){
       if(rState==='done'){ results=[]; renderStats(); $('#reactExplain').hidden=true; }
       rSet('wait','Vent på blått …'); $('#reactStatus').textContent=''; say('Vent til feltet blir blått');
@@ -836,7 +853,9 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
         rSet('idle',`Forsøk ${results.length+1} av 5: trykk for å starte`);
       }
     }
-  });
+  };
+  rb.addEventListener('pointerdown',e=>{ if(e.button===0){ e.preventDefault(); react(); } });
+  rb.addEventListener('click',e=>{ if(e.detail===0) react(); });
 
   /* ---------- Quiz ---------- */
   const Q = [
@@ -883,8 +902,8 @@ footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-to
   function answer(i,btn){
     if(answered) return; answered=true;
     const item=Q[qOrder[qi]]; const ok=i===item.c; if(ok) score++;
-    $$('.opt').forEach(b=>{ b.setAttribute('aria-disabled','true'); if(+b.dataset.i===item.c) b.classList.add('ok'); });
-    if(!ok) btn.classList.add('no');
+    $$('.opt').forEach(b=>{ b.setAttribute('aria-disabled','true'); if(+b.dataset.i===item.c){ b.classList.add('ok'); b.insertAdjacentHTML('beforeend',' <span class="mark">✓ Riktig svar</span>'); } });
+    if(!ok){ btn.classList.add('no'); btn.insertAdjacentHTML('beforeend',' <span class="mark">✗ Ditt svar</span>'); }
     const last=qi===qOrder.length-1;
     $('#qFeed').innerHTML=`<div class="feedback"><p><strong>${ok?'Riktig!':'Ikke helt.'}</strong> ${item.e}</p><div class="row"><button class="btn" id="next">${last?'Se resultatet':'Neste spørsmål →'}</button></div></div>`;
     say((ok?'Riktig. ':'Feil. Riktig svar er '+item.a[item.c]+'. ')+item.e);

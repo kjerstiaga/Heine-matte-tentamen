@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Geometri 9. trinn</title>
+<meta name="description" content="Øving til matteprøve i 9. trinn: omkrets, areal, Pytagoras, rombe, sirkel og trapes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Ruteark: blått = lengder og svar, oransje flate = areal. */
+:root{
+  --bg:#F4F1EA;
+  --grid:rgba(30,60,110,.07);
+  --surface:#FFFFFF;
+  --ink:#1B1F24;
+  --muted:#4F5661;
+  --line:#D3D7DE;
+  --ctl:#6B7480;
+  --accent:#0B5CAD;
+  --accent-ink:#FFFFFF;
+  --area:#FFE1AE;
+  --good:#1D6B35;
+  --bad:#A3281B;
+  --good-bg:#DDEFD9;
+  --bad-bg:#F8DEDA;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r:10px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161C; --grid:rgba(160,190,230,.06); --surface:#1B2129; --ink:#E8ECF1; --muted:#A9B2BE; --line:#2E3742; --ctl:#7D8794;
+    --accent:#7FB6FF; --accent-ink:#0B1626; --area:#4A3A1E;
+    --good:#8BD69A; --bad:#FF9C8C; --good-bg:#1D3322; --bad-bg:#3D1E18;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161C; --grid:rgba(160,190,230,.06); --surface:#1B2129; --ink:#E8ECF1; --muted:#A9B2BE; --line:#2E3742; --ctl:#7D8794;
+  --accent:#7FB6FF; --accent-ink:#0B1626; --area:#4A3A1E;
+  --good:#8BD69A; --bad:#FF9C8C; --good-bg:#1D3322; --bad-bg:#3D1E18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px);scroll-padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
+html,body{min-height:100dvh}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font-family:var(--f-body);font-size:clamp(1rem,0.95rem + 0.3vw,1.125rem);line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:12px 16px;border-radius:var(--r);z-index:20;font-weight:700}
+.skip:focus{left:max(16px,env(safe-area-inset-left,0px))}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+button,input,label,summary{touch-action:manipulation}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,1.4rem + 3vw,3.2rem);font-weight:800;letter-spacing:-0.02em}
+h2{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.1rem);font-weight:800}
+h3{font-size:clamp(1.1rem,1rem + 0.5vw,1.3rem);font-weight:600}
+p{margin:0;max-width:65ch}
+ul,ol{margin:0;padding-left:1.3em}
+.eyebrow{font-family:var(--f-mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+header[role=banner]{padding-block:clamp(24px,5vw,48px) 16px}
+header .lede{margin-top:10px;color:var(--muted)}
+
+nav[role=navigation]{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav ul{list-style:none;margin:0;padding:8px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;scroll-padding-inline:24px}
+nav ul.more-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent)}
+nav ul.more-l{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 48px),transparent)}
+nav ul.more-l.more-r{-webkit-mask-image:linear-gradient(to right,transparent,#000 48px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to right,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
+nav button{min-height:44px;padding:0 14px;border:1px solid var(--ctl);background:var(--surface);color:var(--ink);border-radius:999px;font:700 .95rem var(--f-body);cursor:pointer;white-space:nowrap}
+nav button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav .num{font-family:var(--f-mono);font-weight:500;opacity:.75;margin-right:6px}
+
+main{padding-block:28px 64px}
+main:focus{outline:none}
+section{display:grid;gap:20px}
+.intro{display:grid;gap:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(16px,3vw,24px);display:grid;gap:12px;min-width:0}
+.card.aim{border-left:4px solid var(--ink)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.grid2 > *{min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.btn{min-height:44px;min-width:44px;padding:0 18px;border-radius:var(--r);border:2px solid var(--ink);background:var(--ink);color:var(--bg);font:700 1rem var(--f-body);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+/* Formler */
+.formula{font-family:var(--f-mono);font-size:1.05rem;background:var(--bg);border-left:4px solid var(--accent);padding:8px 12px;border-radius:6px;max-width:none}
+.formula var{font-style:italic;font-family:var(--f-body);font-weight:700}
+.ex{font-size:.95rem;color:var(--muted)}
+.shape-card .fig{max-width:300px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+tbody th{font-family:var(--f-body);font-size:1rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:700}
+td.m{font-family:var(--f-mono);font-size:.95rem}
+.tablewrap{overflow-x:auto}
+.mistakes li{margin-bottom:6px}
+
+/* Figurer */
+.fig svg{display:block;width:100%;height:auto}
+.sh{fill:var(--area);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.edge{fill:none;stroke:var(--ink);stroke-width:2.5}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:5 4}
+.hl{fill:none;stroke:var(--accent);stroke-width:3}
+.dot{fill:var(--ink)}
+.lab{fill:var(--ink);font:700 16px var(--f-body)}
+.lab.unk{fill:var(--accent);font-size:18px}
+.corner{fill:none;stroke:var(--ink);stroke-width:1.5}
+
+/* Pytagoras-utforsker */
+.slider{display:grid;gap:4px}
+.slider label{font-weight:700}
+.slider input{width:100%;min-height:44px;accent-color:var(--accent)}
+.calc{font-family:var(--f-mono);font-size:1rem;background:var(--bg);padding:10px 12px;border-radius:8px;display:grid;gap:2px}
+
+/* Øving */
+.filter{display:flex;flex-wrap:wrap;gap:6px}
+.filter button{min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--ctl);background:var(--surface);color:var(--ink);font:700 .95rem var(--f-body);cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pill{display:inline-block;font:700 .75rem var(--f-mono);letter-spacing:.04em;padding:2px 8px;border-radius:999px;border:1px solid var(--ctl);color:var(--muted);margin-right:4px}
+.task-text{font-size:1.1rem}
+.answer{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.answer .field{display:grid;gap:4px}
+.answer label{font-weight:700}
+.answer .inp{display:flex;align-items:center;gap:8px}
+.answer input{width:9em;min-height:48px;padding:0 12px;border:2px solid var(--ctl);border-radius:8px;background:var(--surface);color:var(--ink);font:700 1.15rem var(--f-mono)}
+.answer input[aria-invalid="true"]{border-color:var(--bad)}
+.answer .unit{font-family:var(--f-mono);color:var(--muted)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{min-height:48px;min-width:96px;padding:0 18px;border-radius:var(--r);border:2px solid var(--ctl);background:var(--surface);color:var(--ink);font:700 1rem var(--f-body);cursor:pointer}
+.choice[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.fb{padding:12px 14px;border-radius:var(--r);display:grid;gap:8px}
+.fb:empty{display:none}
+.fb.good{background:var(--good-bg);border-left:4px solid var(--good)}
+.fb.bad{background:var(--bad-bg);border-left:4px solid var(--bad)}
+.fb.info{background:var(--bg);border-left:4px solid var(--accent)}
+.steps{font-family:var(--f-mono);font-size:.95rem;display:grid;gap:2px;margin:0;padding-left:1.4em}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{font-family:var(--f-mono);font-size:.85rem;font-variant-numeric:tabular-nums;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+
+/* Prøve */
+.qnum{font-family:var(--f-mono);color:var(--muted)}
+.result{font-family:var(--f-display);font-size:clamp(3rem,2rem + 5vw,4.5rem);font-weight:800;line-height:1}
+.mark{font-weight:700}
+.mark.ok{color:var(--good)} .mark.no{color:var(--bad)}
+details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+
+footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#innhold">Hopp til innholdet</a>
+
+<header role="banner">
+  <div class="wrap">
+    <p class="eyebrow">Matematikk · 9. trinn · Geometri</p>
+    <h1>Omkrets, areal og Pytagoras</h1>
+    <p class="lede">Øv til prøven: rektangel, trekant, rombe, trapes og sirkel, og Pytagoras’ setning. Les formlene, øv på oppgaver med nye tall hver gang, og ta en prøve til slutt.</p>
+  </div>
+</header>
+
+<nav role="navigation" aria-label="Deler av øvingen">
+  <div class="wrap">
+    <ul id="tabs">
+      <li><button data-tab="formler" aria-current="page"><span class="num">1</span>Formler</button></li>
+      <li><button data-tab="pytagoras"><span class="num">2</span>Pytagoras</button></li>
+      <li><button data-tab="ov"><span class="num">3</span>Øv</button></li>
+      <li><button data-tab="prove"><span class="num">4</span>Prøve</button></li>
+    </ul>
+  </div>
+</nav>
+
+<main role="main" id="innhold" tabindex="-1">
+  <div class="wrap">
+  <div id="live" class="sr" aria-live="polite"></div>
+
+  <!-- 1 FORMLER -->
+  <section id="formler" aria-labelledby="h-formler">
+    <div class="card aim">
+      <p class="eyebrow">Dette skal du kunne</p>
+      <p>Regne ut omkrets og areal av rektangel, trekant, parallellogram, rombe, trapes og sirkel. Bruke Pytagoras’ setning til å finne ukjente sider, også i rombe og trapes.</p>
+    </div>
+
+    <div class="intro">
+      <h2 id="h-formler">Omkrets eller areal?</h2>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Omkrets</h3>
+        <p>Lengden <strong>rundt</strong> figuren. Legg sammen alle sidene. Svaret får vanlig lengdeenhet, for eksempel <strong>cm</strong> eller <strong>m</strong>.</p>
+        <p class="ex">Tenk: et gjerde rundt en hage.</p>
+      </div>
+      <div class="card">
+        <h3>Areal</h3>
+        <p>Hvor stor <strong>flaten</strong> inni figuren er. Svaret får kvadratenhet, for eksempel <strong>cm²</strong> eller <strong>m²</strong>.</p>
+        <p class="ex">Tenk: hvor mye plen det er i hagen.</p>
+      </div>
+    </div>
+
+    <div class="grid2" id="shapes"></div>
+
+    <div class="card">
+      <h3>Formelark</h3>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Tabell: formelark">
+        <table>
+          <thead><tr><th scope="col">Figur</th><th scope="col">Omkrets</th><th scope="col">Areal</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Rektangel</th><td class="m">O = 2l + 2b</td><td class="m">A = l · b</td></tr>
+            <tr><th scope="row">Kvadrat</th><td class="m">O = 4s</td><td class="m">A = s · s = s²</td></tr>
+            <tr><th scope="row">Trekant</th><td class="m">Summen av sidene</td><td class="m">A = g · h / 2</td></tr>
+            <tr><th scope="row">Parallellogram</th><td class="m">Summen av sidene</td><td class="m">A = g · h</td></tr>
+            <tr><th scope="row">Rombe</th><td class="m">O = 4s</td><td class="m">A = d₁ · d₂ / 2 eller A = g · h</td></tr>
+            <tr><th scope="row">Trapes</th><td class="m">Summen av sidene</td><td class="m">A = (a + b) · h / 2</td></tr>
+            <tr><th scope="row">Sirkel</th><td class="m">O = 2πr = πd</td><td class="m">A = πr²</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Enheter</h3>
+      <p>Når du gjør om areal, ganger du med 100 for hvert trinn, fordi både lengden og bredden blir gjort om.</p>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Tabell: enheter">
+        <table>
+          <thead><tr><th scope="col">Lengde</th><th scope="col">Areal</th></tr></thead>
+          <tbody>
+            <tr><td class="m">1 m = 10 dm = 100 cm</td><td class="m">1 m² = 100 dm² = 10 000 cm²</td></tr>
+            <tr><td class="m">1 dm = 10 cm</td><td class="m">1 dm² = 100 cm²</td></tr>
+            <tr><td class="m">1 cm = 10 mm</td><td class="m">1 cm² = 100 mm²</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Vanlige feil på prøven</h3>
+      <ul class="mistakes">
+        <li>Blander <strong>omkrets</strong> og <strong>areal</strong>. Les spørsmålet to ganger.</li>
+        <li>Glemmer å <strong>dele på 2</strong> i trekant, rombe (med diagonaler) og trapes.</li>
+        <li>Bruker <strong>diameteren</strong> i stedet for <strong>radien</strong> i A = πr². Radien er halve diameteren.</li>
+        <li>Bruker skrå side i stedet for <strong>høyden</strong>. Høyden står alltid vinkelrett (90°) på grunnlinjen.</li>
+        <li>Skriver <strong>cm</strong> i stedet for <strong>cm²</strong> på areal.</li>
+        <li>I Pytagoras: glemmer at <strong>hypotenusen er den lengste siden</strong>, og legger sammen når de skal trekke fra.</li>
+        <li>Glemmer å ta <strong>kvadratroten</strong> til slutt i Pytagoras.</li>
+      </ul>
+    </div>
+
+    <div class="row"><button class="btn" data-goto="pytagoras">Videre til Pytagoras →</button></div>
+  </section>
+
+  <!-- 2 PYTAGORAS -->
+  <section id="pytagoras" aria-labelledby="h-pyt" hidden>
+    <div class="intro">
+      <h2 id="h-pyt">Pytagoras’ setning</h2>
+      <p>I en <strong>rettvinklet trekant</strong> heter de to korte sidene <strong>kateter</strong>. Den lengste siden, som ligger rett overfor den rette vinkelen, heter <strong>hypotenusen</strong>.</p>
+    </div>
+
+    <div class="card">
+      <p class="formula"><var>a</var>² + <var>b</var>² = <var>c</var>²</p>
+      <p>Kvadratet av hypotenusen er like stort som summen av kvadratene av katetene. Setningen gjelder <strong>bare</strong> når trekanten har en rett vinkel.</p>
+    </div>
+
+    <div class="card">
+      <h3>Prøv selv</h3>
+      <p>Endre katetene og se hvordan hypotenusen blir regnet ut.</p>
+      <div class="grid2">
+        <div class="slider"><label for="ka">Katet a: <span id="kaV">3</span> cm</label><input type="range" id="ka" min="1" max="15" value="3"></div>
+        <div class="slider"><label for="kb">Katet b: <span id="kbV">4</span> cm</label><input type="range" id="kb" min="1" max="15" value="4"></div>
+      </div>
+      <div class="fig" id="pytFig" style="max-width:360px"></div>
+      <div class="calc" id="pytCalc" aria-live="polite"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Finn hypotenusen</h3>
+        <p>Legg sammen kvadratene, og ta kvadratroten.</p>
+        <p class="formula"><var>c</var> = √(<var>a</var>² + <var>b</var>²)</p>
+        <p class="ex">Katetene er 6 cm og 8 cm:<br>c² = 6² + 8² = 36 + 64 = 100<br>c = √100 = 10 cm</p>
+      </div>
+      <div class="card">
+        <h3>Finn en katet</h3>
+        <p>Trekk fra. Hypotenusen kommer først.</p>
+        <p class="formula"><var>a</var> = √(<var>c</var>² − <var>b</var>²)</p>
+        <p class="ex">Hypotenusen er 13 cm og den ene kateten 5 cm:<br>a² = 13² − 5² = 169 − 25 = 144<br>a = √144 = 12 cm</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Er trekanten rettvinklet?</h3>
+      <p>Sjekk om kvadratet av den lengste siden er lik summen av kvadratene av de to andre. Er det likt, er trekanten rettvinklet.</p>
+      <p class="ex">Sidene 7, 24 og 25: 7² + 24² = 49 + 576 = 625 og 25² = 625. Likt, altså rettvinklet.<br>Sidene 5, 6 og 8: 5² + 6² = 25 + 36 = 61 og 8² = 64. Ikke likt, altså ikke rettvinklet.</p>
+      <p><strong>Pytagoreiske tripler</strong> er hele tall som passer: 3–4–5, 6–8–10, 5–12–13, 8–15–17 og 7–24–25. Det er lurt å kjenne dem igjen.</p>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Pytagoras i rombe</h3>
+        <div class="fig" id="pytRombe"></div>
+        <p>Diagonalene i en rombe står vinkelrett på hverandre og deler hverandre i to. Halve diagonalene er katetene, og siden i romben er hypotenusen.</p>
+        <p class="ex">Diagonalene er 6 cm og 8 cm. Halvdelene er 3 og 4, så siden er √(3² + 4²) = 5 cm. Omkretsen er 4 · 5 = 20 cm.</p>
+      </div>
+      <div class="card">
+        <h3>Pytagoras i trapes</h3>
+        <div class="fig" id="pytTrapes"></div>
+        <p>Tegn høyden. Da får du en rettvinklet trekant der høyden og «overhenget» er katetene, og den skrå siden er hypotenusen.</p>
+        <p class="ex">Grunnlinjene er 10 cm og 7 cm, høyden 4 cm. Overhenget er 10 − 7 = 3, så den skrå siden er √(3² + 4²) = 5 cm.</p>
+      </div>
+    </div>
+
+    <div class="row"><button class="btn" data-goto="ov">Videre til øving →</button></div>
+  </section>
+
+  <!-- 3 ØV -->
+  <section id="ov" aria-labelledby="h-ov" hidden>
+    <div class="intro">
+      <h2 id="h-ov">Øv</h2>
+      <p>Velg tema. Du får nye tall hver gang. Bruk kalkulator der du trenger det, og skriv desimaltall med komma eller punktum.</p>
+    </div>
+    <div class="filter" role="group" aria-label="Velg tema" id="topics"></div>
+    <div class="stats" id="stats" aria-label="Resultater"></div>
+    <div class="card" id="taskCard"></div>
+  </section>
+
+  <!-- 4 PRØVE -->
+  <section id="prove" aria-labelledby="h-prove" hidden>
+    <div class="intro">
+      <h2 id="h-prove">Prøve</h2>
+      <p>Ti blandede oppgaver fra alle temaene. Du får vite hva som er riktig først når du leverer. Bruk kalkulator, og husk enhetene.</p>
+    </div>
+    <div class="row"><button class="btn accent" id="newTest">Start en ny prøve</button></div>
+    <div id="testList" style="display:grid;gap:16px"></div>
+    <div id="testResult"></div>
+  </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Tallene i oppgavene lages tilfeldig. Svar med π blir godtatt enten du bruker π-knappen eller 3,14.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const live = $('#live');
+  const say = t => { live.textContent=''; setTimeout(()=>{ live.textContent=t; },50); };
+  const ri = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+  const pick = a => a[Math.floor(Math.random()*a.length)];
+  const shuffle = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+  const nf = (x,d=2) => { const r=Math.round(x*10**d)/10**d; return String(r).replace('.',','); };
+  const PI = Math.PI;
+  const store = {
+    get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+    set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  };
+
+  /* ---------- Faner ---------- */
+  const tabs = $$('#tabs button');
+  const names = {formler:'Formler',pytagoras:'Pytagoras',ov:'Øv',prove:'Prøve'};
+  function navHint(){ const u=$('#tabs'); u.classList.toggle('more-l',u.scrollLeft>2); u.classList.toggle('more-r',u.scrollLeft+u.clientWidth<u.scrollWidth-2); }
+  function show(id, focus){
+    if(!names[id]) id='formler';
+    tabs.forEach(b => b.dataset.tab===id ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current'));
+    $$('main section').forEach(s => s.hidden = s.id!==id);
+    const cur=tabs.find(b=>b.dataset.tab===id), bar=$('#tabs');
+    if(cur){ const l=cur.parentElement.offsetLeft-24, r=l+cur.parentElement.offsetWidth+48; if(l<bar.scrollLeft) bar.scrollLeft=l; else if(r>bar.scrollLeft+bar.clientWidth) bar.scrollLeft=r-bar.clientWidth; }
+    navHint();
+    if(focus){ $('#innhold').focus({preventScroll:true}); window.scrollTo({top:0}); say(names[id]+' åpnet'); try{ history.replaceState(null,'','#'+id); }catch(e){} }
+  }
+  $('#tabs').addEventListener('scroll',navHint,{passive:true}); window.addEventListener('resize',navHint);
+  tabs.forEach(b => b.addEventListener('click', ()=>show(b.dataset.tab,true)));
+  $$('[data-goto]').forEach(b => b.addEventListener('click', ()=>show(b.dataset.goto,true)));
+  window.addEventListener('hashchange', ()=>show(location.hash.slice(1), false));
+
+  /* ---------- Figurer ---------- */
+  const F = {
+    wrap:(inner,label)=>`<svg viewBox="0 0 300 190" role="img" aria-label="${label}">${inner}</svg>`,
+    t:(x,y,s,anchor='middle')=>`<text class="lab${String(s).includes('?')?' unk':''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle">${s}</text>`,
+    poly:(pts,cls='sh')=>`<polygon class="${cls}" points="${pts.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}"></polygon>`,
+    line:(x1,y1,x2,y2,cls='dash')=>`<line class="${cls}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"></line>`,
+    corner:(x,y,dx,dy,k=11)=>`<path class="corner" d="M${x+dx*k} ${y} V${y+dy*k} H${x}"></path>`,
+    rect(W,H,lw,lh,label){
+      const s=Math.min(180/W,110/H), w=W*s, h=H*s, x=150-w/2, y=88-h/2;
+      return F.wrap(F.poly([[x,y],[x+w,y],[x+w,y+h],[x,y+h]])+F.t(150,y+h+18,lw)+F.t(x+w+8,y+h/2,lh,'start'), label);
+    },
+    tri(g,h,lg,lh,label){
+      const s=Math.min(190/g,120/h), w=g*s, hh=h*s, x=150-w/2, yb=92+hh/2, ax=x+0.3*w, ay=yb-hh;
+      return F.wrap(F.poly([[x,yb],[x+w,yb],[ax,ay]])+F.line(ax,ay,ax,yb)+F.corner(ax,yb,1,-1)+F.t(150,yb+18,lg)+F.t(ax+8,yb-hh/2,lh,'start'), label);
+    },
+    para(g,h,lg,lh,label){
+      const sh=0.3*g, s=Math.min(200/(g+sh),120/h), w=g*s, k=sh*s, hh=h*s, x=150-(w+k)/2, yb=92+hh/2, yt=yb-hh;
+      return F.wrap(F.poly([[x,yb],[x+w,yb],[x+w+k,yt],[x+k,yt]])+F.line(x+k,yt,x+k,yb)+F.corner(x+k,yb,1,-1)+F.t(x+w/2,yb+18,lg)+F.t(x+k+8,yb-hh/2,lh,'start'), label);
+    },
+    rhombus(d1,d2,l1,l2,ls,label){
+      const s=Math.min(170/d1,124/d2), hw=d1*s/2, hh=d2*s/2, cx=150, cy=92;
+      let g=F.poly([[cx-hw,cy],[cx,cy-hh],[cx+hw,cy],[cx,cy+hh]]);
+      if(l1||l2) g+=F.line(cx-hw,cy,cx+hw,cy)+F.line(cx,cy-hh,cx,cy+hh)+F.corner(cx,cy,1,-1,9);
+      if(l1) g+=F.t(cx-hw-8,cy,l1,'end');
+      if(l2) g+=F.t(cx,cy+hh+16,l2);
+      if(ls) g+=F.t(cx+hw/2+10,cy-hh/2-8,ls,'start');
+      return F.wrap(g,label);
+    },
+    trap(a,b,h,la,lb,lh,lc,right,label){
+      const s=Math.min((right?170:200)/a,115/h), w=a*s, wt=b*s, hh=h*s, x=150-w/2+(right?15:0), yb=92+hh/2, yt=yb-hh, xt=right?x:x+(w-wt)/2;
+      let g=F.poly([[x,yb],[x+w,yb],[xt+wt,yt],[xt,yt]])+F.t(150,yb+18,la)+F.t(xt+wt/2,yt-14,lb);
+      if(right){ g+=F.corner(x,yb,1,-1)+F.t(x-8,yb-hh/2,lh,'end'); }
+      else { g+=F.line(xt,yt,xt,yb)+F.corner(xt,yb,1,-1)+F.t(xt+8,yb-hh/2,lh,'start'); }
+      if(lc) g+=F.t((x+w+xt+wt)/2+10,(yb+yt)/2,lc,'start');
+      return F.wrap(g,label);
+    },
+    circle(mode,lab,label){
+      const R=64, cx=150, cy=94;
+      let g=`<circle class="sh" cx="${cx}" cy="${cy}" r="${R}"></circle><circle class="dot" cx="${cx}" cy="${cy}" r="3.5"></circle>`;
+      if(mode==='r') g+=F.line(cx,cy,cx+R,cy,'hl')+F.t(cx+R/2,cy-14,lab);
+      else if(mode==='d') g+=F.line(cx-R,cy,cx+R,cy,'hl')+F.t(cx,cy-14,lab);
+      else g+=F.t(cx,cy-R-14,lab);
+      return F.wrap(g,label);
+    },
+    half(lab,label){
+      const R=90, cx=150, cy=140;
+      return F.wrap(`<path class="sh" d="M${cx-R} ${cy} A${R} ${R} 0 0 1 ${cx+R} ${cy} Z"></path>`+F.line(cx-R,cy,cx+R,cy,'hl')+F.t(cx,cy+18,lab),label);
+    },
+    comp(l,b,ll,lb,label){
+      const s=Math.min(170/l,140/(b+l/2)), w=l*s, h=b*s, r=w/2, x=150-w/2, yb=92+(h+r)/2, yt=yb-h;
+      return F.wrap(`<path class="sh" d="M${x} ${yb} H${x+w} V${yt} A${r} ${r} 0 0 0 ${x} ${yt} Z"></path>`+F.line(x,yt,x+w,yt)+F.t(150,yb+18,ll)+F.t(x+w+8,yb-h/2,lb,'start'),label);
+    },
+    right(A,B,la,lb,lc,label){
+      const s=Math.min(170/B,120/A), w=B*s, h=A*s, x=150-w/2, y=95+h/2;
+      const n=Math.hypot(h,w), nx=h/n, ny=-w/n;
+      return F.wrap(F.poly([[x,y],[x+w,y],[x,y-h]])+F.corner(x,y,1,-1)+F.t(x-8,y-h/2,la,'end')+F.t(x+w/2,y+18,lb)+F.t(x+w/2+nx*14,y-h/2+ny*14,lc,'start'),label);
+    }
+  };
+
+  /* ---------- Formelkort ---------- */
+  const SHAPES = [
+    {h:'Rektangel og kvadrat', fig:F.rect(8,5,'l','b','Rektangel med lengde l og bredde b'), f:['O = 2<var>l</var> + 2<var>b</var>','A = <var>l</var> · <var>b</var>'], ex:'Kvadrat med side 6 cm: O = 4 · 6 = 24 cm og A = 6 · 6 = 36 cm².'},
+    {h:'Trekant', fig:F.tri(8,5,'g','h','Trekant med grunnlinje g og høyde h'), f:['A = <var>g</var> · <var>h</var> / 2'], ex:'g = 10 cm og h = 6 cm gir A = 10 · 6 / 2 = 30 cm². En trekant er et halvt rektangel.'},
+    {h:'Parallellogram', fig:F.para(8,5,'g','h','Parallellogram med grunnlinje g og høyde h'), f:['A = <var>g</var> · <var>h</var>'], ex:'Bruk høyden, ikke den skrå siden. g = 9 cm og h = 4 cm gir A = 36 cm².'},
+    {h:'Rombe', fig:F.rhombus(8,5,'d₁','d₂','s','Rombe med diagonalene d1 og d2 og side s'), f:['O = 4<var>s</var>','A = <var>d₁</var> · <var>d₂</var> / 2'], ex:'Alle fire sidene er like lange. Diagonaler på 8 cm og 6 cm gir A = 8 · 6 / 2 = 24 cm².'},
+    {h:'Trapes', fig:F.trap(10,6,5,'a','b','h','',false,'Trapes med de parallelle sidene a og b og høyde h'), f:['A = (<var>a</var> + <var>b</var>) · <var>h</var> / 2'], ex:'a og b er de to parallelle sidene. a = 10, b = 6 og h = 5 gir A = 16 · 5 / 2 = 40 cm².'},
+    {h:'Sirkel', fig:F.circle('r','r','Sirkel med radius r'), f:['O = 2π<var>r</var> = π<var>d</var>','A = π<var>r</var>²'], ex:'r = 5 cm gir O = 2 · π · 5 ≈ 31,4 cm og A = π · 5² ≈ 78,5 cm². Radien er halve diameteren.'}
+  ];
+  $('#shapes').innerHTML = SHAPES.map(s=>`<div class="card shape-card"><h3>${s.h}</h3><div class="fig">${s.fig}</div>${s.f.map(x=>`<p class="formula">${x}</p>`).join('')}<p class="ex">${s.ex}</p></div>`).join('');
+  $('#pytRombe').innerHTML = F.rhombus(8,6,'4','3','5','Rombe med halve diagonaler 4 og 3 og side 5');
+  $('#pytTrapes').innerHTML = F.trap(10,7,4,'10','7','4','5',false,'Trapes med grunnlinjer 10 og 7, høyde 4 og skrå side 5');
+
+  /* ---------- Pytagoras-utforsker ---------- */
+  function pyt(){
+    const a=+$('#ka').value, b=+$('#kb').value, c2=a*a+b*b, c=Math.sqrt(c2);
+    $('#kaV').textContent=a; $('#kbV').textContent=b;
+    const cs = Number.isInteger(c) ? `${c}` : `≈ ${nf(c,2)}`;
+    $('#pytFig').innerHTML = F.right(a,b,`a = ${a}`,`b = ${b}`,`c ${Number.isInteger(c)?'=':'≈'} ${Number.isInteger(c)?c:nf(c,1)}`,`Rettvinklet trekant med katetene ${a} og ${b}`);
+    $('#pytCalc').innerHTML = `<span>c² = ${a}² + ${b}² = ${a*a} + ${b*b} = ${c2}</span><span>c = √${c2} ${Number.isInteger(c)?'= ':''}${cs} cm${Number.isInteger(c)?'  (helt tall!)':''}</span>`;
+  }
+  $('#ka').addEventListener('input',pyt); $('#kb').addEventListener('input',pyt); pyt();
+
+  /* ---------- Oppgavegeneratorer ---------- */
+  const TRIPLES=[[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[7,24,25],[15,20,25]];
+  const triple = () => { const t=pick(TRIPLES); return Math.random()<.5?t:[t[1],t[0],t[2]]; };
+  const TOPICS = {omkrets:'Omkrets', areal:'Areal', pytagoras:'Pytagoras', rombe:'Rombe', sirkel:'Sirkel', trapes:'Trapes'};
+  const G = [
+    {id:'rektO', topics:['omkrets'], make(){ const l=ri(5,15), b=ri(2,l-1);
+      return {text:`Et rektangel er ${l} cm langt og ${b} cm bredt. Hva er <strong>omkretsen</strong>?`, fig:F.rect(l,b,`${l} cm`,`${b} cm`,`Rektangel ${l} ganger ${b} cm`), ans:2*l+2*b, unit:'cm', dec:0,
+        hint:'Omkretsen er alle sidene lagt sammen: O = 2l + 2b.', steps:['O = 2l + 2b',`O = 2 · ${l} + 2 · ${b}`,`O = ${2*l} + ${2*b} = ${2*l+2*b} cm`]}; }},
+    {id:'gjerde', topics:['omkrets'], make(){ const l=ri(8,25), b=ri(5,l-2);
+      return {text:`En rektangulær hage er ${l} m lang og ${b} m bred. Hvor mange meter gjerde trengs rundt hele hagen?`, fig:F.rect(l,b,`${l} m`,`${b} m`,`Hage ${l} ganger ${b} m`), ans:2*l+2*b, unit:'m', dec:0,
+        hint:'Gjerde rundt hagen er omkretsen.', steps:['O = 2l + 2b',`O = 2 · ${l} + 2 · ${b} = ${2*l+2*b} m`]}; }},
+    {id:'rektA', topics:['areal'], make(){ const l=ri(4,15), b=ri(2,12);
+      return {text:`Et rektangel er ${l} cm langt og ${b} cm bredt. Hva er <strong>arealet</strong>?`, fig:F.rect(l,b,`${l} cm`,`${b} cm`,`Rektangel ${l} ganger ${b} cm`), ans:l*b, unit:'cm²', dec:0,
+        hint:'A = l · b.', steps:['A = l · b',`A = ${l} · ${b} = ${l*b} cm²`]}; }},
+    {id:'kvadratA', topics:['areal','omkrets'], make(){ const s=ri(3,12);
+      return {text:`Et kvadrat har omkrets ${4*s} cm. Hva er arealet av kvadratet?`, fig:F.rect(1,1,'?','?','Kvadrat med ukjent side'), ans:s*s, unit:'cm²', dec:0,
+        hint:'Finn først siden: alle fire sidene er like lange, så s = O / 4.', steps:[`s = O / 4 = ${4*s} / 4 = ${s} cm`,`A = s · s = ${s} · ${s} = ${s*s} cm²`]}; }},
+    {id:'triA', topics:['areal'], make(){ const g=ri(4,16), h=ri(3,11);
+      return {text:`En trekant har grunnlinje ${g} cm og høyde ${h} cm. Hva er arealet?`, fig:F.tri(g,h,`${g} cm`,`${h} cm`,`Trekant med grunnlinje ${g} og høyde ${h} cm`), ans:g*h/2, unit:'cm²', dec:1,
+        hint:'A = g · h / 2. Husk å dele på 2.', steps:['A = g · h / 2',`A = ${g} · ${h} / 2 = ${g*h} / 2 = ${nf(g*h/2)} cm²`]}; }},
+    {id:'paraA', topics:['areal'], make(){ const g=ri(5,14), h=ri(3,9);
+      return {text:`Et parallellogram har grunnlinje ${g} cm og høyde ${h} cm. Hva er arealet?`, fig:F.para(g,h,`${g} cm`,`${h} cm`,`Parallellogram med grunnlinje ${g} og høyde ${h} cm`), ans:g*h, unit:'cm²', dec:0,
+        hint:'A = g · h. Bruk høyden, ikke den skrå siden.', steps:['A = g · h',`A = ${g} · ${h} = ${g*h} cm²`]}; }},
+    {id:'enhet', topics:['areal'], make(){
+      if(Math.random()<.5){ const m=ri(2,9)+pick([0,0.5]);
+        return {text:`Et bord har areal ${nf(m)} m². Hvor mange cm² er det?`, fig:'', ans:m*10000, unit:'cm²', dec:0,
+          hint:'1 m² = 100 cm · 100 cm = 10 000 cm².', steps:['1 m² = 10 000 cm²',`${nf(m)} · 10 000 = ${(m*10000).toLocaleString('nb-NO')} cm²`]}; }
+      const c=ri(2,40)*100;
+      return {text:`Et ark har areal ${c.toLocaleString('nb-NO')} cm². Hvor mange dm² er det?`, fig:'', ans:c/100, unit:'dm²', dec:0,
+        hint:'1 dm² = 10 cm · 10 cm = 100 cm². Del på 100.', steps:['1 dm² = 100 cm²',`${c.toLocaleString('nb-NO')} / 100 = ${c/100} dm²`]}; }},
+    {id:'rombeA', topics:['rombe','areal'], make(){ const d1=2*ri(3,9), d2=2*ri(2,7);
+      return {text:`Diagonalene i en rombe er ${d1} cm og ${d2} cm. Hva er arealet av romben?`, fig:F.rhombus(d1,d2,`${d1} cm`,`${d2} cm`,'',`Rombe med diagonaler ${d1} og ${d2} cm`), ans:d1*d2/2, unit:'cm²', dec:0,
+        hint:'A = d₁ · d₂ / 2.', steps:['A = d₁ · d₂ / 2',`A = ${d1} · ${d2} / 2 = ${d1*d2} / 2 = ${d1*d2/2} cm²`]}; }},
+    {id:'rombeGH', topics:['rombe','areal'], make(){ const s=ri(5,12), h=ri(3,s-1);
+      return {text:`En rombe har sider på ${s} cm. Høyden fra en side til den motsatte siden er ${h} cm. Hva er arealet?`, fig:F.para(s,h,`${s} cm`,`${h} cm`,`Rombe med side ${s} og høyde ${h} cm`), ans:s*h, unit:'cm²', dec:0,
+        hint:'En rombe er et parallellogram med like lange sider. A = g · h.', steps:['A = g · h',`A = ${s} · ${h} = ${s*h} cm²`]}; }},
+    {id:'rombeO', topics:['rombe','omkrets'], make(){ const s=ri(3,15)+pick([0,0,0.5]);
+      return {text:`Den ene siden i en rombe er ${nf(s)} cm. Hva er omkretsen?`, fig:F.rhombus(8,5,'','',`${nf(s)} cm`,`Rombe med side ${nf(s)} cm`), ans:4*s, unit:'cm', dec:1,
+        hint:'Alle fire sidene i en rombe er like lange.', steps:['O = 4s',`O = 4 · ${nf(s)} = ${nf(4*s)} cm`]}; }},
+    {id:'rombeSide', topics:['rombe','pytagoras','omkrets'], make(){ const [a,b,c]=triple();
+      return {text:`Diagonalene i en rombe er ${2*a} cm og ${2*b} cm. Hva er <strong>omkretsen</strong> av romben?`, fig:F.rhombus(2*a,2*b,`${2*a} cm`,`${2*b} cm`,'s = ?',`Rombe med diagonaler ${2*a} og ${2*b} cm og ukjent side`), ans:4*c, unit:'cm', dec:0,
+        hint:'Diagonalene deler hverandre på midten og står vinkelrett. Halve diagonalene er katetene, og siden er hypotenusen.', steps:[`Halve diagonaler: ${a} cm og ${b} cm`,`s² = ${a}² + ${b}² = ${a*a} + ${b*b} = ${c*c}`,`s = √${c*c} = ${c} cm`,`O = 4 · ${c} = ${4*c} cm`]}; }},
+    {id:'trapesA', topics:['trapes','areal'], make(){ const a=ri(8,18), b=ri(3,a-2), h=ri(3,10);
+      return {text:`I et trapes er de parallelle sidene ${a} cm og ${b} cm. Høyden er ${h} cm. Hva er arealet?`, fig:F.trap(a,b,h,`${a} cm`,`${b} cm`,`${h} cm`,'',false,`Trapes med parallelle sider ${a} og ${b} cm og høyde ${h} cm`), ans:(a+b)*h/2, unit:'cm²', dec:1,
+        hint:'A = (a + b) · h / 2. Legg sammen de parallelle sidene først.', steps:['A = (a + b) · h / 2',`A = (${a} + ${b}) · ${h} / 2`,`A = ${a+b} · ${h} / 2 = ${(a+b)*h} / 2 = ${nf((a+b)*h/2)} cm²`]}; }},
+    {id:'trapesH', topics:['trapes','areal'], make(){ const a=ri(8,16), b=ri(3,a-2), h=ri(3,9), A=(a+b)*h/2;
+      return {text:`Et trapes har areal ${nf(A)} cm². De parallelle sidene er ${a} cm og ${b} cm. Hvor stor er høyden?`, fig:F.trap(a,b,h,`${a} cm`,`${b} cm`,'h = ?','',false,`Trapes med parallelle sider ${a} og ${b} cm og ukjent høyde`), ans:h, unit:'cm', dec:1,
+        hint:'Sett inn i A = (a + b) · h / 2 og løs for h: h = 2A / (a + b).', steps:['h = 2 · A / (a + b)',`h = 2 · ${nf(A)} / (${a} + ${b})`,`h = ${nf(2*A)} / ${a+b} = ${h} cm`]}; }},
+    {id:'trapesO', topics:['trapes','pytagoras','omkrets'], make(){ const [x,h,c]=triple(), b=ri(3,10), a=b+x;
+      return {text:`Et rettvinklet trapes har parallelle sider ${a} cm og ${b} cm og høyde ${h} cm. Den skrå siden er ukjent. Hva er <strong>omkretsen</strong>?`, fig:F.trap(a,b,h,`${a} cm`,`${b} cm`,`${h} cm`,'?',true,`Rettvinklet trapes med parallelle sider ${a} og ${b} cm, høyde ${h} cm og ukjent skrå side`), ans:a+b+h+c, unit:'cm', dec:0,
+        hint:'Finn den skrå siden med Pytagoras. Katetene er høyden og forskjellen mellom de parallelle sidene.', steps:[`Overheng: ${a} − ${b} = ${x} cm`,`c² = ${x}² + ${h}² = ${x*x} + ${h*h} = ${c*c}`,`c = √${c*c} = ${c} cm`,`O = ${a} + ${b} + ${h} + ${c} = ${a+b+h+c} cm`]}; }},
+    {id:'sirkelOr', topics:['sirkel','omkrets'], make(){ const r=ri(2,15);
+      return {text:`En sirkel har radius ${r} cm. Hva er omkretsen? Rund av til én desimal.`, fig:F.circle('r',`${r} cm`,`Sirkel med radius ${r} cm`), ans:2*PI*r, unit:'cm', dec:1, pi:true,
+        hint:'O = 2πr.', steps:['O = 2 · π · r',`O = 2 · π · ${r} ≈ ${nf(2*PI*r,1)} cm`]}; }},
+    {id:'sirkelOd', topics:['sirkel','omkrets'], make(){ const d=ri(3,30);
+      return {text:`Et sykkelhjul har diameter ${d*2} cm. Hvor langt ruller sykkelen når hjulet går én runde? Rund av til én desimal.`, fig:F.circle('d',`${d*2} cm`,`Sirkel med diameter ${d*2} cm`), ans:PI*d*2, unit:'cm', dec:1, pi:true,
+        hint:'Én runde er omkretsen. O = πd.', steps:['O = π · d',`O = π · ${d*2} ≈ ${nf(PI*d*2,1)} cm`]}; }},
+    {id:'sirkelAr', topics:['sirkel','areal'], make(){ const r=ri(2,12);
+      return {text:`En sirkel har radius ${r} cm. Hva er arealet? Rund av til én desimal.`, fig:F.circle('r',`${r} cm`,`Sirkel med radius ${r} cm`), ans:PI*r*r, unit:'cm²', dec:1, pi:true,
+        hint:'A = πr². Gang radien med seg selv før du ganger med π.', steps:['A = π · r²',`A = π · ${r}² = π · ${r*r} ≈ ${nf(PI*r*r,1)} cm²`]}; }},
+    {id:'sirkelAd', topics:['sirkel','areal'], make(){ const r=ri(2,12);
+      return {text:`En sirkel har <strong>diameter</strong> ${2*r} cm. Hva er arealet? Rund av til én desimal.`, fig:F.circle('d',`${2*r} cm`,`Sirkel med diameter ${2*r} cm`), ans:PI*r*r, unit:'cm²', dec:1, pi:true,
+        hint:'Finn radien først: r = d / 2. Så A = πr².', steps:[`r = ${2*r} / 2 = ${r} cm`,`A = π · ${r}² = π · ${r*r} ≈ ${nf(PI*r*r,1)} cm²`]}; }},
+    {id:'sirkelR', topics:['sirkel','omkrets'], make(){ const r=ri(2,12), O=Math.round(2*PI*r*10)/10;
+      return {text:`Omkretsen av en sirkel er ${nf(O)} cm. Hvor stor er radien? Rund av til én desimal.`, fig:F.circle('r','r = ?','Sirkel med ukjent radius'), ans:O/(2*PI), unit:'cm', dec:1, pi:true,
+        hint:'O = 2πr, så r = O / (2π).', steps:['r = O / (2 · π)',`r = ${nf(O)} / (2 · π) ≈ ${nf(O/(2*PI),1)} cm`]}; }},
+    {id:'halvsirkel', topics:['sirkel','areal'], make(){ const d=2*ri(2,10), r=d/2;
+      return {text:`En halvsirkel har diameter ${d} cm. Hva er arealet? Rund av til én desimal.`, fig:F.half(`${d} cm`,`Halvsirkel med diameter ${d} cm`), ans:PI*r*r/2, unit:'cm²', dec:1, pi:true,
+        hint:'Regn ut arealet av hele sirkelen og del på 2. Husk r = d / 2.', steps:[`r = ${d} / 2 = ${r} cm`,`Hel sirkel: π · ${r}² ≈ ${nf(PI*r*r,2)} cm²`,`Halvsirkel: ${nf(PI*r*r,2)} / 2 ≈ ${nf(PI*r*r/2,1)} cm²`]}; }},
+    {id:'sammensatt', topics:['sirkel','areal'], make(){ const l=2*ri(3,7), b=ri(3,9), r=l/2, A=l*b+PI*r*r/2;
+      return {text:`Figuren er et rektangel på ${l} cm × ${b} cm med en halvsirkel oppå. Hva er arealet av hele figuren? Rund av til én desimal.`, fig:F.comp(l,b,`${l} cm`,`${b} cm`,`Rektangel ${l} ganger ${b} cm med halvsirkel oppå`), ans:A, unit:'cm²', dec:1, pi:true,
+        hint:'Del figuren i to: rektangelet og halvsirkelen. Diameteren i halvsirkelen er like lang som rektangelet er bredt.', steps:[`Rektangel: ${l} · ${b} = ${l*b} cm²`,`Halvsirkel: r = ${r}, π · ${r}² / 2 ≈ ${nf(PI*r*r/2,2)} cm²`,`Til sammen: ${l*b} + ${nf(PI*r*r/2,2)} ≈ ${nf(A,1)} cm²`]}; }},
+    {id:'pytHyp', topics:['pytagoras'], make(){ const [a,b,c]=triple();
+      return {text:`En rettvinklet trekant har kateter på ${a} cm og ${b} cm. Hvor lang er hypotenusen?`, fig:F.right(a,b,`${a} cm`,`${b} cm`,'?',`Rettvinklet trekant med kateter ${a} og ${b} cm`), ans:c, unit:'cm', dec:0,
+        hint:'c² = a² + b². Ta kvadratroten til slutt.', steps:[`c² = ${a}² + ${b}² = ${a*a} + ${b*b} = ${c*c}`,`c = √${c*c} = ${c} cm`]}; }},
+    {id:'pytHypDes', topics:['pytagoras'], make(){ let a,b; do{ a=ri(2,12); b=ri(2,12); }while(Number.isInteger(Math.hypot(a,b))); const c=Math.hypot(a,b);
+      return {text:`En rettvinklet trekant har kateter på ${a} cm og ${b} cm. Hvor lang er hypotenusen? Rund av til én desimal.`, fig:F.right(a,b,`${a} cm`,`${b} cm`,'?',`Rettvinklet trekant med kateter ${a} og ${b} cm`), ans:c, unit:'cm', dec:1,
+        hint:'c² = a² + b². Ta kvadratroten til slutt.', steps:[`c² = ${a}² + ${b}² = ${a*a} + ${b*b} = ${a*a+b*b}`,`c = √${a*a+b*b} ≈ ${nf(c,1)} cm`]}; }},
+    {id:'pytKatet', topics:['pytagoras'], make(){ const [a,b,c]=triple();
+      return {text:`I en rettvinklet trekant er hypotenusen ${c} cm og den ene kateten ${b} cm. Hvor lang er den andre kateten?`, fig:F.right(a,b,'?',`${b} cm`,`${c} cm`,`Rettvinklet trekant med hypotenus ${c} og katet ${b} cm`), ans:a, unit:'cm', dec:0,
+        hint:'a² = c² − b². Trekk fra, og ta kvadratroten.', steps:[`a² = ${c}² − ${b}² = ${c*c} − ${b*b} = ${a*a}`,`a = √${a*a} = ${a} cm`]}; }},
+    {id:'stige', topics:['pytagoras'], make(){ const L=ri(4,8), d=ri(2,2*L-4)/2, h=Math.sqrt(L*L-d*d);
+      return {text:`En stige på ${L} m står lent mot en vegg. Foten av stigen står ${nf(d)} m fra veggen. Hvor høyt opp på veggen når stigen? Rund av til én desimal.`, fig:F.right(h,d,'?',`${nf(d)} m`,`${L} m`,`Stige på ${L} m, ${nf(d)} m fra veggen`), ans:h, unit:'m', dec:1,
+        hint:'Stigen er hypotenusen. Høyden er en katet: h² = L² − d².', steps:[`h² = ${L}² − ${nf(d)}² = ${L*L} − ${nf(d*d)} = ${nf(L*L-d*d)}`,`h = √${nf(L*L-d*d)} ≈ ${nf(h,1)} m`]}; }},
+    {id:'diagonal', topics:['pytagoras'], make(){ const l=ri(20,110), b=ri(10,l-5), c=Math.hypot(l,b);
+      return {text:`En rektangulær plass er ${l} m lang og ${b} m bred. Hvor lang er diagonalen tvers over plassen? Rund av til én desimal.`, fig:F.right(b,l,`${b} m`,`${l} m`,'?',`Rektangel ${l} ganger ${b} m med diagonal`), ans:c, unit:'m', dec:1,
+        hint:'Diagonalen deler rektangelet i to rettvinklede trekanter. Diagonalen er hypotenusen.', steps:[`d² = ${l}² + ${b}² = ${l*l} + ${b*b} = ${l*l+b*b}`,`d = √${l*l+b*b} ≈ ${nf(c,1)} m`]}; }},
+    {id:'pytRett', topics:['pytagoras'], make(){ const t=pick(TRIPLES), yes=Math.random()<.5, c=yes?t[2]:t[2]+pick([-1,1]);
+      const s=[t[0],t[1],c].sort((x,y)=>x-y), lhs=s[0]**2+s[1]**2;
+      return {text:`En trekant har sidene ${s[0]} cm, ${s[1]} cm og ${s[2]} cm. Er trekanten rettvinklet?`, fig:'', choices:['Ja','Nei'], correct:yes?0:1,
+        hint:'Sjekk om den lengste siden i andre er lik summen av de to andre i andre.', steps:[`${s[0]}² + ${s[1]}² = ${s[0]**2} + ${s[1]**2} = ${lhs}`,`${s[2]}² = ${s[2]**2}`, lhs===s[2]**2?'Likt, så trekanten er rettvinklet.':'Ikke likt, så trekanten er ikke rettvinklet.']}; }}
+  ];
+
+  function check(t, raw){
+    if(t.choices) return {ok: raw===t.correct};
+    const v=parseFloat(String(raw).replace(/\s/g,'').replace(',','.').replace(/[^0-9.\-]/g,''));
+    if(!isFinite(v)) return {invalid:true};
+    let tol = t.dec===0 ? 0.01 : 0.5*10**(-t.dec)+1e-9;
+    if(t.pi) tol += 0.004*Math.abs(t.ans);
+    return {ok: Math.abs(v-t.ans)<=tol, v};
+  }
+  const ansText = t => t.choices ? t.choices[t.correct] : `${nf(t.ans, t.dec===0?2:t.dec)} ${t.unit}`;
+  const pills = topics => topics.map(k=>`<span class="pill">${TOPICS[k]}</span>`).join('');
+  function answerField(id, t){
+    if(t.choices) return `<div class="choices" role="group" aria-label="Svar">${t.choices.map((c,i)=>`<button type="button" class="choice" data-c="${i}" aria-pressed="false">${c}</button>`).join('')}</div>`;
+    return `<div class="field"><label for="${id}">Svar</label><span class="inp"><input id="${id}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"><span class="unit">${t.unit}</span></span></div>`;
+  }
+  function wireChoices(root, onPick){
+    $$('.choice',root).forEach(b=>b.addEventListener('click',()=>{ $$('.choice',root).forEach(x=>x.setAttribute('aria-pressed',String(x===b))); onPick(+b.dataset.c); }));
+  }
+
+  /* ---------- Øving ---------- */
+  let active = new Set(Object.keys(TOPICS)), cur=null, curGen=null, tries=0, chosen=null;
+  const stats = store.get('geo9-stats', {});
+  let session = {r:0,n:0,streak:0};
+  const tWrap = $('#topics');
+  tWrap.innerHTML = `<button data-t="alle" aria-pressed="true">Alle</button>` + Object.entries(TOPICS).map(([k,v])=>`<button data-t="${k}" aria-pressed="false">${v}</button>`).join('');
+  function syncTopics(){
+    const all = active.size===Object.keys(TOPICS).length;
+    $$('[data-t]',tWrap).forEach(b=> b.setAttribute('aria-pressed', String(b.dataset.t==='alle' ? all : (!all && active.has(b.dataset.t)))));
+  }
+  $$('[data-t]',tWrap).forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.t, all=active.size===Object.keys(TOPICS).length;
+    if(k==='alle') active=new Set(Object.keys(TOPICS));
+    else if(all) active=new Set([k]);
+    else { active.has(k)?active.delete(k):active.add(k); if(!active.size) active=new Set(Object.keys(TOPICS)); }
+    syncTopics(); newTask(false);
+    say(active.size===Object.keys(TOPICS).length ? 'Alle temaer valgt' : 'Valgt: '+[...active].map(x=>TOPICS[x]).join(', '));
+  }));
+  function renderStats(){
+    const parts=[`<span class="stat">Denne økten: ${session.r} av ${session.n} riktige</span>`,`<span class="stat">Rekke: ${session.streak}</span>`];
+    Object.entries(TOPICS).forEach(([k,v])=>{ const s=stats[k]; if(s&&s.n) parts.push(`<span class="stat">${v}: ${s.r}/${s.n}</span>`); });
+    $('#stats').innerHTML=parts.join('');
+  }
+  function newTask(focus){
+    const pool=G.filter(g=>g.topics.some(x=>active.has(x)));
+    let g; do{ g=pick(pool); }while(pool.length>1 && g===curGen);
+    curGen=g; cur=Object.assign({topics:g.topics}, g.make()); tries=0; chosen=null;
+    const card=$('#taskCard');
+    card.innerHTML = `<p>${pills(cur.topics)}</p><p class="task-text" id="taskText">${cur.text}</p>${cur.fig?`<div class="fig" style="max-width:360px">${cur.fig}</div>`:''}
+      <form class="answer" id="ansForm" novalidate>${answerField('ans',cur)}<button class="btn" type="submit">Sjekk</button></form>
+      <div class="row"><button class="btn ghost" type="button" id="hintBtn">Hint</button><button class="btn ghost" type="button" id="solBtn">Vis løsning</button><button class="btn accent" type="button" id="nextBtn">Ny oppgave →</button></div>
+      <div class="fb" id="fb" role="status"></div>`;
+    if(cur.choices) wireChoices(card, c=>{ chosen=c; });
+    $('#ansForm').addEventListener('submit',e=>{ e.preventDefault(); submit(); });
+    $('#hintBtn').addEventListener('click',()=>feedback('info',`<p><strong>Hint:</strong> ${cur.hint}</p>`));
+    $('#solBtn').addEventListener('click',()=>{ if(tries===0) record(false); tries++; feedback('info',solution()); });
+    $('#nextBtn').addEventListener('click',()=>newTask(true));
+    if(focus){ const f=$('#ans')||$('.choice',card); if(f) f.focus(); say('Ny oppgave. '+$('#taskText').textContent); }
+    renderStats();
+  }
+  function solution(){ return `<p><strong>Løsning</strong></p><ol class="steps">${cur.steps.map(s=>`<li>${s}</li>`).join('')}</ol><p>Svar: <strong>${ansText(cur)}</strong></p>`; }
+  function feedback(kind, html){ const fb=$('#fb'); fb.className='fb '+kind; fb.innerHTML=html; }
+  function record(ok){
+    session.n++; if(ok){ session.r++; session.streak++; } else session.streak=0;
+    cur.topics.forEach(k=>{ stats[k]=stats[k]||{r:0,n:0}; stats[k].n++; if(ok) stats[k].r++; });
+    store.set('geo9-stats',stats); renderStats();
+  }
+  function submit(){
+    const inp=$('#ans');
+    const res = cur.choices ? (chosen===null ? {invalid:true} : check(cur, chosen)) : check(cur, inp.value);
+    if(res.invalid){
+      if(inp){ inp.setAttribute('aria-invalid','true'); inp.setAttribute('aria-describedby','fb'); }
+      feedback('bad', cur.choices ? '<p>Velg Ja eller Nei først.</p>' : '<p>Skriv svaret som et tall, for eksempel 12 eller 31,4.</p>');
+      return;
+    }
+    if(inp) inp.removeAttribute('aria-invalid');
+    if(tries===0) record(res.ok);
+    tries++;
+    if(res.ok){
+      feedback('good', `<p><strong>✓ Riktig!</strong> ${ansText(cur)}.</p>${solution().replace('<p><strong>Løsning</strong></p>','')}`);
+      $('#nextBtn').focus();
+    } else {
+      feedback('bad', tries===1 ? `<p><strong>✗ Ikke riktig.</strong> Prøv en gang til, eller trykk «Hint».</p>` : `<p><strong>✗ Ikke riktig.</strong></p>${solution()}`);
+    }
+  }
+  syncTopics(); newTask(false);
+
+  /* ---------- Prøve ---------- */
+  let test=[];
+  function newTest(){
+    const order=['rektA','triA','rombeA','rombeSide','trapesA','trapesO','sirkelOr','sirkelAd','pytHyp','pytKatet','stige','pytRett','sammensatt','gjerde','trapesH','sirkelR','enhet'];
+    const must=['rombeSide','trapesA','sirkelAd','pytKatet','sirkelOr','rombeA','trapesO'];
+    const rest=shuffle(order.filter(x=>!must.includes(x))).slice(0,3);
+    test=shuffle(must.concat(rest)).map(id=>{ const g=G.find(x=>x.id===id); return Object.assign({topics:g.topics,chosen:null}, g.make()); });
+    $('#testResult').innerHTML='';
+    $('#testList').innerHTML = test.map((t,i)=>`<div class="card" id="q${i}"><p class="qnum">Oppgave ${i+1} av ${test.length} ${pills(t.topics)}</p><p class="task-text">${t.text}</p>${t.fig?`<div class="fig" style="max-width:340px">${t.fig}</div>`:''}<div class="answer">${answerField('t'+i,t)}</div><div class="fb" id="tfb${i}"></div></div>`).join('')
+      + `<div class="row"><button class="btn accent" id="deliver">Lever prøven</button></div>`;
+    test.forEach((t,i)=>{ if(t.choices) wireChoices($('#q'+i), c=>{ t.chosen=c; }); });
+    $('#deliver').addEventListener('click',deliver);
+  }
+  function deliver(){
+    let right=0;
+    test.forEach((t,i)=>{
+      const res = t.choices ? (t.chosen===null?{ok:false}:check(t,t.chosen)) : check(t, $('#t'+i).value);
+      const ok=!!res.ok; if(ok) right++;
+      const fb=$('#tfb'+i); fb.className='fb '+(ok?'good':'bad');
+      fb.innerHTML = `<p><span class="mark ${ok?'ok':'no'}">${ok?'✓ Riktig':'✗ Feil'}</span>${ok?'':` · Riktig svar: <strong>${ansText(t)}</strong>`}</p><details${ok?'':' open'}><summary>Se løsningen</summary><ol class="steps">${t.steps.map(s=>`<li>${s}</li>`).join('')}</ol></details>`;
+      const inp=$('#t'+i); if(inp) inp.readOnly=true;
+      $$('#q'+i+' .choice').forEach(b=>b.disabled=true);
+    });
+    $('#deliver').remove();
+    const n=test.length, p=right/n;
+    const msg = p===1?'Alt riktig! Du er klar for prøven.': p>=.8?'Veldig bra! Se over løsningene på de du bommet på.': p>=.5?'Godt jobbet. Øv mer på temaene der du fikk feil.':'Gå gjennom formlene en gang til, og øv på ett tema om gangen.';
+    const r=$('#testResult');
+    r.innerHTML=`<div class="card" tabindex="-1" id="resCard"><p class="eyebrow">Resultat</p><p class="result">${right}<span style="font-size:.4em;color:var(--muted)"> / ${n}</span></p><p>${msg}</p><div class="row"><button class="btn accent" id="again">Ta en ny prøve</button></div></div>`;
+    $('#again').addEventListener('click',()=>{ newTest(); window.scrollTo({top:0}); const f=$('#t0')||$('#q0 .choice'); if(f) f.focus({preventScroll:true}); say('Ny prøve startet'); });
+    $('#resCard').focus(); say(`Du fikk ${right} av ${n} riktige. ${msg}`);
+  }
+  $('#newTest').addEventListener('click',()=>{ newTest(); const f=$('#t0')||$('#q0 .choice'); if(f) f.focus(); say('Ny prøve startet med 10 oppgaver'); });
+  newTest();
+
+  show((location.hash||'').slice(1), false);
+})();
+</script>
+</body>
+</html>

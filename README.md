@@ -20,6 +20,12 @@ Interaktiv læringsapp for 8. trinn mattetentamen — bygget for Heine, våren 2
 | 🚢 Torpedospillet | Koordinatøving mot AI — Battleship |
 | ⚽ Matteknekker | 16 oppgaver · 3 liv · streak-bonus · huskeliste |
 
+### 📏 Geometri 9. trinn: omkrets, areal og Pytagoras
+
+Øving til matteprøve: [kjerstiaga.github.io/Heine-matte-tentamen/geometri](https://kjerstiaga.github.io/Heine-matte-tentamen/geometri/)
+
+Formler med figurer · Pytagoras med utforsker · øving med nye tall hver gang (omkrets, areal, Pytagoras, rombe, sirkel, trapes) · prøve med 10 oppgaver
+
 ### 🧠 Naturfag: Nervesystemet og hormonsystemet
 
 Eget læringsspill for 9. trinn: [kjerstiaga.github.io/Heine-matte-tentamen/naturfag](https://kjerstiaga.github.io/Heine-matte-tentamen/naturfag/)
@@ -52,6 +58,7 @@ index.html                  # Hele appen i én fil
 Math_Mission_48_(2).pdf     # 48-timers overlevelsesguide (kilde)
 Tactical_Math_Playbook.pdf  # Taktikktavla for matteeksamen (kilde)
 naturfag/index.html         # Naturfag: nervesystemet og hormonsystemet
+geometri/index.html         # Geometri 9. trinn: omkrets, areal og Pytagoras
 ```
 
 ---

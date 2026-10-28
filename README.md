@@ -20,6 +20,12 @@ Interaktiv læringsapp for 8. trinn mattetentamen — bygget for Heine, våren 2
 | 🚢 Torpedospillet | Koordinatøving mot AI — Battleship |
 | ⚽ Matteknekker | 16 oppgaver · 3 liv · streak-bonus · huskeliste |
 
+### 🧠 Naturfag: Nervesystemet og hormonsystemet
+
+Eget læringsspill for 9. trinn: [kjerstiaga.github.io/Heine-matte-tentamen/naturfag](https://kjerstiaga.github.io/Heine-matte-tentamen/naturfag/)
+
+Forklaringer · begreper · oppgaver (sortering, blodsukkersimulering, refleksbue, reaksjonstest) · quiz med 20 spørsmål
+
 ---
 
 ## 🎯 Temaer (Cappelen Damm LK20)
@@ -45,6 +51,7 @@ Brøk og desimaltall · Algebra og likninger · Geometri · Statistikk · Prosen
 index.html                  # Hele appen i én fil
 Math_Mission_48_(2).pdf     # 48-timers overlevelsesguide (kilde)
 Tactical_Math_Playbook.pdf  # Taktikktavla for matteeksamen (kilde)
+naturfag/index.html         # Naturfag: nervesystemet og hormonsystemet
 ```
 
 ---

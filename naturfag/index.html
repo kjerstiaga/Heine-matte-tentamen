@@ -1,0 +1,909 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nervesystemet og hormonsystemet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: én kolonne med fanenavigasjon som følger med. Golgi-farging: sort på gyllent preparat. Blått = nervesignal, rustrødt = hormon. */
+:root{
+  --bg:#F5ECD2;
+  --surface:#FFFAEC;
+  --ink:#1E1A12;
+  --muted:#574D38;
+  --line:#D9C9A0;
+  --signal:#1546C4;
+  --signal-ink:#FFFFFF;
+  --hormone:#9E3F0B;
+  --hormone-ink:#FFFFFF;
+  --good:#1D6B35;
+  --bad:#A3281B;
+  --good-bg:#DDEFD9;
+  --bad-bg:#F6DCD6;
+  --band:#E3EED3;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17130B; --surface:#221C11; --ink:#F3E6C2; --muted:#C9B88E; --line:#43391F;
+    --signal:#8FAEFF; --signal-ink:#0D1530; --hormone:#FFB077; --hormone-ink:#2A1405;
+    --good:#8BD69A; --bad:#FF9C8C; --good-bg:#1D3322; --bad-bg:#3D1E18; --band:#22301B;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17130B; --surface:#221C11; --ink:#F3E6C2; --muted:#C9B88E; --line:#43391F;
+  --signal:#8FAEFF; --signal-ink:#0D1530; --hormone:#FFB077; --hormone-ink:#2A1405;
+  --good:#8BD69A; --bad:#FF9C8C; --good-bg:#1D3322; --bad-bg:#3D1E18; --band:#22301B;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100dvh}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:clamp(1rem,0.95rem + 0.3vw,1.125rem);line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:8px;background:var(--signal);color:var(--signal-ink);padding:12px 16px;border-radius:var(--r);z-index:20;font-weight:700}
+.skip:focus{left:max(16px,env(safe-area-inset-left,0px))}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,1.4rem + 3vw,3.4rem);font-weight:800;letter-spacing:-0.02em}
+h2{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.1rem);font-weight:800}
+h3{font-size:clamp(1.1rem,1rem + 0.5vw,1.3rem);font-weight:600}
+p{margin:0;max-width:65ch}
+.eyebrow{font-family:var(--f-mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+header[role=banner]{padding-block:clamp(24px,5vw,48px) 16px}
+header .lede{margin-top:10px;color:var(--muted)}
+.pulse{display:block;width:100%;height:56px;margin-top:16px}
+.pulse path{fill:none;stroke-width:2}
+.pulse .n{stroke:var(--ink)}
+.pulse .spark{stroke:var(--signal);stroke-width:3;stroke-dasharray:40 700;animation:fire 3.2s linear infinite}
+.pulse .h{stroke:var(--hormone);stroke-width:3;stroke-dasharray:6 6}
+.pulse-key{display:flex;flex-wrap:wrap;gap:16px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.pulse-key span::before{content:"";display:inline-block;width:18px;height:3px;margin-right:6px;vertical-align:middle;background:var(--signal)}
+.pulse-key span.hk::before{background:var(--hormone)}
+@keyframes fire{from{stroke-dashoffset:740}to{stroke-dashoffset:0}}
+
+nav[role=navigation]{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav ul{list-style:none;margin:0;padding:8px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav button{min-height:44px;padding:0 14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:700 .95rem var(--f-body);cursor:pointer;white-space:nowrap}
+nav button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav .num{font-family:var(--f-mono);font-weight:500;opacity:.7;margin-right:6px}
+
+main{padding-block:28px 64px}
+main:focus{outline:none}
+section{display:grid;gap:20px}
+.intro{display:grid;gap:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(16px,3vw,24px);display:grid;gap:12px;min-width:0}
+.card.aim{border-left:4px solid var(--ink)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid2 > *{min-width:0}
+
+.btn{min-height:44px;min-width:44px;padding:0 18px;border-radius:var(--r);border:2px solid var(--ink);background:var(--ink);color:var(--bg);font:700 1rem var(--f-body);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Figurer */
+.fig svg{display:block;width:100%;max-width:100%;height:auto}
+.neuron-line{stroke:var(--ink);fill:none;stroke-linecap:round}
+.neuron-fill{fill:var(--ink)}
+.myelin{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.tag circle{fill:var(--signal)}
+.tag text{fill:var(--signal-ink);font:700 14px var(--f-mono);text-anchor:middle;dominant-baseline:central}
+.htag circle{fill:var(--hormone)}
+.htag text{fill:var(--hormone-ink);font:700 13px var(--f-mono);text-anchor:middle;dominant-baseline:central}
+.body-outline{fill:var(--bg);stroke:var(--ink);stroke-width:2.5}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.legend li{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+.legend .n{width:28px;height:28px;border-radius:50%;background:var(--signal);color:var(--signal-ink);font:700 .85rem var(--f-mono);display:grid;place-items:center}
+.legend .n.h{background:var(--hormone);color:var(--hormone-ink)}
+.glands{display:grid;grid-template-columns:minmax(150px,200px) 1fr;gap:20px;align-items:start}
+@media (max-width:560px){.glands{grid-template-columns:1fr}.glands .fig{max-width:200px;margin:0 auto}}
+
+table{border-collapse:collapse;width:100%;min-width:440px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.tablewrap{overflow-x:auto}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font:700 .78rem var(--f-mono);letter-spacing:.04em;padding:2px 8px;border-radius:999px;border:1px solid currentColor}
+.pill.n{color:var(--signal)} .pill.h{color:var(--hormone)}
+
+/* Påvirkning */
+.effects{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.effects .card{gap:8px}
+.effects dl{margin:0;display:grid;gap:6px}
+.effects dt{font-family:var(--f-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.effects dd{margin:0}
+
+/* Begreper */
+.filter{display:flex;flex-wrap:wrap;gap:6px}
+.filter button{min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:700 .9rem var(--f-body);cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{min-height:96px;text-align:left;padding:14px 16px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;display:grid;gap:6px;align-content:start}
+.term strong{font-family:var(--f-display);font-size:1.15rem}
+.term .def{color:var(--muted);font-size:.95rem}
+.term[aria-expanded="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.term .hint{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+
+/* Sortering */
+.pool{display:flex;flex-wrap:wrap;gap:8px;min-height:52px}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer;text-align:left}
+.chip[aria-pressed="true"]{background:var(--signal);color:var(--signal-ink);border-color:var(--signal)}
+.chip.ok{background:var(--good-bg);border-color:var(--good);color:var(--ink)}
+.chip.no{background:var(--bad-bg);border-color:var(--bad);color:var(--ink)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.bin{border:2px dashed var(--line);border-radius:var(--r);padding:12px;display:grid;gap:8px;align-content:start;background:var(--surface);min-width:0}
+.bin .drop{min-height:44px;border-radius:8px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:700 .95rem var(--f-body);cursor:pointer;padding:6px 10px}
+.bin .drop:disabled{opacity:.4;cursor:default}
+.bin .items{display:flex;flex-wrap:wrap;gap:6px}
+.muted{color:var(--muted)}
+
+/* Refleksbue */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:8px 8px 8px 12px}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--f-mono);color:var(--muted);width:20px}
+.steps li.ok{border-color:var(--good);background:var(--good-bg)}
+.steps li.no{border-color:var(--bad);background:var(--bad-bg)}
+.steps .mv{display:flex;gap:4px}
+.steps .mv button{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.1rem;cursor:pointer}
+
+/* Blodsukker */
+.bs-top{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between}
+.bs-num{font:800 clamp(2.4rem,2rem + 3vw,3.6rem)/1 var(--f-display);font-variant-numeric:tabular-nums}
+.bs-num small{font:500 1rem var(--f-mono);color:var(--muted);margin-left:6px}
+.state{font:700 .85rem var(--f-mono);padding:4px 10px;border-radius:999px;border:1px solid currentColor}
+.state.ok{color:var(--good)} .state.hi,.state.lo{color:var(--bad)}
+.hormones{display:flex;flex-wrap:wrap;gap:8px}
+.hbadge{font:700 .85rem var(--f-mono);padding:6px 10px;border-radius:8px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
+.hbadge.on{background:var(--hormone);color:var(--hormone-ink);border-color:var(--hormone)}
+.chart svg{display:block;width:100%;height:auto}
+.chart .band{fill:var(--band)}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .axis{fill:var(--muted);font:11px var(--f-mono)}
+.chart .lineb{fill:none;stroke:var(--hormone);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.chart .dot{fill:var(--hormone)}
+.check{display:flex;gap:10px;align-items:center;min-height:44px}
+.check input{width:24px;height:24px;accent-color:var(--hormone)}
+
+/* Reaksjonstest */
+.react{min-height:180px;width:100%;border-radius:var(--r);border:2px solid var(--ink);background:var(--surface);color:var(--ink);font:800 clamp(1.3rem,1rem + 1.5vw,1.9rem) var(--f-display);cursor:pointer;padding:16px}
+.react.wait{background:var(--line)}
+.react.go{background:var(--signal);color:var(--signal-ink);border-color:var(--signal)}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{font-family:var(--f-mono);font-variant-numeric:tabular-nums;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+
+/* Quiz */
+.progress{height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--ink);transition:width .3s}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
+legend{font-family:var(--f-display);font-weight:600;font-size:clamp(1.15rem,1rem + .6vw,1.4rem);margin-bottom:8px;padding:0}
+.opt{min-height:52px;text-align:left;padding:10px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.opt.ok{border-color:var(--good);background:var(--good-bg);font-weight:700}
+.opt.no{border-color:var(--bad);background:var(--bad-bg)}
+.feedback{padding:12px 14px;border-radius:var(--r);background:var(--bg);border-left:4px solid var(--ink);display:grid;gap:10px}
+.score{font-family:var(--f-display);font-size:clamp(3rem,2rem + 5vw,5rem);font-weight:800;line-height:1}
+
+.status{min-height:1.6em;font-weight:700}
+.status.good{color:var(--good)} .status.bad{color:var(--bad)}
+footer{padding-block:24px calc(24px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+
+<a class="skip" href="#innhold">Hopp til innholdet</a>
+
+<header role="banner">
+  <div class="wrap">
+    <p class="eyebrow">Naturfag · 9. trinn · Kroppens signalsystemer</p>
+    <h1>Nervesystemet og hormonsystemet</h1>
+    <p class="lede">Kroppen har to måter å sende beskjeder på: lynraske nervesignaler og langsomme hormoner i blodet. Lær hvordan de virker, hvordan de samarbeider, og hva som kan forstyrre dem.</p>
+    <svg class="pulse" viewBox="0 0 700 56" preserveAspectRatio="none" aria-hidden="true">
+      <path class="h" d="M0 40 C 90 40, 120 14, 230 14 S 380 46, 470 40 S 620 18, 700 22"></path>
+      <path class="n" d="M0 30 H220 L232 30 L240 8 L250 50 L258 22 L266 30 H700"></path>
+      <path class="spark" d="M0 30 H220 L232 30 L240 8 L250 50 L258 22 L266 30 H700"></path>
+    </svg>
+    <p class="pulse-key" aria-hidden="true"><span>Nervesignal: millisekunder</span><span class="hk">Hormon: minutter til år</span></p>
+  </div>
+</header>
+
+<nav role="navigation" aria-label="Deler av læringsspillet">
+  <div class="wrap">
+    <ul id="tabs">
+      <li><button data-tab="nerve" aria-current="page"><span class="num">1</span>Nervesystemet</button></li>
+      <li><button data-tab="hormon"><span class="num">2</span>Hormonsystemet</button></li>
+      <li><button data-tab="begreper"><span class="num">3</span>Begreper</button></li>
+      <li><button data-tab="oppgaver"><span class="num">4</span>Oppgaver</button></li>
+      <li><button data-tab="quiz"><span class="num">5</span>Quiz</button></li>
+    </ul>
+  </div>
+</nav>
+
+<main role="main" id="innhold" tabindex="-1">
+  <div class="wrap">
+  <div id="live" class="sr" aria-live="polite"></div>
+
+  <!-- 1 NERVESYSTEMET -->
+  <section id="nerve" aria-labelledby="h-nerve">
+    <div class="card aim">
+      <p class="eyebrow">Dette skal du kunne</p>
+      <p>Forklare hvordan nervesystemet og hormonsystemet sender beskjeder, sammenligne de to, og beskrive hvordan rusmidler, legemidler, miljøgifter og doping påvirker dem.</p>
+    </div>
+
+    <div class="intro">
+      <h2 id="h-nerve">Nervesystemet: kroppens raskeste beskjeder</h2>
+      <p>Nervesystemet samler inn informasjon fra sansene, bearbeider den og sender beskjeder til muskler og organer. Det er delt i to hoveddeler.</p>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <p class="eyebrow">Sentralnervesystemet (CNS)</p>
+        <h3>Hjernen og ryggmargen</h3>
+        <p>Her blir informasjon tolket og avgjørelser tatt. Hjernen er beskyttet av hodeskallen, ryggmargen av ryggvirvlene.</p>
+      </div>
+      <div class="card">
+        <p class="eyebrow">Det perifere nervesystemet (PNS)</p>
+        <h3>Alle nervene ute i kroppen</h3>
+        <p>Sensoriske nerver bringer signaler <em>inn</em> til CNS. Motoriske nerver bringer signaler <em>ut</em> til musklene.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Nevronet: en nervecelle</h3>
+      <p>Nervesystemet består av milliarder nevroner. Signalet går alltid samme vei: inn gjennom dendrittene, gjennom cellekroppen og ut langs aksonet.</p>
+      <div class="fig">
+        <svg viewBox="0 0 640 190" role="img" aria-labelledby="neuron-t">
+          <title id="neuron-t">Tegning av et nevron med dendritter, cellekropp, akson med myelinskjede og aksonterminaler. Tallene viser til listen under.</title>
+          <g class="neuron-line" stroke-width="3">
+            <path d="M90 95 L40 50 M60 68 L30 72 M90 95 L30 110 M50 103 L22 92 M90 95 L52 150 M64 132 L30 150 M90 95 L96 30 M94 50 L70 26"></path>
+            <path d="M120 95 H560"></path>
+            <path d="M560 95 L600 60 M560 95 L610 95 M560 95 L600 132"></path>
+          </g>
+          <circle class="neuron-fill" cx="100" cy="95" r="26"></circle>
+          <circle cx="100" cy="95" r="8" fill="var(--bg)"></circle>
+          <g>
+            <rect class="myelin" x="150" y="82" width="70" height="26" rx="13"></rect>
+            <rect class="myelin" x="234" y="82" width="70" height="26" rx="13"></rect>
+            <rect class="myelin" x="318" y="82" width="70" height="26" rx="13"></rect>
+            <rect class="myelin" x="402" y="82" width="70" height="26" rx="13"></rect>
+            <rect class="myelin" x="486" y="82" width="56" height="26" rx="13"></rect>
+          </g>
+          <g class="neuron-fill"><circle cx="600" cy="60" r="7"></circle><circle cx="610" cy="95" r="7"></circle><circle cx="600" cy="132" r="7"></circle></g>
+          <g class="tag"><circle cx="40" cy="28" r="14"></circle><text x="40" y="28">1</text></g>
+          <g class="tag"><circle cx="100" cy="150" r="14"></circle><text x="100" y="150">2</text></g>
+          <g class="tag"><circle cx="227" cy="140" r="14"></circle><text x="227" y="140">3</text></g>
+          <g class="tag"><circle cx="353" cy="50" r="14"></circle><text x="353" y="50">4</text></g>
+          <g class="tag"><circle cx="618" cy="165" r="14"></circle><text x="618" y="165">5</text></g>
+        </svg>
+      </div>
+      <ol class="legend">
+        <li><span class="n" aria-hidden="true">1</span><span><strong>Dendritter</strong> tar imot signaler fra andre nevroner eller sanseceller.</span></li>
+        <li><span class="n" aria-hidden="true">2</span><span><strong>Cellekroppen</strong> har cellekjernen og «bestemmer» om signalet skal sendes videre.</span></li>
+        <li><span class="n" aria-hidden="true">3</span><span><strong>Aksonet</strong> er en lang utløper som leder signalet bort fra cellekroppen. Det kan være over en meter langt.</span></li>
+        <li><span class="n" aria-hidden="true">4</span><span><strong>Myelinskjeden</strong> isolerer aksonet. Signalet hopper mellom hullene og går mye raskere.</span></li>
+        <li><span class="n" aria-hidden="true">5</span><span><strong>Aksonterminalene</strong> sender signalet videre til neste celle via en synapse.</span></li>
+      </ol>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Elektrisk og kjemisk</h3>
+        <p>Inne i nevronet går signalet som en <strong>elektrisk impuls</strong>. I <strong>synapsen</strong>, den lille spalten mellom to celler, slippes <strong>nevrotransmittere</strong> ut. De er signalstoffer som setter i gang et nytt signal i neste celle.</p>
+      </div>
+      <div class="card">
+        <h3>Refleks</h3>
+        <p>Når du tar på noe varmt, kobles signalet direkte i ryggmargen og går rett tilbake til musklene. Hånden trekkes vekk <em>før</em> hjernen har rukket å registrere smerten. Veien kalles en <strong>refleksbue</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Hjernens deler</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Del</th><th scope="col">Styrer blant annet</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Storhjernen</strong></td><td>Tenking, språk, hukommelse, viljestyrte bevegelser og tolking av sanseinntrykk</td></tr>
+            <tr><td><strong>Lillehjernen</strong></td><td>Balanse, koordinasjon og finmotorikk</td></tr>
+            <tr><td><strong>Hjernestammen</strong></td><td>Livsviktige funksjoner du ikke tenker på: pust, hjerterytme og blodtrykk</td></tr>
+            <tr><td><strong>Hypothalamus</strong></td><td>Kroppstemperatur, sult og tørste. Bindeleddet mellom nervesystemet og hormonsystemet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Det autonome nervesystemet</h3>
+      <p>En del av nervesystemet jobber uten at du bestemmer det selv. Den styrer hjertet, fordøyelsen og pupillene.</p>
+      <div class="grid2">
+        <p><strong>Sympatisk</strong>: «kamp eller flukt». Pulsen stiger, pupillene utvider seg, fordøyelsen settes på pause.</p>
+        <p><strong>Parasympatisk</strong>: «hvile og fordøye». Pulsen synker, og kroppen bruker energi på fordøyelse og reparasjon.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Hvor raskt går et signal?</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Type nervetråd</th><th scope="col">Fart</th><th scope="col">Sammenlignet med</th></tr></thead>
+          <tbody>
+            <tr><td>Med myelin</td><td class="mono">opptil ca. 120 m/s</td><td>Raskere enn en Formel 1-bil</td></tr>
+            <tr><td>Uten myelin</td><td class="mono">ca. 0,5–2 m/s</td><td>Gåfart</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row"><button class="btn" data-goto="hormon">Videre til hormonsystemet →</button></div>
+  </section>
+
+  <!-- 2 HORMONSYSTEMET -->
+  <section id="hormon" aria-labelledby="h-hormon" hidden>
+    <div class="intro">
+      <h2 id="h-hormon">Hormonsystemet: beskjeder med blodet</h2>
+      <p><strong>Hormoner</strong> er signalstoffer som lages i <strong>kjertler</strong> og skilles ut i blodet. Blodet frakter dem rundt i hele kroppen, men bare celler med riktig <strong>reseptor</strong> reagerer. Disse kalles <strong>målceller</strong>. Det er som en nøkkel som bare passer i én type lås.</p>
+    </div>
+
+    <div class="card">
+      <h3>Kroppens hormonkjertler</h3>
+      <div class="glands">
+        <div class="fig">
+          <svg viewBox="0 0 200 360" role="img" aria-labelledby="gland-t">
+            <title id="gland-t">Omriss av en kropp med de viktigste hormonkjertlene markert med tall fra 1 til 6. Tallene viser til listen ved siden av.</title>
+            <circle class="body-outline" cx="100" cy="52" r="38"></circle>
+            <rect class="body-outline" x="86" y="88" width="28" height="22"></rect>
+            <path class="body-outline" d="M48 112 Q100 100 152 112 L158 250 Q100 270 42 250 Z"></path>
+            <path class="body-outline" d="M58 258 L66 352 L94 352 L98 268 M102 268 L106 352 L134 352 L142 258"></path>
+            <g class="htag"><circle cx="100" cy="56" r="13"></circle><text x="100" y="56">1</text></g>
+            <g class="htag"><circle cx="122" cy="34" r="13"></circle><text x="122" y="34">2</text></g>
+            <g class="htag"><circle cx="100" cy="100" r="13"></circle><text x="100" y="100">3</text></g>
+            <g class="htag"><circle cx="70" cy="178" r="13"></circle><text x="70" y="178">4</text></g>
+            <g class="htag"><circle cx="122" cy="196" r="13"></circle><text x="122" y="196">5</text></g>
+            <g class="htag"><circle cx="100" cy="240" r="13"></circle><text x="100" y="240">6</text></g>
+          </svg>
+        </div>
+        <ol class="legend">
+          <li><span class="n h" aria-hidden="true">1</span><span><strong>Hypothalamus og hypofysen</strong> sitter i hjernen. Hypothalamus styrer hypofysen, som kalles «sjefskjertelen» fordi den sender hormoner som styrer de andre kjertlene. Hypofysen lager også <strong>veksthormon</strong>.</span></li>
+          <li><span class="n h" aria-hidden="true">2</span><span><strong>Epifysen (koglekjertelen)</strong> lager <strong>melatonin</strong>, som gjør deg søvnig når det blir mørkt.</span></li>
+          <li><span class="n h" aria-hidden="true">3</span><span><strong>Skjoldbruskkjertelen</strong> på halsen lager <strong>tyroksin</strong>, som styrer stoffskiftet: hvor fort cellene bruker energi.</span></li>
+          <li><span class="n h" aria-hidden="true">4</span><span><strong>Binyrene</strong> på toppen av nyrene lager <strong>adrenalin</strong> ved fare og stress, og <strong>kortisol</strong>.</span></li>
+          <li><span class="n h" aria-hidden="true">5</span><span><strong>Bukspyttkjertelen</strong> lager <strong>insulin</strong> og <strong>glukagon</strong>, som holder blodsukkeret stabilt.</span></li>
+          <li><span class="n h" aria-hidden="true">6</span><span><strong>Eggstokkene</strong> lager <strong>østrogen</strong> og <strong>progesteron</strong>. <strong>Testiklene</strong> lager <strong>testosteron</strong>.</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Blodsukker og tilbakekobling</h3>
+        <p>Etter et måltid stiger blodsukkeret. Bukspyttkjertelen skiller ut <strong>insulin</strong>, og cellene tar opp sukkeret. Når blodsukkeret blir lavt, skilles det ut <strong>glukagon</strong>, og leveren slipper ut sukker.</p>
+        <p>Dette kalles <strong>negativ tilbakekobling</strong>: kroppen motvirker endringen og holder seg i balanse. Ved <strong>diabetes type 1</strong> lager ikke kroppen insulin selv og må få det tilført.</p>
+      </div>
+      <div class="card">
+        <h3>Pubertet</h3>
+        <p>I puberteten sender hypofysen signaler til eggstokkene eller testiklene, som øker produksjonen av kjønnshormoner.</p>
+        <p><strong>Testosteron</strong> gir blant annet mørkere stemme, skjeggvekst og mer muskler. <strong>Østrogen</strong> gir blant annet bryster og bredere hofter, og sammen med <strong>progesteron</strong> styrer det menstruasjonssyklusen på omtrent 28 dager.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Sammenligning av signalsystemene</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col"></th><th scope="col"><span class="pill n">Nervesystemet</span></th><th scope="col"><span class="pill h">Hormonsystemet</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Signal</th><td>Elektriske impulser, og kjemiske signalstoffer i synapsene</td><td>Kjemiske signalstoffer (hormoner)</td></tr>
+            <tr><th scope="row">Vei</th><td>Langs nervetråder</td><td>Med blodet</td></tr>
+            <tr><th scope="row">Fart</th><td class="mono">Millisekunder</td><td class="mono">Sekunder til timer</td></tr>
+            <tr><th scope="row">Varighet</th><td>Kort, stopper raskt</td><td>Lang, fra minutter til år</td></tr>
+            <tr><th scope="row">Mottaker</th><td>Én bestemt muskel eller celle</td><td>Alle målceller med riktig reseptor, ofte mange organer</td></tr>
+            <tr><th scope="row">Eksempel</th><td>Trekke hånden fra kokeplaten</td><td>Vokse i puberteten</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Samarbeid: når du blir skremt</h3>
+      <p>Du hører et smell. Sansene sender nervesignaler til hjernen, og det sympatiske nervesystemet gir på brøkdelen av et sekund beskjed til binyrene. De skiller ut <strong>adrenalin</strong> i blodet. Adrenalinet gjør at hjertet slår raskere, mer blod går til musklene og blodsukkeret stiger. Nervesystemet starter reaksjonen raskt, og hormonet holder den i gang en stund. Derfor kan du skjelve i flere minutter etter at du ble skremt.</p>
+    </div>
+
+    <div class="intro">
+      <h3>Hva kan forstyrre signalsystemene?</h3>
+    </div>
+    <div class="effects">
+      <div class="card">
+        <h3>Rusmidler</h3>
+        <dl>
+          <dt>Nervesystemet</dt><dd>Alkohol og andre rusmidler påvirker signalstoffene i synapsene. Reaksjonstid, koordinasjon og dømmekraft blir dårligere.</dd>
+          <dt>Hormonsystemet</dt><dd>Kan påvirke stresshormoner og søvnhormoner, og forstyrre søvnen.</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h3>Legemidler</h3>
+        <dl>
+          <dt>Nervesystemet</dt><dd>Smertestillende demper smertesignalene. Bedøvelse hos tannlegen stopper nervesignalene en periode.</dd>
+          <dt>Hormonsystemet</dt><dd>Insulin til personer med diabetes. P-piller inneholder hormoner som hindrer eggløsning.</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h3>Miljøgifter</h3>
+        <dl>
+          <dt>Nervesystemet</dt><dd>Tungmetaller som kvikksølv og bly kan skade nervecellene.</dd>
+          <dt>Hormonsystemet</dt><dd><strong>Hormonhermere</strong> er stoffer som ligner hormoner, for eksempel noen ftalater, parabener og PCB. De kan feste seg til reseptorene og forstyrre signalene.</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h3>Doping</h3>
+        <dl>
+          <dt>Hva det er</dt><dd><strong>Anabole steroider</strong> ligner testosteron og gir mer muskler. <strong>EPO</strong> gir flere røde blodceller.</dd>
+          <dt>Risiko</dt><dd>Kroppens egen hormonproduksjon kan stoppe opp. Steroider kan gi kviser, humørsvingninger og skader på hjerte og lever. EPO gjør blodet tykkere og øker faren for blodpropp.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="row"><button class="btn" data-goto="begreper">Videre til begreper →</button></div>
+  </section>
+
+  <!-- 3 BEGREPER -->
+  <section id="begreper" aria-labelledby="h-begreper" hidden>
+    <div class="intro">
+      <h2 id="h-begreper">Begreper</h2>
+      <p>Prøv å forklare begrepet med egne ord før du trykker og ser fasiten.</p>
+    </div>
+    <div class="filter" role="group" aria-label="Vis begreper fra">
+      <button data-f="alle" aria-pressed="true">Alle</button>
+      <button data-f="n" aria-pressed="false">Nervesystemet</button>
+      <button data-f="h" aria-pressed="false">Hormonsystemet</button>
+    </div>
+    <div class="row">
+      <span class="stat" id="termCount">0 av 0 åpnet</span>
+      <button class="btn ghost" id="hideTerms">Skjul alle</button>
+    </div>
+    <div class="terms" id="terms"></div>
+    <div class="row"><button class="btn" data-goto="oppgaver">Videre til oppgaver →</button></div>
+  </section>
+
+  <!-- 4 OPPGAVER -->
+  <section id="oppgaver" aria-labelledby="h-oppgaver" hidden>
+    <div class="intro">
+      <h2 id="h-oppgaver">Oppgaver</h2>
+      <p>Fem oppgaver om de to signalsystemene. Gjør dem i den rekkefølgen du vil.</p>
+    </div>
+
+    <div class="card">
+      <h3>A · Nerve, hormon eller begge?</h3>
+      <p>Velg et kort, og trykk deretter på riktig gruppe.</p>
+      <div id="sortA"></div>
+    </div>
+
+    <div class="card">
+      <h3>B · Styr blodsukkeret</h3>
+      <p>Velg hva personen gjør, og se hvordan bukspyttkjertelen svarer med insulin og glukagon. Normalt blodsukker ligger på omtrent 4–7 mmol/L. Modellen er forenklet.</p>
+      <div class="bs-top">
+        <div>
+          <p class="eyebrow" id="bsTime">Klokka 07:00</p>
+          <p class="bs-num"><span id="bsVal">5,0</span><small>mmol/L</small></p>
+        </div>
+        <span class="state ok" id="bsState">Normalt</span>
+      </div>
+      <div class="hormones">
+        <span class="hbadge" id="hIns">Insulin</span>
+        <span class="hbadge" id="hGlu">Glukagon</span>
+      </div>
+      <div class="chart" aria-hidden="true"><svg id="bsChart" viewBox="0 0 340 160"></svg></div>
+      <div class="row">
+        <button class="btn" data-act="meal">Spis et måltid</button>
+        <button class="btn" data-act="soda">Drikk en brus</button>
+        <button class="btn" data-act="run">Tren en halvtime</button>
+        <button class="btn ghost" data-act="wait">Vent 30 min</button>
+      </div>
+      <label class="check"><input type="checkbox" id="diab"> Bukspyttkjertelen lager ikke insulin (diabetes type 1)</label>
+      <div class="row" id="injRow" hidden><button class="btn ghost" data-act="inject">Sett insulin</button></div>
+      <p id="bsMsg" role="status">Trykk på en handling for å se hva som skjer.</p>
+      <div class="row"><button class="btn ghost" id="bsReset">Start dagen på nytt</button></div>
+    </div>
+
+    <div class="card">
+      <h3>C · Refleksbuen</h3>
+      <p>Du tar på en varm kokeplate. Flytt trinnene opp og ned til rekkefølgen stemmer.</p>
+      <ol class="steps" id="steps"></ol>
+      <div class="row">
+        <button class="btn" id="checkSteps">Sjekk rekkefølgen</button>
+        <button class="btn ghost" id="shuffleSteps">Stokk på nytt</button>
+      </div>
+      <p class="status" id="stepStatus" role="status"></p>
+    </div>
+
+    <div class="card">
+      <h3>D · Hvor i nervesystemet?</h3>
+      <p>Velg et kort, og trykk deretter på riktig gruppe.</p>
+      <div id="sortB"></div>
+    </div>
+
+    <div class="card">
+      <h3>E · Mål reaksjonstiden din</h3>
+      <p>Trykk på feltet for å starte. Når det blir blått, trykker du så fort du kan. Du får fem forsøk.</p>
+      <button class="react" id="react">Trykk for å starte</button>
+      <div class="stats" id="reactStats" aria-label="Dine resultater"></div>
+      <p class="status" id="reactStatus" role="status"></p>
+      <p id="reactExplain" hidden></p>
+    </div>
+
+    <div class="row"><button class="btn" data-goto="quiz">Videre til quiz →</button></div>
+  </section>
+
+  <!-- 5 QUIZ -->
+  <section id="quiz" aria-labelledby="h-quiz" hidden>
+    <div class="intro">
+      <h2 id="h-quiz">Quiz</h2>
+      <div class="filter" role="group" aria-label="Velg spørsmål">
+        <button data-q="alle" aria-pressed="true">Alle (20)</button>
+        <button data-q="n" aria-pressed="false">Nervesystemet (10)</button>
+        <button data-q="h" aria-pressed="false">Hormonsystemet (10)</button>
+      </div>
+      <p id="quizMeta" class="eyebrow">Spørsmål 1 av 20</p>
+      <div class="progress" aria-hidden="true"><span id="bar" style="width:0%"></span></div>
+    </div>
+    <div class="card" id="quizCard"></div>
+  </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Fargene er inspirert av Golgi-farging fra 1873, metoden som for første gang gjorde enkeltnevroner synlige i mikroskop. Blått markerer nervesignaler, rustrødt markerer hormoner.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const live = $('#live');
+  const say = t => { live.textContent = ''; setTimeout(()=>{ live.textContent = t; }, 50); };
+  const shuffle = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+  const fmt = n => n.toFixed(1).replace('.', ',');
+
+  /* ---------- Faner ---------- */
+  const tabs = $$('#tabs button');
+  const names = {nerve:'Nervesystemet',hormon:'Hormonsystemet',begreper:'Begreper',oppgaver:'Oppgaver',quiz:'Quiz'};
+  const alias = {forklaring:'nerve', sortering:'oppgaver'};
+  function show(id, focus){
+    id = alias[id] || id;
+    if(!names[id]) id='nerve';
+    tabs.forEach(b => b.dataset.tab===id ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current'));
+    $$('main section').forEach(s => s.hidden = s.id!==id);
+    if(focus){ $('#innhold').focus({preventScroll:true}); window.scrollTo({top:0}); say(names[id]+' åpnet'); }
+    try{ history.replaceState(null,'','#'+id); }catch(e){}
+  }
+  tabs.forEach(b => b.addEventListener('click', ()=>show(b.dataset.tab,true)));
+  $$('[data-goto]').forEach(b => b.addEventListener('click', ()=>show(b.dataset.goto,true)));
+  show((location.hash||'').slice(1), false);
+  window.addEventListener('hashchange', ()=>show(location.hash.slice(1), false));
+
+  /* ---------- Begreper ---------- */
+  const TERMS = [
+    ['Nevron','En nervecelle. Den grunnleggende byggesteinen i nervesystemet.','n'],
+    ['Dendritt','Korte, forgreinede utløpere som tar imot signaler.','n'],
+    ['Akson','Lang utløper som leder signalet bort fra cellekroppen.','n'],
+    ['Myelinskjede','Fettholdig isolasjon rundt aksonet som gjør signalet raskere.','n'],
+    ['Synapse','Koblingsstedet mellom to nevroner, eller mellom nevron og muskel.','n'],
+    ['Nevrotransmitter','Signalstoff som fører beskjeden over synapsen.','n'],
+    ['Sentralnervesystemet','Hjernen og ryggmargen.','n'],
+    ['Perifere nervesystemet','Alle nervene utenfor hjernen og ryggmargen.','n'],
+    ['Sensorisk nevron','Leder signaler fra sanseorganer inn til CNS.','n'],
+    ['Motorisk nevron','Leder signaler fra CNS ut til muskler.','n'],
+    ['Refleks','Rask, automatisk reaksjon som kobles i ryggmargen uten at du tenker.','n'],
+    ['Autonome nervesystemet','Styrer organer du ikke kontrollerer med viljen, som hjerte og tarm.','n'],
+    ['Hormon','Signalstoff som lages i en kjertel og fraktes med blodet.','h'],
+    ['Kjertel','Organ som lager og skiller ut stoffer, for eksempel hormoner.','h'],
+    ['Målcelle','Celle med reseptor som passer til et bestemt hormon, og som derfor reagerer på det.','h'],
+    ['Hypothalamus','Del av hjernen som styrer hypofysen og knytter nervesystemet til hormonsystemet.','h'],
+    ['Hypofysen','«Sjefskjertelen» under hjernen. Styrer andre kjertler og lager veksthormon.','h'],
+    ['Adrenalin','Stresshormon fra binyrene. Øker puls og blodsukker ved fare.','h'],
+    ['Insulin','Hormon fra bukspyttkjertelen som senker blodsukkeret.','h'],
+    ['Glukagon','Hormon fra bukspyttkjertelen som øker blodsukkeret.','h'],
+    ['Tyroksin','Hormon fra skjoldbruskkjertelen som styrer stoffskiftet.','h'],
+    ['Melatonin','Søvnhormon fra epifysen. Lages mest når det er mørkt.','h'],
+    ['Testosteron og østrogen','Kjønnshormoner som gir endringene i puberteten.','h'],
+    ['Negativ tilbakekobling','Kroppen motvirker en endring for å holde seg i balanse, som ved blodsukkeret.','h'],
+    ['Hormonhermer','Stoff fra miljøet som ligner et hormon og kan forstyrre hormonsystemet.','h'],
+    ['Anabole steroider','Dopingmidler som ligner testosteron. Gir muskler, men alvorlige bivirkninger.','h']
+  ];
+  let termFilter='alle';
+  const termsEl = $('#terms');
+  function renderTerms(){
+    termsEl.innerHTML='';
+    TERMS.forEach(([t,d,g],i)=>{
+      if(termFilter!=='alle' && g!==termFilter) return;
+      const b=document.createElement('button');
+      b.className='term'; b.setAttribute('aria-expanded','false');
+      b.innerHTML=`<span class="pill ${g}">${g==='n'?'Nerve':'Hormon'}</span><strong>${t}</strong><span class="hint">Trykk for å se forklaringen</span><span class="def" hidden>${d}</span>`;
+      b.addEventListener('click',()=>{
+        const open=b.getAttribute('aria-expanded')!=='true';
+        b.setAttribute('aria-expanded',String(open));
+        b.querySelector('.def').hidden=!open; b.querySelector('.hint').hidden=open;
+        countTerms();
+      });
+      termsEl.appendChild(b);
+    });
+    countTerms();
+  }
+  function countTerms(){
+    const n=$$('.term[aria-expanded="true"]').length, all=$$('.term').length;
+    $('#termCount').textContent=`${n} av ${all} åpnet`;
+  }
+  $$('[data-f]').forEach(b=>b.addEventListener('click',()=>{
+    termFilter=b.dataset.f;
+    $$('[data-f]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    renderTerms(); say(`Viser ${$$('.term').length} begreper`);
+  }));
+  $('#hideTerms').addEventListener('click',()=>{ renderTerms(); say('Alle begreper skjult'); });
+  renderTerms();
+
+  /* ---------- Sorteringsoppgave (gjenbrukbar) ---------- */
+  function makeSorter(root, BINS, CARDS){
+    root.innerHTML = `<div class="pool" aria-label="Kort som skal sorteres"></div><div class="bins" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:12px"><button class="btn chk">Sjekk sorteringen</button><button class="btn ghost rst">Start på nytt</button></div>
+      <p class="status" role="status" style="margin-top:8px"></p>`;
+    const pool=$('.pool',root), binsEl=$('.bins',root), st=$('.status',root);
+    let placed={}, selected=null, order=shuffle(CARDS.map((_,i)=>i));
+    function render(){
+      pool.innerHTML=''; binsEl.innerHTML='';
+      order.filter(i=>!(i in placed)).forEach(i=>{
+        const c=document.createElement('button');
+        c.className='chip'; c.textContent=CARDS[i][0]; c.dataset.i=i; c.setAttribute('aria-pressed', String(selected===i));
+        c.addEventListener('click',()=>{ selected = selected===i ? null : i; render(); if(selected!==null) say(CARDS[i][0]+' valgt. Velg gruppe.'); const f=$(`.chip[data-i="${i}"]`,pool); if(f) f.focus(); });
+        pool.appendChild(c);
+      });
+      if(!pool.children.length){ const p=document.createElement('p'); p.className='muted'; p.textContent='Alle kortene er sortert. Trykk «Sjekk sorteringen».'; pool.appendChild(p); }
+      BINS.forEach(b=>{
+        const d=document.createElement('div'); d.className='bin';
+        const btn=document.createElement('button'); btn.className='drop';
+        btn.textContent='Legg i: '+b.name; btn.disabled = selected===null;
+        btn.addEventListener('click',()=>{ if(selected===null) return; placed[selected]=b.id; say(CARDS[selected][0]+' lagt i '+b.name); selected=null; st.textContent=''; render(); const f=$('.chip',pool); if(f) f.focus(); });
+        const items=document.createElement('div'); items.className='items';
+        Object.keys(placed).filter(k=>placed[k]===b.id).forEach(k=>{
+          const c=document.createElement('button'); c.className='chip'; c.dataset.i=k;
+          c.textContent=CARDS[k][0]; c.setAttribute('aria-label', CARDS[k][0]+', trykk for å flytte tilbake');
+          c.addEventListener('click',()=>{ delete placed[k]; selected=null; st.textContent=''; render(); say(CARDS[k][0]+' flyttet tilbake'); });
+          items.appendChild(c);
+        });
+        d.append(btn,items); binsEl.appendChild(d);
+      });
+    }
+    $('.chk',root).addEventListener('click',()=>{
+      const n=Object.keys(placed).length;
+      if(n<CARDS.length){ st.className='status bad'; st.textContent=`Du har sortert ${n} av ${CARDS.length} kort. Sorter resten først.`; return; }
+      let right=0;
+      $$('.bins .chip',root).forEach(c=>{ const ok=placed[c.dataset.i]===CARDS[c.dataset.i][1]; c.classList.add(ok?'ok':'no'); if(ok) right++; });
+      st.className='status '+(right===CARDS.length?'good':'bad');
+      st.textContent = right===CARDS.length ? `Alle ${right} riktige!` : `${right} av ${CARDS.length} riktige. De røde ligger feil. Trykk på dem for å flytte dem tilbake.`;
+    });
+    $('.rst',root).addEventListener('click',()=>{ placed={}; selected=null; order=shuffle(CARDS.map((_,i)=>i)); st.textContent=''; render(); });
+    render();
+  }
+
+  makeSorter($('#sortA'),
+    [{id:'n',name:'Nervesystemet'},{id:'h',name:'Hormonsystemet'},{id:'b',name:'Begge'}],
+    [
+      ['Signalet fraktes med blodet','h'],
+      ['Signalet går som elektriske impulser','n'],
+      ['Virker i løpet av millisekunder','n'],
+      ['Virkningen kan vare i timer eller år','h'],
+      ['Styrer veksten i puberteten','h'],
+      ['Trekker hånden vekk fra en varm plate','n'],
+      ['Sender beskjed til én bestemt muskel','n'],
+      ['Insulin senker blodsukkeret','h'],
+      ['Bruker kjemiske signalstoffer','b'],
+      ['Styres fra hjernen','b'],
+      ['Kan påvirkes av rusmidler og doping','b']
+    ]);
+
+  makeSorter($('#sortB'),
+    [{id:'cns',name:'Sentralnervesystemet'},{id:'pns',name:'Perifert, viljestyrt'},{id:'aut',name:'Autonomt, styrer seg selv'}],
+    [
+      ['Storhjernen','cns'],['Lillehjernen','cns'],['Hjernestammen','cns'],['Ryggmargen','cns'],
+      ['Sansenerve fra huden på fingeren','pns'],['Motorisk nerve til armmuskelen','pns'],['Nerve som får deg til å sparke ballen','pns'],
+      ['Hjertet slår fortere når du blir redd','aut'],['Tarmen fordøyer maten','aut'],['Pupillen utvider seg i mørket','aut']
+    ]);
+
+  /* ---------- Blodsukker-simulering ---------- */
+  const bs = {};
+  function bsReset(){
+    Object.assign(bs,{v:5.0, gut:0, insDose:0, t:7*60, hist:[5.0], ins:false, glu:false});
+    bsDraw(); $('#bsMsg').textContent='Ny dag. Trykk på en handling for å se hva som skjer.';
+  }
+  function bsStep(act){
+    const diab=$('#diab').checked;
+    let note=[];
+    if(act==='meal'){ bs.gut+=4.5; note.push('Personen spiste et måltid. Karbohydratene brytes ned til sukker som tas opp i blodet litt etter litt.'); }
+    if(act==='soda'){ bs.v+=3.2; bs.gut+=1; note.push('Sukkeret i brusen går nesten rett ut i blodet.'); }
+    if(act==='run'){ bs.v-=1.6; note.push('Musklene bruker sukker som energi under treningen.'); }
+    if(act==='inject'){ bs.insDose+=3; note.push('Insulin ble satt med sprøyte eller pumpe.'); }
+    if(act==='wait'){ note.push('30 minutter gikk.'); }
+    const absorbed=Math.min(bs.gut, Math.max(1.4, bs.gut*0.5)); bs.v+=absorbed; bs.gut-=absorbed;
+    bs.v-=0.2;
+    bs.ins=false; bs.glu=false;
+    if(!diab && bs.v>6.5){ const d=(bs.v-5.8)*0.55; bs.v-=d; bs.ins=true; note.push('Bukspyttkjertelen merket høyt blodsukker og skilte ut insulin. Cellene tok opp sukker, og blodsukkeret sank.'); }
+    if(bs.insDose>0){ const d=Math.min(bs.insDose,1.5); bs.v-=d*1.1; bs.insDose-=d; bs.ins=true; }
+    if(bs.v<4.3){ const d=(4.8-bs.v)*0.6; bs.v+=d; bs.glu=true; note.push('Blodsukkeret ble lavt. Bukspyttkjertelen skilte ut glukagon, og leveren slapp ut lagret sukker.'); }
+    bs.v=Math.max(2.5,Math.min(20,bs.v));
+    if(diab && bs.v>9) note.push('Uten insulin klarer ikke cellene å ta opp sukkeret, og blodsukkeret blir liggende høyt. Prøv «Sett insulin».');
+    bs.t+=30; bs.hist.push(bs.v); if(bs.hist.length>17) bs.hist.shift();
+    $('#bsMsg').textContent=note.join(' ');
+    bsDraw();
+    say(`Blodsukker ${fmt(bs.v)} millimol per liter. ${note.join(' ')}`);
+  }
+  function bsDraw(){
+    $('#bsVal').textContent=fmt(bs.v);
+    const h=Math.floor(bs.t/60)%24, m=bs.t%60;
+    $('#bsTime').textContent=`Klokka ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    const st=$('#bsState');
+    if(bs.v>7.8){ st.className='state hi'; st.textContent='Høyt'; }
+    else if(bs.v<4){ st.className='state lo'; st.textContent='Lavt'; }
+    else { st.className='state ok'; st.textContent='Normalt'; }
+    $('#hIns').classList.toggle('on',bs.ins); $('#hIns').textContent=bs.ins?'Insulin skilles ut':'Insulin';
+    $('#hGlu').classList.toggle('on',bs.glu); $('#hGlu').textContent=bs.glu?'Glukagon skilles ut':'Glukagon';
+    const X0=40,X1=330,Y0=140,Y1=12, vmin=2, vmax=16;
+    const y=v=>Y0-(Math.min(vmax,Math.max(vmin,v))-vmin)/(vmax-vmin)*(Y0-Y1);
+    const x=i=>X0+i*(X1-X0)/16;
+    let s=`<rect class="band" x="${X0}" y="${y(7)}" width="${X1-X0}" height="${y(4)-y(7)}"></rect>`;
+    [4,7,10,13,16].forEach(v=>{ s+=`<line class="grid" x1="${X0}" x2="${X1}" y1="${y(v)}" y2="${y(v)}"></line><text class="axis" x="${X0-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`; });
+    s+=`<text class="axis" x="${X0}" y="156">Siste 8 timer, ett punkt per halvtime</text>`;
+    const off=17-bs.hist.length;
+    const pts=bs.hist.map((v,i)=>`${x(i+off).toFixed(1)},${y(v).toFixed(1)}`);
+    s+=`<polyline class="lineb" points="${pts.join(' ')}"></polyline>`;
+    const lv=bs.hist[bs.hist.length-1]; s+=`<circle class="dot" cx="${x(16)}" cy="${y(lv)}" r="5"></circle>`;
+    $('#bsChart').innerHTML=s;
+  }
+  $$('[data-act]').forEach(b=>b.addEventListener('click',()=>bsStep(b.dataset.act)));
+  $('#diab').addEventListener('change',e=>{ $('#injRow').hidden=!e.target.checked; say(e.target.checked?'Diabetes type 1 er slått på. Kroppen lager ikke insulin selv.':'Bukspyttkjertelen lager insulin igjen.'); });
+  $('#bsReset').addEventListener('click',bsReset);
+  bsReset();
+
+  /* ---------- Refleksbue ---------- */
+  const STEPS = [
+    'Reseptorer i huden registrerer varmen',
+    'Et sensorisk nevron sender signalet til ryggmargen',
+    'Et mellomnevron i ryggmargen kobler signalet videre',
+    'Et motorisk nevron sender signalet ut til armmuskelen',
+    'Muskelen trekker seg sammen, og hånden flyttes',
+    'Signalet når hjernen, og du kjenner at det gjør vondt'
+  ];
+  let stepOrder = [];
+  function newSteps(){ do{ stepOrder=shuffle(STEPS.map((_,i)=>i)); }while(stepOrder.every((v,i)=>v===i)); $('#stepStatus').textContent=''; renderSteps(); }
+  function renderSteps(focusIdx, dir){
+    const ol=$('#steps'); ol.innerHTML='';
+    stepOrder.forEach((s,pos)=>{
+      const li=document.createElement('li');
+      const txt=document.createElement('span'); txt.textContent=STEPS[s];
+      const mv=document.createElement('div'); mv.className='mv';
+      const up=document.createElement('button'); up.textContent='↑'; up.setAttribute('aria-label',`Flytt opp: ${STEPS[s]}`); up.disabled=pos===0;
+      const dn=document.createElement('button'); dn.textContent='↓'; dn.setAttribute('aria-label',`Flytt ned: ${STEPS[s]}`); dn.disabled=pos===stepOrder.length-1;
+      up.addEventListener('click',()=>move(pos,-1)); dn.addEventListener('click',()=>move(pos,1));
+      mv.append(up,dn); li.append(txt,mv); ol.appendChild(li);
+    });
+    if(focusIdx!=null){ const li=ol.children[focusIdx]; const b=li && li.querySelectorAll('button')[dir<0?0:1]; (b && !b.disabled ? b : li.querySelector('button:not(:disabled)')).focus(); }
+  }
+  function move(pos,d){
+    const t=pos+d; if(t<0||t>=stepOrder.length) return;
+    [stepOrder[pos],stepOrder[t]]=[stepOrder[t],stepOrder[pos]];
+    $('#stepStatus').textContent='';
+    renderSteps(t,d); say(`${STEPS[stepOrder[t]]}, nå på plass ${t+1}`);
+  }
+  $('#checkSteps').addEventListener('click',()=>{
+    let right=0;
+    $$('#steps li').forEach((li,pos)=>{ const ok=stepOrder[pos]===pos; li.classList.toggle('ok',ok); li.classList.toggle('no',!ok); if(ok) right++; });
+    const st=$('#stepStatus');
+    st.className='status '+(right===STEPS.length?'good':'bad');
+    st.textContent = right===STEPS.length
+      ? 'Riktig! Legg merke til at hånden flyttes før du kjenner smerten. Refleksen går via ryggmargen, ikke hjernen.'
+      : `${right} av ${STEPS.length} står riktig. Tips: tenk på hvilken vei signalet går: inn, kobling, ut.`;
+  });
+  $('#shuffleSteps').addEventListener('click',newSteps);
+  newSteps();
+
+  /* ---------- Reaksjonstid ---------- */
+  const rb=$('#react'); let rState='idle', rTimer=null, t0=0, results=[];
+  function rSet(state,text){ rState=state; rb.className='react'+(state==='wait'?' wait':state==='go'?' go':''); rb.textContent=text; }
+  function renderStats(){ $('#reactStats').innerHTML = results.map((r,i)=>`<span class="stat">Forsøk ${i+1}: ${r} ms</span>`).join(''); }
+  rb.addEventListener('click',()=>{
+    if(rState==='idle' || rState==='done'){
+      if(rState==='done'){ results=[]; renderStats(); $('#reactExplain').hidden=true; }
+      rSet('wait','Vent på blått …'); $('#reactStatus').textContent=''; say('Vent til feltet blir blått');
+      rTimer=setTimeout(()=>{ rSet('go','TRYKK NÅ!'); t0=performance.now(); say('Trykk nå'); }, 1500+Math.random()*2500);
+    } else if(rState==='wait'){
+      clearTimeout(rTimer); rSet('idle','For tidlig! Trykk for å prøve igjen');
+      const st=$('#reactStatus'); st.className='status bad'; st.textContent='Du trykket før feltet ble blått. Det teller ikke.';
+    } else if(rState==='go'){
+      const ms=Math.round(performance.now()-t0); results.push(ms); renderStats();
+      const st=$('#reactStatus'); st.className='status good'; st.textContent=`${ms} millisekunder`;
+      if(results.length>=5){
+        const avg=Math.round(results.reduce((a,b)=>a+b,0)/results.length);
+        rSet('done','Ferdig! Trykk for å prøve på nytt');
+        st.textContent=`Snittet ditt: ${avg} ms`;
+        const ex=$('#reactExplain'); ex.hidden=false;
+        ex.textContent=`Signalet gikk fra øyet til hjernen og videre gjennom ryggmargen ut til fingeren, omtrent 1,5 meter nervebane. Med 100 m/s tar selve ledningen bare rundt 15 ms. Resten av de ${avg} ms går med til å tolke synsinntrykket i hjernen og til signaloverføring i synapsene. Typisk reaksjonstid for ungdom er rundt 200–300 ms. Et hormon som adrenalin bruker til sammenligning flere sekunder på å nå målcellene.`;
+      } else {
+        rSet('idle',`Forsøk ${results.length+1} av 5: trykk for å starte`);
+      }
+    }
+  });
+
+  /* ---------- Quiz ---------- */
+  const Q = [
+    {g:'n', q:'Hva består sentralnervesystemet av?', a:['Hjernen og ryggmargen','Hjernen og nervene i armene','Ryggmargen og hjertet','Alle nervene i kroppen'], c:0, e:'CNS er hjernen og ryggmargen. Resten av nervene hører til det perifere nervesystemet.'},
+    {g:'n', q:'Hvilken del av nevronet leder signalet bort fra cellekroppen?', a:['Dendrittene','Aksonet','Cellekjernen','Synapsen'], c:1, e:'Aksonet leder signalet ut. Dendrittene tar imot signaler.'},
+    {g:'n', q:'Hva gjør myelinskjeden?', a:['Lager nevrotransmittere','Tar imot signaler fra sansene','Isolerer aksonet så signalet går raskere','Kobler sammen to nevroner'], c:2, e:'Myelin isolerer aksonet. Signalet hopper mellom hullene i skjeden og kan nå opptil ca. 120 m/s.'},
+    {g:'n', q:'Hva skjer i en synapse?', a:['Signalet stopper for godt','Nevrotransmittere fører signalet over til neste celle','Det lages nye nevroner','Blodet renses'], c:1, e:'I synapsen blir det elektriske signalet gjort om til et kjemisk signal med nevrotransmittere.'},
+    {g:'n', q:'Hvorfor trekker du hånden fra en varm plate før du kjenner smerten?', a:['Hjernen reagerer ekstra raskt på varme','Musklene merker varmen selv','Refleksen kobles i ryggmargen og går ikke via hjernen først','Huden har egne nerver som styrer armen'], c:2, e:'I en refleksbue går signalet via ryggmargen rett tilbake til muskelen. Beskjeden til hjernen kommer litt etter.'},
+    {g:'n', q:'Hvilken del av hjernen styrer balanse og koordinasjon?', a:['Storhjernen','Lillehjernen','Hjernestammen','Ryggmargen'], c:1, e:'Lillehjernen finjusterer bevegelser og holder deg i balanse.'},
+    {g:'n', q:'Hvilken del av hjernen styrer pust og hjerterytme?', a:['Hjernestammen','Lillehjernen','Storhjernen','Hypofysen'], c:0, e:'Hjernestammen tar seg av livsviktige funksjoner som går av seg selv.'},
+    {g:'n', q:'Hva skjer når det sympatiske nervesystemet er aktivt?', a:['Pulsen synker og du blir trøtt','Kroppen gjør seg klar for kamp eller flukt','Fordøyelsen går raskere','Du sovner'], c:1, e:'Sympatisk aktivering øker pulsen, utvider pupillene og setter fordøyelsen på pause.'},
+    {g:'n', q:'Hvilken vei leder sensoriske nevroner signalet?', a:['Fra CNS til musklene','Mellom to muskler','Fra sanseorganene inn til CNS','Fra hjernen til ryggmargen'], c:2, e:'Sensorisk = inn fra sansene. Motorisk = ut til musklene.'},
+    {g:'n', q:'Hvorfor øker reaksjonstiden når noen har drukket alkohol?', a:['Alkohol forstyrrer signaloverføringen i synapsene','Alkohol fjerner myelinet med en gang','Musklene blir svakere','Øynene ser dårligere farger'], c:0, e:'Alkohol påvirker signalstoffene i synapsene. Signalene blir tregere og dårligere koordinert.'},
+    {g:'h', q:'Hvordan fraktes hormoner rundt i kroppen?', a:['Langs nervetråder','Med blodet','Gjennom lymfeknutene','Gjennom fordøyelsen'], c:1, e:'Hormoner skilles ut fra kjertler og fraktes med blodet til hele kroppen.'},
+    {g:'h', q:'Hvorfor reagerer bare noen celler på et bestemt hormon?', a:['Hormonet finner veien selv','Bare målcellene har en reseptor som passer til hormonet','Bare celler nær kjertelen nås','Hormonet ødelegges i de andre cellene'], c:1, e:'Hormonet og reseptoren passer sammen som nøkkel og lås. Celler uten riktig reseptor reagerer ikke.'},
+    {g:'h', q:'Hvilken kjertel kalles ofte «sjefskjertelen»?', a:['Skjoldbruskkjertelen','Binyrene','Hypofysen','Bukspyttkjertelen'], c:2, e:'Hypofysen sender hormoner som styrer mange av de andre kjertlene. Selv styres den av hypothalamus.'},
+    {g:'h', q:'Hva gjør insulin?', a:['Øker blodsukkeret','Får cellene til å ta opp sukker, så blodsukkeret synker','Gjør deg søvnig','Får musklene til å vokse'], c:1, e:'Insulin senker blodsukkeret. Glukagon gjør det motsatte. Sammen holder de blodsukkeret stabilt.'},
+    {g:'h', q:'Hvilket hormon skilles ut fra binyrene når du blir redd?', a:['Melatonin','Tyroksin','Adrenalin','Østrogen'], c:2, e:'Adrenalin øker puls, blodtrykk og blodsukker, så kroppen er klar for kamp eller flukt.'},
+    {g:'h', q:'Hva er en viktig forskjell mellom nervesystemet og hormonsystemet?', a:['Bare hormonsystemet bruker kjemiske signalstoffer','Nervesignaler er raske og kortvarige, hormoner er langsommere og virker lenger','Hormoner går langs nervetrådene','Nervesystemet virker bare når du sover'], c:1, e:'Nervesignaler tar millisekunder og når én bestemt mottaker. Hormoner bruker sekunder til timer og kan virke i lang tid.'},
+    {g:'h', q:'Hvordan samarbeider nerve- og hormonsystemet når du blir skremt?', a:['De jobber ikke sammen','Hormoner gir beskjed til hjernen om å se faren','Nervesignaler gir beskjed til binyrene om å skille ut adrenalin','Adrenalinet går langs nervene til musklene'], c:2, e:'Nervesystemet starter reaksjonen på et øyeblikk, og adrenalinet i blodet holder den i gang en stund.'},
+    {g:'h', q:'Hvorfor er anabole steroider farlige?', a:['De er bare farlige for voksne','Kroppens egen hormonproduksjon kan stoppe opp, og de kan skade hjerte og lever','De gir mindre muskler','De virker bare på nervesystemet'], c:1, e:'Steroider ligner testosteron. Kroppen merker overskuddet og lager mindre selv, og bivirkningene kan bli alvorlige.'},
+    {g:'h', q:'Hva er en hormonhermer?', a:['Et legemiddel mot diabetes','Et stoff som ligner et hormon og kan forstyrre hormonsystemet','En kjertel i halsen','Et annet ord for nevrotransmitter'], c:1, e:'Hormonhermere, som noen ftalater og PCB, kan feste seg til reseptorene og gi feil signaler.'},
+    {g:'h', q:'Hvorfor kan skjermlys sent på kvelden gjøre det vanskeligere å sovne?', a:['Lyset demper produksjonen av søvnhormonet melatonin','Lyset øker insulinet','Skjermen gir mer adrenalin enn trening','Lyset skader myelinet'], c:0, e:'Epifysen lager melatonin når det er mørkt. Sterkt lys om kvelden kan forsinke det.'}
+  ];
+  let qi=0, score=0, answered=false, qOrder=[], qGroup='alle';
+  function startQuiz(focus){
+    const pool=Q.map((_,i)=>i).filter(i=>qGroup==='alle'||Q[i].g===qGroup);
+    qOrder=shuffle(pool); qi=0; score=0; renderQ(focus);
+  }
+  $$('[data-q]').forEach(b=>b.addEventListener('click',()=>{
+    qGroup=b.dataset.q; $$('[data-q]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    startQuiz(false); say(`Quiz startet med ${qOrder.length} spørsmål`);
+  }));
+  function renderQ(focus){
+    const card=$('#quizCard'); answered=false;
+    $('#quizMeta').textContent=`Spørsmål ${qi+1} av ${qOrder.length} · ${score} riktige`;
+    $('#bar').style.width=(qi/qOrder.length*100)+'%';
+    const item=Q[qOrder[qi]];
+    const opts=shuffle(item.a.map((t,i)=>({t,i})));
+    card.innerHTML=`<p><span class="pill ${item.g}">${item.g==='n'?'Nervesystemet':'Hormonsystemet'}</span></p><fieldset><legend>${item.q}</legend>${opts.map(o=>`<button class="opt" data-i="${o.i}">${o.t}</button>`).join('')}</fieldset><div id="qFeed"></div>`;
+    $$('.opt',card).forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.i,b)));
+    if(focus){ const f=$('.opt',card); if(f) f.focus(); }
+  }
+  function answer(i,btn){
+    if(answered) return; answered=true;
+    const item=Q[qOrder[qi]]; const ok=i===item.c; if(ok) score++;
+    $$('.opt').forEach(b=>{ b.setAttribute('aria-disabled','true'); if(+b.dataset.i===item.c) b.classList.add('ok'); });
+    if(!ok) btn.classList.add('no');
+    const last=qi===qOrder.length-1;
+    $('#qFeed').innerHTML=`<div class="feedback"><p><strong>${ok?'Riktig!':'Ikke helt.'}</strong> ${item.e}</p><div class="row"><button class="btn" id="next">${last?'Se resultatet':'Neste spørsmål →'}</button></div></div>`;
+    say((ok?'Riktig. ':'Feil. Riktig svar er '+item.a[item.c]+'. ')+item.e);
+    $('#quizMeta').textContent=`Spørsmål ${qi+1} av ${qOrder.length} · ${score} riktige`;
+    const nx=$('#next'); nx.addEventListener('click',()=>{ if(last) result(); else { qi++; renderQ(true); } }); nx.focus();
+  }
+  function result(){
+    const n=qOrder.length, pct=score/n;
+    $('#bar').style.width='100%';
+    $('#quizMeta').textContent='Ferdig';
+    const msg = pct===1 ? 'Perfekt! Du kan signalsystemene.' : pct>=0.7 ? 'Veldig bra! Les forklaringen på de du bommet på.' : pct>=0.4 ? 'God start. Gå gjennom begrepene og prøv igjen.' : 'Ta en runde til med forklaringene og begrepene, og prøv på nytt.';
+    $('#quizCard').innerHTML=`<p class="eyebrow">Resultat</p><p class="score mono">${score}<span style="font-size:.4em;color:var(--muted)"> / ${n}</span></p><p>${msg}</p><div class="row"><button class="btn" id="again">Ta quizen på nytt</button><button class="btn ghost" id="toTerms">Øv på begreper</button></div>`;
+    say(`Du fikk ${score} av ${n}. ${msg}`);
+    $('#again').addEventListener('click',()=>startQuiz(true));
+    $('#toTerms').addEventListener('click',()=>show('begreper',true));
+    $('#again').focus();
+  }
+  startQuiz(false);
+})();
+</script>
+
+</body></html>

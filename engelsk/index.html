@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English Tentamen Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a coach's matchday programme – energetic, clear, encouraging
+   IDEA: the season fixture list; every module is a match, every right answer a goal
+   PICTURE: the stadium scoreboard over striped pitch grass, live score
+   COLOUR and TYPE: pitch green dominant, chalk white support, scoreboard yellow accent; Barlow Condensed + Barlow
+   LAYOUT: scoreboard band, fixture tabs, one calm column of exercises */
+:root{color-scheme:light dark;
+--bg:light-dark(#f3f6f1,#0d1511);--card:light-dark(#ffffff,#15221a);--ink:light-dark(#122018,#e7efe9);--muted:light-dark(#44544a,#a9bcb0);
+--pitch:#1d5e36;--pitch2:#236b3e;--chalk:#ffffff;--acc:#ffd23f;--line:light-dark(#cfdad2,#2c3e33);
+--ok:light-dark(#11663a,#6fd69a);--okbg:light-dark(#e3f4ea,#173726);--bad:light-dark(#a3221a,#ff9b92);--badbg:light-dark(#fbe7e5,#3a1c1a);--focus:light-dark(#0a4fb5,#ffd23f)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font:clamp(16px,1.2vw + 12px,17px)/1.55 Barlow,system-ui,sans-serif;overflow-x:clip;
+padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
+h1,h2,h3,.board b{font-family:"Barlow Condensed",Barlow,sans-serif;line-height:1.05;text-wrap:balance}
+h2{font-size:clamp(28px,3vw + 14px,40px);margin:0 0 .4em}
+h3{font-size:clamp(21px,1.5vw + 14px,26px);margin:1.6em 0 .5em}
+p{max-width:68ch}
+a{color:inherit}
+.skip{position:absolute;left:12px;top:-60px;background:var(--acc);color:#111;padding:12px 16px;z-index:9;font-weight:600;border-radius:8px}
+.skip:focus{top:calc(12px + env(safe-area-inset-top))}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;box-shadow:0 0 0 6px light-dark(#fff,#0d1511);border-radius:6px}
+header :focus-visible,.board :focus-visible{outline-color:var(--acc);box-shadow:0 0 0 6px #0f1411}
+button,a,select,summary,input{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+[aria-disabled=true]{cursor:default}
+.tag{display:inline-block;margin-left:8px;font-size:14px;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.right .tag{background:var(--ok);color:var(--card)}.wrong .tag{background:var(--bad);color:var(--card)}
+.blank{display:inline-block;min-width:3.2em;border-bottom:2px solid currentColor;margin:0 2px}
+header{background:repeating-linear-gradient(90deg,var(--pitch) 0 70px,var(--pitch2) 70px 140px);color:var(--chalk);padding:calc(env(safe-area-inset-top) + clamp(20px,4vw,44px)) max(5vw,16px) clamp(20px,3vw,36px);position:relative;overflow:hidden}
+header svg.lines{position:absolute;inset:0;width:100%;height:100%;opacity:.25;pointer-events:none}
+.hwrap{position:relative;max-width:1100px;margin:auto;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:center}
+header h1{font-size:clamp(34px,4vw + 16px,56px);margin:0 0 8px}
+header p{margin:0;color:#e9f3ec}
+.board{background:#0f1411;border:3px solid #3b463f;border-radius:14px;padding:16px;box-shadow:0 10px 0 #0a0d0b,0 14px 30px rgba(0,0,0,.35)}
+.board .row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
+.board span{display:block;font-size:13px;color:#c9d3cc}
+.board b{display:block;font-size:clamp(30px,3vw + 12px,44px);color:var(--acc);font-variant-numeric:tabular-nums}
+.board .tot{margin-top:10px;border-top:1px solid #333;padding-top:10px;text-align:center;font-size:15px;color:#fff}
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+nav ul{list-style:none;margin:0 auto;padding:6px max(5vw,12px);display:flex;gap:6px;max-width:1100px}
+nav a{flex:none;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;text-decoration:none;font-weight:600;color:var(--ink)}
+nav a[aria-current=page]{background:var(--pitch);color:#fff}
+nav .n-s{display:none}nav .n-p{font-size:14px;font-weight:500;opacity:.85;font-variant-numeric:tabular-nums}
+main{max-width:860px;margin:auto;padding:clamp(24px,4vw,48px) max(5vw,16px) 64px}
+.tip{background:var(--card);border-left:6px solid var(--pitch2);border-radius:10px;padding:14px 18px;margin:12px 0}
+.tip ul{margin:.3em 0;padding-left:1.2em}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.q legend,.q .stem{font-weight:600;padding:0;margin-bottom:10px;font-size:1.05em}
+fieldset{border:0;margin:0;padding:0}
+fieldset.q{padding:16px}.q legend{float:left;width:100%}.q legend+*{clear:both}
+.opts{display:grid;gap:8px}
+button,.btn,select{font:inherit;min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 14px;cursor:pointer;text-align:left}
+button:hover:not(:disabled){border-color:var(--pitch2)}
+button:disabled{cursor:default}
+.opts button.right{background:var(--okbg);border-color:var(--ok);color:var(--ink)}
+.opts button.wrong{background:var(--badbg);border-color:var(--bad)}
+.fb{margin-top:10px;font-size:.97em}
+.fb.ok b{color:var(--ok)}.fb.no b{color:var(--bad)}
+.words{display:flex;flex-wrap:wrap;gap:6px}
+.words button{text-align:center;padding:8px 12px}
+.primary{background:var(--pitch);color:#fff;border-color:var(--pitch);font-weight:600;text-align:center}
+.primary:hover:not(:disabled){background:var(--pitch2)}
+.text{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,3vw,28px);font-size:1.05em}
+.text h3{margin-top:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px;margin-top:18px}
+.cards a{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;min-height:44px}
+.cards a b{font-family:"Barlow Condensed";font-size:24px;display:block}
+.cards a span{color:var(--muted);font-size:15px}
+.meter{height:8px;background:var(--line);border-radius:9px;margin-top:10px;overflow:hidden}.meter i{display:block;height:100%;background:var(--pitch2);transition:width .4s}
+.sort{display:grid;gap:8px}
+.sort label{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:10px;align-items:center;font-weight:600}
+textarea{width:100%;min-height:clamp(240px,45dvh,420px);font:inherit;font-size:16px;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+.checks label{display:flex;gap:10px;align-items:flex-start;min-height:44px;padding:8px 0}
+.checks input{width:24px;height:24px;flex:none;margin-top:2px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:12px 0}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
+.small{font-size:14px;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+footer{text-align:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom));color:var(--muted);font-size:14px}
+@media(max-width:700px){
+.hwrap{grid-template-columns:minmax(0,1fr);gap:14px}.sort label{grid-template-columns:minmax(0,1fr)}
+header{padding-bottom:18px}header p{font-size:15px}
+.board{padding:10px 12px;box-shadow:0 6px 0 #0a0d0b}.board .tot{margin-top:6px;padding-top:6px}
+html{scroll-padding-top:16px;scroll-padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+nav{position:fixed;top:auto;bottom:0;left:0;right:0;border-bottom:0;border-top:1px solid var(--line);padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);box-shadow:0 -4px 16px rgba(0,0,0,.12)}
+nav ul{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding:4px}
+nav a{flex-direction:column;justify-content:center;gap:0;min-height:58px;padding:4px 2px;border-radius:12px;text-align:center;line-height:1.15}
+nav .n-l{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}nav .n-s{display:block;font-size:15px}nav .n-p{font-size:13px}
+main{padding-top:24px}
+.q{padding:14px 12px}.text{padding:16px 14px}
+footer{padding-bottom:16px}
+}
+@media(max-width:360px){nav .n-s{font-size:14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Hopp til innholdet</a>
+<header role="banner">
+<svg class="lines" viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true"><rect x="10" y="10" width="780" height="280" fill="none" stroke="#fff" stroke-width="3"/><line x1="400" y1="10" x2="400" y2="290" stroke="#fff" stroke-width="3"/><circle cx="400" cy="150" r="60" fill="none" stroke="#fff" stroke-width="3"/><rect x="10" y="80" width="90" height="140" fill="none" stroke="#fff" stroke-width="3"/><rect x="700" y="80" width="90" height="140" fill="none" stroke="#fff" stroke-width="3"/></svg>
+<div class="hwrap">
+<div>
+<h1>English Tentamen – 9. trinn</h1>
+<p>Fire kamper før tentamen. Hvert riktig svar er et mål. Oppgavene er på engelsk, forklaringene på norsk.</p>
+</div>
+<div class="board" role="region" aria-label="Resultattavle">
+<div class="row" id="board"></div>
+<div class="tot" aria-live="polite" id="total"></div>
+</div>
+</div>
+</header>
+<nav role="navigation" aria-label="Kamper"><ul id="nav"></ul></nav>
+<main id="main" role="main" tabindex="-1"></main>
+<div class="sr" aria-live="polite" id="live"></div>
+<footer>Laget for øving – tekstene og eksemplene er skrevet for denne treningen.</footer>
+
+<script>
+{
+const M={
+gram:{name:"Grammatikk",short:"Gram",desc:"Verbtider, vanlige feller og ordstilling"},
+ord:{name:"Ordforråd",short:"Ord",desc:"Ord du trenger for å skrive formelt og presist"},
+les:{name:"Lesing",short:"Les",desc:"To tekster med spørsmål – fotball og gaming"},
+skriv:{name:"Skriving",short:"Skriv",desc:"Struktur, bindeord og en tentamensoppgave"}
+};
+// [stem, options, correct index, explanation]
+const GRAM=[
+["Yesterday Heine ___ two goals in the cup match.",["has scored","scored","scores"],1,"«Yesterday» er et avsluttet tidspunkt i fortiden → past simple: <i>scored</i>. Present perfect (has scored) brukes ikke med yesterday, last week, in 2023 osv."],
+["I ___ FIFA since I was ten years old.",["have played","played","am playing"],0,"«Since» og «for» om noe som startet før og fortsatt pågår → present perfect: <i>have played</i>. På norsk sier vi «har spilt» – her er engelsk og norsk like."],
+["Look! The striker ___ towards the goal right now.",["runs","ran","is running"],2,"Noe som skjer akkurat nå → present continuous: <i>is running</i>. Signalord: now, right now, look!, at the moment."],
+["Everybody in my class ___ a smartphone.",["have","has","are having"],1,"Everybody, somebody, nobody og everyone er entall på engelsk → <i>has</i>, akkurat som «he has»."],
+["___ new jerseys look amazing this season.",["There","They're","Their"],2,"<i>Their</i> = deres (eiendom). <i>There</i> = der/det finnes. <i>They're</i> = they are."],
+["The team lost ___ best player to injury.",["it's","its","its'"],1,"<i>Its</i> = dens/sin (eiendom). <i>It's</i> betyr alltid «it is» eller «it has». «Its'» finnes ikke."],
+["This hoodie is more expensive ___ the one I bought last week.",["than","then","that"],0,"Sammenligning → <i>than</i> (enn). <i>Then</i> betyr «da/så» om tid."],
+["He played really ___ in the second half.",["good","well","goodly"],1,"Beskriver du et verb (hvordan han spilte), trenger du adverb: <i>well</i>. «Good» beskriver substantiv: a good player."],
+["If I ___ more money, I would buy the new boots.",["have","would have","had"],2,"Tenkt situasjon (2. kondisjonal): If + past simple, would + verb → <i>If I had…, I would buy…</i>. Aldri «would» i if-leddet."],
+["When I got to the shop, the limited sneakers ___ out.",["had already sold","have already sold","already sell"],0,"Noe som skjedde før noe annet i fortiden → past perfect: <i>had sold</i>. Det første skjedde før «I got to the shop»."],
+["The game ___ by a small studio in Manchester in 2024.",["made","was made","has make"],1,"Passiv: form av <i>be</i> + perfektum partisipp. Studioet gjorde handlingen, spillet «ble laget» → <i>was made</i>."],
+["Which sentence has correct word order?",["I play often football after school.","I often play football after school.","Often play I football after school."],1,"Norsk har verbet på 2. plass («Jeg spiller ofte»). På engelsk kommer ofte-ord som often, always, never <b>før</b> hovedverbet: <i>I often play</i>."],
+["The player ___ scored the winning goal is my cousin.",["which","who","what"],1,"<i>Who</i> om personer, <i>which</i> om ting og dyr. <i>That</i> kan brukes om begge."],
+["Can I ___ your charger? My phone is dead.",["lend","borrow","loan me"],1,"<i>Borrow</i> = låne (av noen). <i>Lend</i> = låne bort (til noen): «Can you lend me your charger?»"],
+["Which sentence uses capital letters correctly?",["On monday we have english and spanish.","On Monday we have English and Spanish.","on Monday we have english and Spanish."],1,"På engelsk skrives ukedager, måneder, språk og nasjonaliteter med stor forbokstav: Monday, July, English, Norwegian. Og «I» er alltid stor."],
+["I'm really looking forward to ___ my friends at the tournament.",["see","seeing","saw"],1,"Etter <i>look forward to</i> kommer -ing-form: looking forward to <i>seeing</i>. Typisk tentamensfelle!"]
+];
+// [sentence words, index of wrong word, correction explanation]
+const SPOT=[
+["My brother play football every Saturday.",2,"<i>play</i> → <i>plays</i>. He/she/it får -s i presens."],
+["We was so tired after the match.",1,"<i>was</i> → <i>were</i>. We/you/they + were."],
+["I have seen that film yesterday.",1,"<i>have seen</i> → <i>saw</i>. Yesterday = past simple."],
+["She is more taller than me.",2,"<i>more taller</i> → <i>taller</i>. Korte adjektiv får -er, ikke «more»."],
+["I am agree with you about screen time.",1,"<i>am agree</i> → <i>agree</i>. «Agree» er et verb på engelsk: I agree."],
+["He don't like spicy food at all.",1,"<i>don't</i> → <i>doesn't</i>. He/she/it + doesn't."],
+["The informations on the website were wrong.",1,"<i>informations</i> → <i>information</i>. Information, advice og homework har ikke flertalls-s."],
+["Me and my friends went to the mall.",0,"<i>Me and my friends</i> → <i>My friends and I</i> som subjekt i formell tekst."]
+];
+const ORD=[
+["What does <b>reluctant</b> mean? «He was reluctant to leave the game.»",["unwilling","excited","too tired"],0,"<i>Reluctant</i> = motvillig, ikke lyst."],
+["What does <b>to achieve</b> mean?",["to give up","to reach a goal through effort","to forget"],1,"<i>Achieve</i> = oppnå. Substantiv: <i>achievement</i>."],
+["Which word means «konsekvens»?",["consequence","conscience","convenience"],0,"<i>Consequence</i>. Conscience = samvittighet, convenience = bekvemmelighet."],
+["What is <b>peer pressure</b>?",["pressure from parents","pressure from people your own age","pressure at work"],1,"<i>Peer</i> = jevnaldrende. Nyttig ord i tekster om ungdom og sosiale medier."],
+["A game that is <b>addictive</b> is…",["hard to stop playing","very cheap","made for children"],0,"<i>Addictive</i> = vanedannende."],
+["Which word means «påvirke»?",["inflate","influence","include"],1,"<i>To influence</i>. Influencers påvirker følgerne sine."],
+["<b>Indigenous</b> peoples are…",["people who recently moved to a country","the original inhabitants of a land","people living in big cities"],1,"<i>Indigenous</i> = urfolk, f.eks. samer, maorier og Aboriginal Australians."],
+["Which linking word shows <b>contrast</b>?",["Furthermore","Therefore","However"],2,"<i>However</i> = men/likevel. Furthermore legger til, therefore viser konsekvens."],
+["In a formal text, «a lot of kids» is better written as…",["loads of kids","many young people","tons of children"],1,"Formell tekst: <i>many / a great number of</i> + <i>young people / children / teenagers</i>."],
+["Which is the formal version of «gonna»?",["going to","gona","gonna to"],0,"Skriv alltid <i>going to</i> og <i>want to</i> (ikke gonna/wanna) i tentamen."],
+["What does <b>affordable</b> mean?",["very expensive","not too expensive","free"],1,"<i>Affordable</i> = rimelig, noe man har råd til."],
+["What does <b>to argue</b> mean in an argumentative text?",["to fight with someone","to give reasons for an opinion","to agree with everyone"],1,"I en drøftende/argumenterende tekst betyr <i>argue</i> å begrunne et standpunkt: «Some people argue that…»"]
+];
+const TEXTS=[
+{title:"The Academy Dream",body:`<p>Jamal Okafor is fifteen and lives in Manchester. Four evenings a week, he takes two buses to a football academy on the edge of the city. He trains for two hours, eats dinner on the bus and starts his homework at nine o'clock.</p>
+<p>"People think it's glamorous," Jamal says, "but most nights I'm just tired." His coaches are strict about school, too. Players who fall behind in maths or English can lose their place in the squad for a weekend.</p>
+<p>Jamal knows the numbers. Only a small fraction of boys who join professional academies ever play a professional match. Many are released at sixteen or eighteen, and some find it hard to cope when the dream suddenly ends. That is why his mother insists on a plan B. "You can be a footballer and still have a brain," she tells him.</p>
+<p>Jamal has started to listen. He enjoys science and is thinking about becoming a physiotherapist. "If football doesn't work out, I still want to work with football," he explains. "I just want to be ready."</p>
+<p>Last month, his best friend at the academy was released. Jamal was shocked, but his friend surprised him. "He said it felt like a weight was gone. Now he plays with his mates on Sundays and actually enjoys it again."</p>`,
+qs:[
+["How does Jamal usually feel in the evenings?",["Excited and full of energy","Tired","Bored with football"],1,"Teksten sier: «most nights I'm just tired»."],
+["What can happen to players who fall behind at school?",["They lose their place in the squad for a weekend","They are released from the academy","They must change schools"],0,"Se avsnitt 2 – de kan miste plassen i troppen for en helg."],
+["What does «released» mean in this text?",["set free from prison","told to leave the academy","published"],1,"I fotball betyr <i>released</i> at klubben ikke vil ha spilleren videre. Se på sammenhengen!"],
+["Why does Jamal's mother insist on a plan B?",["She doesn't like football","Very few academy players become professionals","Jamal is a bad player"],1,"Avsnitt 3: bare en liten andel blir profesjonelle."],
+["What is the main message of the text?",["Football academies are a waste of time","Chasing a dream is fine, but it is smart to have a backup plan","Physiotherapists earn more than footballers"],1,"Hovedbudskap = det hele teksten handler om, ikke én detalj."]
+]},
+{title:"Coding in Te Reo",body:`<p>Aroha is fourteen and lives in Auckland, New Zealand. Like many teenagers, she spends a lot of her free time gaming. Unlike most of them, she is also building her own game – and every word in it is in te reo Māori, the language of New Zealand's Indigenous people.</p>
+<p>For many years, te reo Māori was discouraged in schools, and the number of fluent speakers fell sharply. Since the 1980s, communities have worked hard to bring the language back, with Māori-language preschools, schools, radio and TV. Today, te reo is an official language of New Zealand, but most young people still mainly speak English.</p>
+<p>"My grandmother speaks te reo, but I only learned it properly at school," Aroha says. "I thought, why are there no games in our language? So my cousin and I decided to make one."</p>
+<p>Their game is about a young explorer who travels between islands and has to solve puzzles to find her way home. Players learn new words to unlock each level. Aroha's cousin draws the characters, while Aroha writes the code. They have tested it on younger kids at their local school, and the feedback was positive.</p>
+<p>"Gaming is part of our culture now," Aroha says. "If our language lives in games too, maybe more kids will want to speak it."</p>`,
+qs:[
+["What is special about Aroha's game?",["It is free to download","All the words in it are in te reo Māori","It was made by a big company"],1,"Avsnitt 1: «every word in it is in te reo Māori»."],
+["What happened to te reo Māori for many years?",["It was discouraged in schools","It became more popular than English","It was only used on TV"],0,"Avsnitt 2 forklarer at språket ble motarbeidet i skolen."],
+["Who does what in the game project?",["Aroha draws, her cousin codes","Aroha codes, her cousin draws","Her grandmother writes the story"],1,"Avsnitt 4: cousin draws, Aroha writes the code."],
+["Why do players learn new words in the game?",["To unlock each level","To win money","To talk to other players online"],0,"«Players learn new words to unlock each level.»"],
+["What does Aroha hope the game will do?",["Make her rich and famous","Make more young people want to speak te reo Māori","Replace English in New Zealand"],1,"Siste avsnitt: hvis språket lever i spill, vil flere barn kanskje snakke det. Dette er et typisk «hvorfor»-spørsmål på tentamen."]
+]}];
+const LINK=[["Furthermore","add"],["However","con"],["Therefore","res"],["For example","ex"],["In addition","add"],["On the other hand","con"],["As a result","res"],["For instance","ex"]];
+const CAT={add:"Legge til (dessuten)",con:"Kontrast (men/likevel)",res:"Årsak/følge (derfor)",ex:"Eksempel (for eksempel)"};
+const INTRO=["Which introduction is best for: «Should young people spend less time gaming?»",[
+"I am going to write about gaming. Gaming is fun. I like gaming.",
+"Most teenagers in Norway play video games every week, and many parents worry that it takes too much time. Is gaming really a problem, or can it also be good for young people? In this text, I will look at both sides before giving my own opinion.",
+"Gaming is the best thing in the world and nobody should ever stop!!!"],1,"Den beste innledningen <b>fanger interesse</b> (et faktum), <b>presenterer problemet</b> (et spørsmål) og <b>forteller hva teksten skal gjøre</b>. Unngå «I am going to write about…» og utropstegn."];
+const TASKS=[
+["Argumenterende tekst","Should young people spend less time gaming? Write an argumentative text where you discuss both sides and give your own opinion. Give your text a title."],
+["Novelle","Write a short story that starts with: «The final whistle had just blown when my phone buzzed.» Give your text a title."],
+["Artikkel","Write an article for a school magazine about how clothes and fashion influence teenagers' identity. Give your text a title."],
+["Engelskspråklig land","Choose an English-speaking country and write a text about what it is like to be a teenager there. Compare it with being a teenager in Norway."]];
+const CHECK=["Jeg har en tittel som vekker interesse","Innledningen presenterer temaet og hva teksten skal handle om","Hvert avsnitt starter med en tydelig hovedsetning (topic sentence)","Jeg har brukt minst fem forskjellige bindeord","Jeg har en avslutning som oppsummerer – uten nye argumenter","Jeg har sjekket he/she/it + -s og riktig verbtid","Jeg har sjekket stor forbokstav (I, Monday, English, Norwegian)","Jeg har unngått gonna, wanna, kids og a lot of"];
+
+const S={}; // answered: id -> true/false
+let draft={};
+try{draft=JSON.parse(localStorage.getItem("engelsk9-draft")||"{}")}catch(e){draft={}}
+const live=document.getElementById("live");
+const say=t=>{live.textContent="";setTimeout(()=>live.textContent=t,30)};
+const count=p=>Object.keys(S).filter(k=>k.startsWith(p));
+const tot={gram:GRAM.length+SPOT.length,ord:ORD.length,les:TEXTS.reduce((a,t)=>a+t.qs.length,0),skriv:LINK.length+1};
+function score(p){return count(p).filter(k=>S[k]).length}
+let cur="start";
+function navDraw(h){cur=h;
+document.getElementById("nav").innerHTML=[["start","Start","Start"],...Object.keys(M).map(k=>[k,M[k].name,M[k].short])].map(([k,n,s])=>`<li><a href="#${k}"${k===h?' aria-current="page"':""}><span class="n-l">${n}</span><span class="n-s" aria-hidden="true">${s}</span>${k==="start"?"":`<span class="n-p"><span class="sr">, </span>${score(k)}/${tot[k]}<span class="sr"> mål</span></span>`}</a></li>`).join("");
+}
+function navPts(){document.querySelectorAll("#nav a").forEach(a=>{const k=a.hash.slice(1),p=a.querySelector(".n-p");if(p&&tot[k])p.innerHTML=`<span class="sr">, </span>${score(k)}/${tot[k]}<span class="sr"> mål</span>`})}
+function updBoard(){
+if(document.getElementById("nav").children.length)navPts();
+document.getElementById("board").innerHTML=Object.keys(M).map(k=>`<div><span>${M[k].short}</span><b>${score(k)}</b></div>`).join("");
+const all=Object.keys(M).reduce((a,k)=>a+score(k),0),max=Object.values(tot).reduce((a,b)=>a+b,0);
+document.getElementById("total").textContent=`Totalt ${all} av ${max} mål`;
+}
+const blank=s=>s.replace(/_{3}/g,'<span class="blank" aria-hidden="true"></span><span class="sr">(blank)</span>');
+function mc(id,[stem,opts,ci,expl],n){
+return `<fieldset class="q" id="${id}"><legend>${n?`<span class="sr">Oppgave </span>${n}. `:""}<span lang="en">${blank(stem)}</span></legend><div class="opts">${opts.map((o,i)=>`<button type="button" lang="en" data-q="${id}" data-i="${i}" data-c="${ci}">${o}</button>`).join("")}</div><div class="fb" role="status" aria-live="polite"><span hidden><b></b> ${expl}</span></div></fieldset>`;
+}
+function spot(id,[s,wi,expl],n){
+const w=s.split(" ");
+return `<fieldset class="q" id="${id}"><legend><span class="sr">Oppgave </span>${n}. Trykk på ordet som er feil: <span class="sr" lang="en">${s}</span></legend><div class="words" lang="en">${w.map((x,i)=>`<button type="button" data-q="${id}" data-i="${i}" data-c="${wi}">${x}</button>`).join("")}</div><div class="fb" role="status" aria-live="polite"><span hidden><b></b> ${expl}</span></div></fieldset>`;
+}
+function meter(p){return `<div class="meter" aria-hidden="true"><i style="width:${Math.round(score(p)/tot[p]*100)}%"></i></div>`}
+const V={
+start:()=>`<h2>Kampoppsett</h2><p>Tentamen i engelsk tester grammatikk, ordforråd, lesing og skriving. Ta én kamp om gangen – 20 minutter er nok per økt. Oppgavene er lagt på nivå 4–5, så det er helt greit å bomme. Les forklaringen etter hvert svar; det er der læringen skjer.</p>
+<div class="cards">${Object.keys(M).map(k=>`<a href="#${k}"><b>${M[k].name}</b><span>${M[k].desc}</span><span class="small"> · ${score(k)}/${tot[k]}</span>${meter(k)}</a>`).join("")}</div>
+<div class="tip"><b>Tentamenstips:</b><ul><li>Les oppgaveteksten to ganger og understrek hva du faktisk skal gjøre.</li><li>Bruk 10 minutter på å planlegge skriveoppgaven før du begynner.</li><li>Sett av 10 minutter til slutt til å lese gjennom for grammatikkfeil.</li></ul></div>`,
+gram:()=>`<h2>Grammatikk</h2><div class="tip"><b>Husk:</b><ul><li><b>Past simple</b> (scored) = avsluttet tid: yesterday, last year, in 2024.</li><li><b>Present perfect</b> (have scored) = since, for, ever, never, already, yet.</li><li><b>He/she/it</b> får alltid -s i presens: she plays, he doesn't.</li></ul></div>
+<h3>Velg riktig</h3>${GRAM.map((q,i)=>mc("gram-"+i,q,i+1)).join("")}
+<h3>Finn feilen</h3><p>Dette er feil som norske elever ofte gjør. Finn ordet som må rettes.</p>${SPOT.map((q,i)=>spot("gram-s"+i,q,i+1)).join("")}
+<button class="btn" data-reset="gram">Start grammatikk på nytt</button>`,
+ord:()=>`<h2>Ordforråd</h2><div class="tip">Høy måloppnåelse handler ofte om <b>presise og varierte ord</b>. Bytt ut «good», «bad» og «a lot of» med mer presise ord når du skriver.</div>${ORD.map((q,i)=>mc("ord-"+i,q,i+1)).join("")}<button class="btn" data-reset="ord">Start ordforråd på nytt</button>`,
+les:()=>`<h2>Lesing</h2><div class="tip"><b>Strategi:</b> Les spørsmålene <i>før</i> du leser teksten. Svarene står ofte i samme rekkefølge som i teksten. Ukjente ord? Se på setningen rundt.</div>
+${TEXTS.map((t,ti)=>`<h3>Tekst ${ti+1}</h3><article class="text" lang="en" aria-label="${t.title}"><h4 style="font:700 clamp(22px,2vw + 14px,28px)/1.1 'Barlow Condensed',sans-serif;margin:0 0 .5em">${t.title}</h4>${t.body}</article>${t.qs.map((q,i)=>mc(`les-${ti}-${i}`,q,i+1)).join("")}`).join("")}
+<button class="btn" data-reset="les">Start lesing på nytt</button>`,
+skriv:()=>`<h2>Skriving</h2><div class="tip"><b>Oppskrift på en god tekst</b><ul><li><b>Innledning:</b> fang interesse, presenter temaet, si hva teksten skal gjøre.</li><li><b>Hoveddel:</b> 3 avsnitt. Hvert avsnitt = én hovedsetning + forklaring + eksempel.</li><li><b>Avslutning:</b> oppsummer og gi din mening – ingen nye argumenter.</li></ul></div>
+<h3>1. Sorter bindeordene</h3><p>Velg hvilken jobb hvert bindeord gjør, og trykk «Sjekk».</p>
+<div class="q sort" id="sort">${LINK.map(([w],i)=>`<label for="l${i}"><span lang="en">${w}</span><select id="l${i}"><option value="">Velg …</option>${Object.entries(CAT).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></label>`).join("")}
+<div class="bar"><button class="primary" type="button" id="chk">Sjekk</button></div><div class="fb" role="status" id="sortfb"></div></div>
+<h3>2. Velg den beste innledningen</h3>${mc("skriv-intro",INTRO)}
+<h3>3. Skriv en tentamensoppgave</h3><p>Velg én oppgave. Skriv 350–500 ord. Teksten lagres i denne nettleseren mens du skriver.</p>
+<label for="task" class="small">Oppgave</label><br><select id="task">${TASKS.map((t,i)=>`<option value="${i}">${t[0]}</option>`).join("")}</select>
+<p class="tip" lang="en" id="prompt"></p>
+<label for="txt" class="sr">Teksten din</label><textarea id="txt" lang="en" spellcheck="true"></textarea>
+<div class="bar"><span id="wc" aria-live="polite">0 ord</span><button type="button" class="btn" id="copy">Kopier teksten</button></div>
+<details><summary>Se eksempel på et godt hoveddel-avsnitt</summary><p lang="en">One of the strongest arguments against gaming is that it can steal time from sleep. Many teenagers start a match late in the evening and end up playing until after midnight. As a result, they are tired at school the next day and find it harder to concentrate. However, this is not really a problem with gaming itself, but with a lack of routines.</p><p class="small">Se strukturen: hovedsetning → forklaring → eksempel/følge → motargument. Bindeord: As a result, However.</p></details>
+<h3>4. Sjekkliste før du leverer</h3><div class="checks">${CHECK.map((c,i)=>`<label><input type="checkbox" id="c${i}"> <span>${c}</span></label>`).join("")}</div>`
+};
+const main=document.getElementById("main");
+function route(focus){
+let h=location.hash.slice(1);if(!V[h])h="start";
+main.innerHTML=V[h]();
+navDraw(h);
+document.title=(h==="start"?"Start":M[h].name)+" – English Tentamen";
+// restore answered
+Object.keys(S).forEach(id=>{const f=document.getElementById(id);if(f&&f.dataset)mark(f,S[id+"_i"])});
+if(h==="skriv")initWrite();
+updBoard();
+if(focus){main.focus({preventScroll:true});window.scrollTo(0,0)}
+}
+function mark(f,pick){
+if(pick===undefined)return;
+const bs=f.querySelectorAll("button[data-q]"),c=+bs[0].dataset.c,words=f.querySelector(".words");
+bs.forEach((b,i)=>{b.setAttribute("aria-disabled","true");
+if(i===c){b.classList.add("right");b.insertAdjacentHTML("beforeend",`<span class="tag" lang="nb">${words?"Feil ord":"Riktig"}</span>`)}
+if(i===pick&&i!==c){b.classList.add("wrong");b.insertAdjacentHTML("beforeend",'<span class="tag" lang="nb">Ditt svar</span>')}});
+const fb=f.querySelector(".fb"),sp=fb.firstElementChild;fb.className="fb "+(pick===c?"ok":"no");sp.querySelector("b").textContent=pick===c?"Mål! ":"Ikke helt. ";sp.hidden=false;
+}
+main.addEventListener("click",e=>{
+const b=e.target.closest("button[data-q]");
+if(b){const id=b.dataset.q,i=+b.dataset.i,ok=i===+b.dataset.c;if(id in S)return;
+S[id]=ok;S[id+"_i"]=i;Object.defineProperty(S,id+"_i",{enumerable:false,value:i});
+mark(document.getElementById(id),i);updBoard();say(ok?"Riktig, mål!":"Feil svar. Les forklaringen.");return}
+const r=e.target.closest("[data-reset]");
+if(r){const p=r.dataset.reset;Object.keys(S).filter(k=>k.startsWith(p)).forEach(k=>{delete S[k];delete S[k+"_i"]});route(true);say("Kampen er nullstilt.")}
+});
+function initWrite(){
+const sel=document.getElementById("task"),tx=document.getElementById("txt"),pr=document.getElementById("prompt"),wc=document.getElementById("wc");
+const save=()=>{try{localStorage.setItem("engelsk9-draft",JSON.stringify(draft))}catch(e){}};
+const show=()=>{const i=sel.value;pr.textContent=TASKS[i][1];tx.value=draft[i]||"";words()};
+const words=()=>{const n=(tx.value.match(/\b[\w'’-]+\b/g)||[]).length;wc.textContent=n+" ord"+(n>=350?" – bra lengde!":n>0?` (mål: 350–500)`:"")};
+sel.value=draft.sel||0;show();
+sel.addEventListener("change",()=>{draft.sel=sel.value;save();show()});
+tx.addEventListener("input",()=>{draft[sel.value]=tx.value;save();words()});
+document.getElementById("copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(tx.value);say("Teksten er kopiert.")}catch(e){tx.select();say("Kunne ikke kopiere automatisk. Teksten er markert – kopier den selv.")}});
+CHECK.forEach((_,i)=>{const c=document.getElementById("c"+i);c.checked=!!(draft.ch||{})[i];c.addEventListener("change",()=>{draft.ch=draft.ch||{};draft.ch[i]=c.checked;save()})});
+const sfb=document.getElementById("sortfb");
+const done=count("skriv-l").length>0;
+LINK.forEach(([,cat],i)=>{const s=document.getElementById("l"+i);if(done){s.value=cat;s.disabled=true}});
+if(done)sfb.textContent=`Du fikk ${score("skriv-l")} av ${LINK.length} riktige.`;
+document.getElementById("chk").addEventListener("click",()=>{
+if(count("skriv-l").length)return;
+let ok=0;const wrong=[];
+LINK.forEach(([w,cat],i)=>{const s=document.getElementById("l"+i),r=s.value===cat;S["skriv-l"+i]=r;if(r)ok++;else wrong.push(`${w} = ${CAT[cat].toLowerCase()}`);s.value=cat;s.disabled=true});
+sfb.innerHTML=`<b>${ok} av ${LINK.length} riktige.</b> `+(wrong.length?"Riktig svar for de du bommet på: "+wrong.join("; ")+".":"Perfekt!");
+updBoard();say(`${ok} av ${LINK.length} riktige.`);
+});
+}
+window.addEventListener("hashchange",()=>route(true));
+route(false);
+}
+</script>
+</body>
+</html>

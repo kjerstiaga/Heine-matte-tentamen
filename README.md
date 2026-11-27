@@ -20,6 +20,12 @@ Interaktiv læringsapp for 8. trinn mattetentamen — bygget for Heine, våren 2
 | 🚢 Torpedospillet | Koordinatøving mot AI — Battleship |
 | ⚽ Matteknekker | 16 oppgaver · 3 liv · streak-bonus · huskeliste |
 
+### 🇩🇪 Tysk 9. trinn: Mein Zimmer
+
+Øving til tyskprøve: [kjerstiaga.github.io/Heine-matte-tentamen/tysk](https://kjerstiaga.github.io/Heine-matte-tentamen/tysk/)
+
+Dagens kamp med repetisjon · generalprøve · 30 gloser (flashkort, oversetting, skriving, der/die/das) · «Wo ist …?» med tegning av rommet · eiendomsord · nominativ og akkusativ · beskriv rommet med frasebank
+
 ### 🇬🇧 Engelsk tentamen 9. trinn
 
 Øving til engelsktentamen: [kjerstiaga.github.io/Heine-matte-tentamen/engelsk](https://kjerstiaga.github.io/Heine-matte-tentamen/engelsk/)
@@ -66,6 +72,7 @@ Tactical_Math_Playbook.pdf  # Taktikktavla for matteeksamen (kilde)
 naturfag/index.html         # Naturfag: nervesystemet og hormonsystemet
 geometri/index.html         # Geometri 9. trinn: omkrets, areal og Pytagoras
 engelsk/index.html          # Engelsk tentamen 9. trinn
+tysk/index.html             # Tysk 9. trinn: Mein Zimmer
 ```
 
 ---
